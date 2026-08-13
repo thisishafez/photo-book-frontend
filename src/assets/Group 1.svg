@@ -1,0 +1,27 @@
+<svg width="953" height="1487" viewBox="0 0 953 1487" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="12.5" y="-12.5" width="845" height="1462" rx="66.5" transform="matrix(1 0 0 -1 82.4092 1462)" stroke="black" stroke-width="25" stroke-linejoin="round"/>
+<rect x="12.5" y="-12.5" width="626" height="935" rx="56.5" transform="matrix(1 0 0 -1 232.409 1079)" stroke="black" stroke-width="25"/>
+<rect x="12.5" y="-12.5" width="58" height="228" rx="29" transform="matrix(1 0 0 -1 127.409 372)" stroke="black" stroke-width="25"/>
+<mask id="path-4-inside-1_2007_91" fill="white">
+<rect width="80" height="80" rx="13" transform="matrix(1 0 0 -1 257.409 121)"/>
+</mask>
+<rect width="80" height="80" rx="13" transform="matrix(1 0 0 -1 257.409 121)" stroke="black" stroke-width="50" mask="url(#path-4-inside-1_2007_91)"/>
+<mask id="path-5-inside-2_2007_91" fill="white">
+<rect width="80" height="80" rx="13" transform="matrix(1 0 0 -1 584.409 121)"/>
+</mask>
+<rect width="80" height="80" rx="13" transform="matrix(1 0 0 -1 584.409 121)" stroke="black" stroke-width="50" mask="url(#path-5-inside-2_2007_91)"/>
+<mask id="path-6-inside-3_2007_91" fill="white">
+<rect width="80" height="80" rx="13" transform="matrix(1 0 0 -1 475.409 121)"/>
+</mask>
+<rect width="80" height="80" rx="13" transform="matrix(1 0 0 -1 475.409 121)" stroke="black" stroke-width="50" mask="url(#path-6-inside-3_2007_91)"/>
+<mask id="path-7-inside-4_2007_91" fill="white">
+<rect width="80" height="80" rx="13" transform="matrix(1 0 0 -1 366.409 121)"/>
+</mask>
+<rect width="80" height="80" rx="13" transform="matrix(1 0 0 -1 366.409 121)" stroke="black" stroke-width="50" mask="url(#path-7-inside-4_2007_91)"/>
+<path d="M93.4092 1310.5H61.5C41.3417 1310.5 25 1294.16 25 1274V932C25 911.842 41.3416 895.5 61.5 895.5H93.4092V870.5H61.5C27.5345 870.5 0 898.035 0 932V1274C2.0619e-06 1307.97 27.5345 1335.5 61.5 1335.5H93.4092V1310.5Z" fill="black"/>
+<path d="M93.4092 692C93.4092 682.611 85.798 675 76.4092 675C67.0203 675 59.4092 682.611 59.4092 692L59.4092 824C59.4092 833.389 67.0203 841 76.4092 841C85.798 841 93.4092 833.389 93.4092 824L93.4092 692Z" fill="black"/>
+<circle cx="103.5" cy="103.5" r="91" transform="matrix(1 0 0 -1 676.409 1395)" stroke="black" stroke-width="25"/>
+<path d="M313.414 1396.75C316.301 1401.75 323.518 1401.75 326.404 1396.75L367.541 1325.5C370.428 1320.5 366.818 1314.25 361.045 1314.25H278.772C272.999 1314.25 269.391 1320.5 272.277 1325.5L313.414 1396.75Z" stroke="black" stroke-width="25"/>
+<path d="M313.414 1197.25C316.301 1192.25 323.518 1192.25 326.404 1197.25L367.541 1268.5C370.428 1273.5 366.818 1279.75 361.045 1279.75H278.772C272.999 1279.75 269.391 1273.5 272.277 1268.5L313.414 1197.25Z" stroke="black" stroke-width="25"/>
+<path d="M85.6561 373.792C35.4092 365 36.4092 124.813 91.4092 124.813" stroke="black" stroke-width="25" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,286 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Black dividing line */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: black;
+  transform: translateX(-50%);
+}
+
+.left,
+.right {
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* LEFT */
+
+.left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  padding: 20px;
+}
+
+/* CAMERA */
+
+.camera {
+  position: relative;
+  width: min(80%, 600px);
+  max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.camera img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 85vh;
+  object-fit: contain;
+}
+
+/* FORM */
+
+.loginBox {
+  position: absolute;
+  top: 40%;
+  left: 57%;
+  transform: translate(-50%, -50%);
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 10px;
+}
+
+.loginBox h2 {
+  text-align: center;
+  margin-bottom: 4px;
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-family: serif;
+  letter-spacing: 1px;
+  color: #000;
+}
+
+.loginBox input {
+  padding: 12px 16px;
+  border: 2px solid black;
+  border-radius: 8px;
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  outline: none;
+  background: transparent;
+  font-family: sans-serif;
+  width: 100%;
+}
+
+.loginBox input::placeholder {
+  color: #666;
+  opacity: 0.7;
+}
+
+.loginBox input:focus {
+  border-color: #000;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.loginBox button {
+  padding: 12px 16px;
+  border: 2px solid black;
+  border-radius: 8px;
+  background: black;
+  color: white;
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.loginBox button:hover {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.loginBox button:active {
+  transform: scale(0.95);
+}
+
+/* Link to Register */
+.loginBox .register-link {
+  text-align: center;
+  margin-top: 6px;
+  font-size: clamp(0.7rem, 1vw, 0.9rem);
+  font-family: sans-serif;
+}
+
+.loginBox .register-link a {
+  color: black;
+  text-decoration: underline;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.loginBox .register-link a:hover {
+  opacity: 0.6;
+}
+
+/* RIGHT */
+
+.right {
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.right-content {
+  max-width: 400px;
+  text-align: center;
+  color: #000;
+}
+
+.right-content h1 {
+  font-size: clamp(2rem, 3vw, 3.5rem);
+  font-family: serif;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+
+.right-content p {
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  line-height: 1.6;
+  opacity: 0.7;
+  font-family: sans-serif;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .container::after {
+    display: none; /* Hide the divider on mobile */
+  }
+
+  .right {
+    display: none;
+  }
+
+  .left {
+    min-height: 100vh;
+    padding: 15px;
+  }
+
+  .camera {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .camera img {
+    max-height: 90vh;
+  }
+
+  .loginBox {
+    width: 45%;
+    gap: 12px;
+  }
+
+  .loginBox input {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  .loginBox button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .loginBox {
+    width: 45%;
+    gap: 10px;
+  }
+
+  .loginBox h2 {
+    font-size: 1.1rem;
+  }
+
+  .loginBox input,
+  .loginBox button {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.form-group input.error {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.05);
+}
+
+.form-group input.error:focus {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: clamp(0.65rem, 0.8vw, 0.8rem);
+  margin-top: 2px;
+  font-family: sans-serif;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Adjust the form gap to account for error messages */
+.loginBox .form-group,
+.registerBox .form-group {
+  gap: 0px;
+}
+
+/* Make sure the input padding doesn't get squished */
+.loginBox input,
+.registerBox input {
+  padding: 12px 16px;
+}

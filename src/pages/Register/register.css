@@ -1,0 +1,315 @@
+/* src/pages/Register/Register.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Black dividing line */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+  background: black;
+  transform: translateX(-50%);
+}
+
+.left,
+.right {
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* LEFT */
+
+.left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  padding: 20px;
+}
+
+/* CAMERA */
+
+.camera {
+  position: relative;
+  width: min(80%, 600px);
+  max-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.camera img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 85vh;
+  object-fit: contain;
+}
+
+/* FORM */
+
+.registerBox {
+  position: absolute;
+  top: 40%;
+  left: 57%;
+  transform: translate(-50%, -50%);
+  width: 45%;
+  max-height: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  overflow-y: auto;
+}
+
+/* Hide scrollbar but keep functionality */
+.registerBox::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+.registerBox {
+  scrollbar-width: none;
+}
+
+.registerBox h2 {
+  text-align: center;
+  margin-bottom: 2px;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  font-family: serif;
+  letter-spacing: 1px;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.registerBox .form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.registerBox input {
+  padding: 8px 14px;
+  border: 2px solid black;
+  border-radius: 8px;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  outline: none;
+  background: transparent;
+  font-family: sans-serif;
+  width: 100%;
+  height: 38px;
+}
+
+.registerBox input::placeholder {
+  color: #666;
+  opacity: 0.7;
+}
+
+.registerBox input:focus {
+  border-color: #000;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.registerBox input.error {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.05);
+}
+
+.registerBox input.error:focus {
+  border-color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: clamp(0.6rem, 0.7vw, 0.75rem);
+  margin-top: 1px;
+  font-family: sans-serif;
+  animation: fadeIn 0.2s ease;
+  min-height: 16px;
+  line-height: 1.2;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.registerBox button {
+  padding: 8px 16px;
+  border: 2px solid black;
+  border-radius: 8px;
+  background: black;
+  color: white;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 2px;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.registerBox button:hover {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.registerBox button:active {
+  transform: scale(0.95);
+}
+
+/* Link to Login */
+.registerBox .login-link {
+  text-align: center;
+  margin-top: 2px;
+  font-size: clamp(0.65rem, 0.8vw, 0.8rem);
+  font-family: sans-serif;
+  flex-shrink: 0;
+}
+
+.registerBox .login-link a {
+  color: black;
+  text-decoration: underline;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.registerBox .login-link a:hover {
+  opacity: 0.6;
+}
+
+/* RIGHT */
+
+.right {
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.right-content {
+  max-width: 400px;
+  text-align: center;
+  color: #000;
+}
+
+.right-content h1 {
+  font-size: clamp(2rem, 3vw, 3.5rem);
+  font-family: serif;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+}
+
+.right-content p {
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  line-height: 1.6;
+  opacity: 0.7;
+  font-family: sans-serif;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .container::after {
+    display: none;
+  }
+
+  .right {
+    display: none;
+  }
+
+  .left {
+    min-height: 100vh;
+    padding: 15px;
+  }
+
+  .camera {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .camera img {
+    max-height: 90vh;
+  }
+
+  .registerBox {
+    width: 45%;
+    gap: 5px;
+    padding: 6px 8px;
+    max-height: 85%;
+  }
+
+  .registerBox input {
+    padding: 7px 12px;
+    font-size: 0.85rem;
+    height: 35px;
+  }
+
+  .registerBox button {
+    padding: 7px 12px;
+    font-size: 0.85rem;
+    height: 35px;
+  }
+
+  .registerBox h2 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .registerBox {
+    width: 45%;
+    gap: 4px;
+    padding: 5px 6px;
+  }
+
+  .registerBox input {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    height: 32px;
+  }
+
+  .registerBox button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    height: 32px;
+  }
+
+  .registerBox h2 {
+    font-size: 1rem;
+  }
+
+  .error-message {
+    font-size: 0.65rem;
+    min-height: 14px;
+  }
+}

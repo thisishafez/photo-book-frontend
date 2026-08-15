@@ -1,0 +1,291 @@
+.gallery-page {
+  min-height: 100vh;
+  background: #f5f2ed;
+}
+
+.gallery-main {
+  padding: 40px 0 64px 0;
+}
+
+.gallery-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* Header Section */
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e8e4de;
+}
+
+.gallery-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gallery-title {
+  font-size: 2.2rem;
+  font-weight: 300;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #1a1a1a;
+  margin: 0;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.gallery-subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+.create-event-btn {
+  padding: 10px 28px;
+  background: #1a1a1a;
+  color: #faf8f6;
+  border: 1px solid #1a1a1a;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-style: italic;
+  height: fit-content;
+}
+
+.create-event-btn:hover {
+  background: #333;
+  border-color: #333;
+  color: #faf8f6;
+}
+
+.create-event-btn:active {
+  transform: scale(0.98);
+}
+
+.create-event-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Search Bar */
+.gallery-search {
+  margin-bottom: 36px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px;
+  border: 1px solid #e8e4de;
+  border-radius: 4px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s ease;
+  background: #faf8f6;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #1a1a1a;
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+.search-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.search-input:focus {
+  border-color: #1a1a1a;
+  background: #fff;
+}
+
+.search-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Event Grid */
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+/* Loading Skeletons */
+.event-card-skeleton {
+  background: #faf8f6;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #e8e4de;
+}
+
+.skeleton-thumbnail {
+  width: 100%;
+  padding-top: 100%;
+  background: #f0ece6;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-content {
+  padding: 20px 20px 18px;
+  background: #faf8f6;
+}
+
+.skeleton-title {
+  height: 20px;
+  background: #f0ece6;
+  border-radius: 2px;
+  margin-bottom: 6px;
+  animation: pulse 1.5s ease-in-out infinite;
+  width: 80%;
+}
+
+.skeleton-date {
+  height: 14px;
+  background: #f0ece6;
+  border-radius: 2px;
+  margin-bottom: 12px;
+  animation: pulse 1.5s ease-in-out infinite;
+  width: 60%;
+}
+
+.skeleton-divider {
+  width: 30px;
+  height: 1px;
+  background: #f0ece6;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  background: #faf8f6;
+  border-radius: 4px;
+  border: 1px solid #e8e4de;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+  display: block;
+  opacity: 0.6;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin: 0 0 8px 0;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  color: #1a1a1a;
+  letter-spacing: 1px;
+  font-style: italic;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+}
+
+.empty-state-sub {
+  font-size: 0.85rem !important;
+  color: #999 !important;
+  margin-top: 8px !important;
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gallery-main {
+    padding: 24px 0 40px 0;
+  }
+
+  .gallery-container {
+    padding: 0 16px;
+  }
+
+  .gallery-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+    padding-bottom: 12px;
+  }
+
+  .gallery-title {
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+  }
+
+  .create-event-btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+
+  .event-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+
+  .search-input {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .gallery-title {
+    font-size: 1.3rem;
+  }
+
+  .gallery-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .empty-state {
+    padding: 60px 16px;
+  }
+
+  .empty-state-icon {
+    font-size: 3rem;
+  }
+
+  .empty-state h3 {
+    font-size: 1.2rem;
+  }
+}

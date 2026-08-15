@@ -1,0 +1,193 @@
+.event-card {
+  background: #faf8f6;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #e8e4de;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: #d4cfc9;
+}
+
+.event-card:active {
+  transform: scale(0.98);
+}
+
+.event-card-thumbnail {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  background: #f0ece6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Vintage paper texture effect */
+.event-card-thumbnail::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.02) 2px,
+      rgba(0, 0, 0, 0.02) 4px
+    );
+  pointer-events: none;
+}
+
+.event-card-photo-count {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #2a2a2a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 1;
+}
+
+.photo-count-number {
+  font-size: 3rem;
+  font-weight: 300;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  opacity: 0.7;
+  letter-spacing: 2px;
+}
+
+.photo-count-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.5;
+  font-weight: 400;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* Vintage corner decorations */
+.corner-decor {
+  position: absolute;
+  font-size: 0.8rem;
+  opacity: 0.3;
+  color: #4a4a4a;
+  font-weight: 300;
+  transition: opacity 0.3s ease;
+}
+
+.event-card:hover .corner-decor {
+  opacity: 0.6;
+}
+
+.top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.top-right {
+  top: 12px;
+  right: 12px;
+}
+
+.bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+
+.bottom-right {
+  bottom: 12px;
+  right: 12px;
+}
+
+.event-card-content {
+  padding: 20px 20px 18px;
+  background: #faf8f6;
+}
+
+.event-card-name {
+  font-size: 1.05rem;
+  font-weight: 400;
+  margin: 0 0 4px 0;
+  color: #1a1a1a;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-style: italic;
+}
+
+.event-card-date {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0 0 12px 0;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  letter-spacing: 0.3px;
+}
+
+.event-card-divider {
+  width: 30px;
+  height: 1px;
+  background: #d4cfc9;
+  margin: 0;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .event-card-content {
+    padding: 14px 14px 12px;
+  }
+
+  .event-card-name {
+    font-size: 0.9rem;
+  }
+
+  .event-card-date {
+    font-size: 0.7rem;
+    margin-bottom: 8px;
+  }
+
+  .photo-count-number {
+    font-size: 2.2rem;
+  }
+
+  .photo-count-label {
+    font-size: 0.6rem;
+  }
+
+  .corner-decor {
+    font-size: 0.6rem;
+  }
+
+  .top-left {
+    top: 8px;
+    left: 8px;
+  }
+  .top-right {
+    top: 8px;
+    right: 8px;
+  }
+  .bottom-left {
+    bottom: 8px;
+    left: 8px;
+  }
+  .bottom-right {
+    bottom: 8px;
+    right: 8px;
+  }
+}

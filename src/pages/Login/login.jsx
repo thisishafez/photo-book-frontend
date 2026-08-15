@@ -1,14 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import camera from "../../assets/Group 1.svg";
+import logo from "../../assets/Group 3 (1).svg";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: ""
   });
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFlashing, setIsFlashing] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,7 +20,6 @@ export default function Login() {
       ...prev,
       [name]: value
     }));
-    // Clear error for this field when user types
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -40,17 +43,31 @@ export default function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (validate()) {
-      // TODO: Call API
-      console.log("Login form submitted:", formData);
+    if (!validate()) return;
+
+    setIsLoading(true);
+    
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      setIsFlashing(true);
+      setTimeout(() => {
+        setIsFlashing(false);
+        navigate('/');
+      }, 300);
+      
+    } catch (error) {
+      console.error("Login failed:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="container">
+    <div className={`container ${isFlashing ? 'flash' : ''}`}>
       <section className="left">
         <div className="camera">
           <img src={camera} alt="Camera Frame" />
@@ -66,6 +83,7 @@ export default function Login() {
                 value={formData.username}
                 onChange={handleChange}
                 className={errors.username ? "error" : ""}
+                disabled={isLoading}
               />
               {errors.username && <span className="error-message">{errors.username}</span>}
             </div>
@@ -78,11 +96,14 @@ export default function Login() {
                 value={formData.password}
                 onChange={handleChange}
                 className={errors.password ? "error" : ""}
+                disabled={isLoading}
               />
               {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
 
-            <button type="submit">Login</button>
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Logging in...' : 'Login'}
+            </button>
 
             <div className="register-link">
               <Link to="/register">Don't have an account? Sign up</Link>
@@ -93,6 +114,9 @@ export default function Login() {
 
       <section className="right">
         <div className="right-content">
+          <div className="logo-wrapper">
+            <img src={logo} alt="Shared Event Photo Book Logo" />
+          </div>
           <h1>Shared Event Photo Book</h1>
           <p>Share photos from your favorite moments with the people who were actually there.</p>
         </div>

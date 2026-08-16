@@ -10,31 +10,54 @@ const MOCK_EVENTS = [
     id: '1',
     name: 'Summer Beach Party 2026',
     photo_count: 8,
-    approved_at: '2026-08-10T15:30:00Z'
+    approved_at: '2026-08-10T15:30:00Z',
+    photos: [
+      { id: 'p1', url: 'https://picsum.photos/seed/beach1/400/400' },
+      { id: 'p2', url: 'https://picsum.photos/seed/beach2/400/400' },
+      { id: 'p3', url: 'https://picsum.photos/seed/beach3/400/400' },
+      { id: 'p4', url: 'https://picsum.photos/seed/beach4/400/400' },
+      { id: 'p5', url: 'https://picsum.photos/seed/beach5/400/400' },
+    ]
   },
   {
     id: '2',
     name: 'Birthday Celebration',
     photo_count: 5,
-    approved_at: '2026-08-08T20:15:00Z'
+    approved_at: '2026-08-08T20:15:00Z',
+    photos: [
+      { id: 'p6', url: 'https://picsum.photos/seed/birthday1/400/400' },
+      { id: 'p7', url: 'https://picsum.photos/seed/birthday2/400/400' },
+      { id: 'p8', url: 'https://picsum.photos/seed/birthday3/400/400' },
+    ]
   },
   {
     id: '3',
     name: 'Weekend Hiking Trip',
     photo_count: 10,
-    approved_at: '2026-08-05T10:00:00Z'
+    approved_at: '2026-08-05T10:00:00Z',
+    photos: [
+      { id: 'p9', url: 'https://picsum.photos/seed/hike1/400/400' },
+      { id: 'p10', url: 'https://picsum.photos/seed/hike2/400/400' },
+      { id: 'p11', url: 'https://picsum.photos/seed/hike3/400/400' },
+      { id: 'p12', url: 'https://picsum.photos/seed/hike4/400/400' },
+    ]
   },
   {
     id: '4',
     name: 'Movie Night',
     photo_count: 3,
-    approved_at: '2026-08-01T22:30:00Z'
+    approved_at: '2026-08-01T22:30:00Z',
+    photos: [
+      { id: 'p13', url: 'https://picsum.photos/seed/movie1/400/400' },
+      { id: 'p14', url: 'https://picsum.photos/seed/movie2/400/400' },
+    ]
   },
   {
     id: '5',
     name: 'Coffee Shop Meetup',
     photo_count: 6,
-    approved_at: '2026-07-28T14:00:00Z'
+    approved_at: '2026-07-28T14:00:00Z',
+    photos: []
   }
 ];
 

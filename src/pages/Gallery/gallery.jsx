@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Gallery.css';
 import Navbar from '../../components/Navbar/Navbar';
 import EventCard from '../../components/EventCard/EventCard';
+import { useNotifications } from '../../contexts/NotificationContext';
 
 // Mock data for demonstration
 const MOCK_EVENTS = [
@@ -63,6 +64,7 @@ const MOCK_EVENTS = [
 
 export default function Gallery() {
   const navigate = useNavigate();
+  const { unreadCount } = useNotifications();
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -102,6 +104,7 @@ export default function Gallery() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
@@ -135,7 +138,7 @@ export default function Gallery() {
 
   return (
     <div className="gallery-page">
-      <Navbar onLogout={handleLogout} />
+      <Navbar onLogout={handleLogout} unreadCount={unreadCount} />
 
       <main className="gallery-main">
         <div className="gallery-container">

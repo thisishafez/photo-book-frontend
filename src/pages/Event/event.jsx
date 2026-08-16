@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './Event.css';
 import Navbar from '../../components/Navbar/Navbar';
 import PhotoGrid from '../../components/PhotoGrid/PhotoGrid';
+import { useNotifications } from '../../contexts/NotificationContext';
 
 // Mock data for demonstration
 const MOCK_EVENT = {
@@ -10,18 +11,18 @@ const MOCK_EVENT = {
   name: 'Summer Beach Party 2026',
   created_at: '2026-08-10T15:30:00Z',
   members: [
-    { id: '1', username: 'alice', status: 'approved', tagged_by: null },
-    { id: '2', username: 'bob', status: 'approved', tagged_by: null },
-    { id: '3', username: 'charlie', status: 'invited', tagged_by: 'alice' },
-    { id: '4', username: 'diana', status: 'approved', tagged_by: null },
-    { id: '5', username: 'eve', status: 'rejected', tagged_by: 'bob' }
+    { id: '1', user_id: 'user1', username: 'alice', status: 'approved', tagged_by: null },
+    { id: '2', user_id: 'user2', username: 'bob', status: 'approved', tagged_by: null },
+    { id: '3', user_id: 'user3', username: 'charlie', status: 'invited', tagged_by: 'alice' },
+    { id: '4', user_id: 'user4', username: 'diana', status: 'approved', tagged_by: null },
+    { id: '5', user_id: 'user5', username: 'eve', status: 'rejected', tagged_by: 'bob' }
   ],
   photos: [
-    { id: '1', url: 'https://picsum.photos/seed/1/800/800', uploader: 'alice', created_at: '2026-08-10T16:00:00Z' },
-    { id: '2', url: 'https://picsum.photos/seed/2/800/800', uploader: 'bob', created_at: '2026-08-10T16:30:00Z' },
-    { id: '3', url: 'https://picsum.photos/seed/3/800/800', uploader: 'alice', created_at: '2026-08-10T17:00:00Z' },
-    { id: '4', url: 'https://picsum.photos/seed/4/800/800', uploader: 'diana', created_at: '2026-08-10T18:00:00Z' },
-    { id: '5', url: 'https://picsum.photos/seed/5/800/800', uploader: 'bob', created_at: '2026-08-10T19:00:00Z' }
+    { id: '1', url: 'https://picsum.photos/seed/1/800/800', uploader_id: 'user1', uploader: 'alice', created_at: '2026-08-10T16:00:00Z' },
+    { id: '2', url: 'https://picsum.photos/seed/2/800/800', uploader_id: 'user2', uploader: 'bob', created_at: '2026-08-10T16:30:00Z' },
+    { id: '3', url: 'https://picsum.photos/seed/3/800/800', uploader_id: 'user1', uploader: 'alice', created_at: '2026-08-10T17:00:00Z' },
+    { id: '4', url: 'https://picsum.photos/seed/4/800/800', uploader_id: 'user4', uploader: 'diana', created_at: '2026-08-10T18:00:00Z' },
+    { id: '5', url: 'https://picsum.photos/seed/5/800/800', uploader_id: 'user2', uploader: 'bob', created_at: '2026-08-10T19:00:00Z' }
   ]
 };
 
@@ -37,6 +38,7 @@ const MOCK_USERS = [
 export default function Event() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { unreadCount } = useNotifications();
   const [event, setEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -47,10 +49,14 @@ export default function Event() {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [tagMessage, setTagMessage] = useState(null);
+  
+  // Get current user from localStorage (set during login)
+  const currentUser = JSON.parse(localStorage.getItem('user') || '{"id":"user1"}');
 
   useEffect(() => {
     const loadEvent = async () => {
       setIsLoading(true);
+      // Simulate API call: GET /events/{id}
       await new Promise(resolve => setTimeout(resolve, 1000));
       setEvent(MOCK_EVENT);
       setIsLoading(false);
@@ -67,7 +73,7 @@ export default function Event() {
     }
 
     const query = searchQuery.toLowerCase().trim();
-    // Filter out users already in the event
+    // Filter out users already in the event (check by user_id)
     const existingMemberIds = event?.members.map(m => m.user_id) || [];
     const results = MOCK_USERS.filter(user => 
       user.username.toLowerCase().includes(query) &&
@@ -78,6 +84,7 @@ export default function Event() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
@@ -106,7 +113,8 @@ export default function Event() {
     const newPhoto = {
       id: Date.now().toString(),
       url: URL.createObjectURL(selectedFile),
-      uploader: 'you',
+      uploader_id: currentUser.id,
+      uploader: currentUser.username || 'you',
       created_at: new Date().toISOString()
     };
     
@@ -148,7 +156,7 @@ export default function Event() {
       user_id: userId,
       username: user.username,
       status: 'invited',
-      tagged_by: 'you'
+      tagged_by: currentUser.username || 'you'
     };
 
     setEvent(prev => ({
@@ -164,6 +172,40 @@ export default function Event() {
     setShowTagModal(false);
   };
 
+  // Handle member approve (for the current user's own membership)
+  const handleApproveMember = async (memberId) => {
+    // TODO: POST /event-members/{memberId}/approve
+    console.log('Approving member:', memberId);
+    
+    setEvent(prev => ({
+      ...prev,
+      members: prev.members.map(m => 
+        m.id === memberId ? { ...m, status: 'approved' } : m
+      )
+    }));
+    
+    // Show success message
+    setTagMessage({ type: 'success', text: 'You have been approved! Photos will appear in your gallery.' });
+    setTimeout(() => setTagMessage(null), 3000);
+  };
+
+  // Handle member reject (for the current user's own membership)
+  const handleRejectMember = async (memberId) => {
+    // TODO: POST /event-members/{memberId}/reject
+    console.log('Rejecting member:', memberId);
+    
+    setEvent(prev => ({
+      ...prev,
+      members: prev.members.map(m => 
+        m.id === memberId ? { ...m, status: 'rejected' } : m
+      )
+    }));
+    
+    // Show success message
+    setTagMessage({ type: 'error', text: 'You have declined the invitation.' });
+    setTimeout(() => setTagMessage(null), 3000);
+  };
+
   const getStatusBadge = (status) => {
     const badges = {
       approved: { label: '✓ Approved', class: 'status-approved' },
@@ -176,7 +218,7 @@ export default function Event() {
   if (isLoading) {
     return (
       <div className="event-page">
-        <Navbar onLogout={handleLogout} />
+        <Navbar onLogout={handleLogout} unreadCount={unreadCount} />
         <main className="event-main">
           <div className="event-container">
             <div className="event-loading">
@@ -192,7 +234,7 @@ export default function Event() {
   if (!event) {
     return (
       <div className="event-page">
-        <Navbar onLogout={handleLogout} />
+        <Navbar onLogout={handleLogout} unreadCount={unreadCount} />
         <main className="event-main">
           <div className="event-container">
             <div className="event-not-found">
@@ -211,7 +253,7 @@ export default function Event() {
 
   return (
     <div className="event-page">
-      <Navbar onLogout={handleLogout} />
+      <Navbar onLogout={handleLogout} unreadCount={unreadCount} />
 
       <main className="event-main">
         <div className="event-container">
@@ -258,6 +300,11 @@ export default function Event() {
             <div className="members-grid">
               {event.members.map((member) => {
                 const badge = getStatusBadge(member.status);
+                // Check if this member is the current user
+                const isCurrentUser = member.user_id === currentUser.id;
+                // Show approve/reject buttons only for current user's own invited row
+                const showActions = isCurrentUser && member.status === 'invited';
+                
                 return (
                   <div key={member.id} className="member-card">
                     <span className="member-avatar">
@@ -271,6 +318,28 @@ export default function Event() {
                       <span className="member-tagged-by">
                         tagged by {member.tagged_by}
                       </span>
+                    )}
+                    {showActions && (
+                      <div className="member-actions">
+                        <button 
+                          className="member-action approve"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleApproveMember(member.id);
+                          }}
+                        >
+                          ✓ Approve
+                        </button>
+                        <button 
+                          className="member-action reject"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRejectMember(member.id);
+                          }}
+                        >
+                          ✕ Decline
+                        </button>
+                      </div>
                     )}
                   </div>
                 );

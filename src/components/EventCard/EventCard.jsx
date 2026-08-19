@@ -5,27 +5,42 @@ export default function EventCard({ event }) {
   const navigate = useNavigate();
   const { id, name, photo_count, approved_at, photos = [] } = event;
 
+  console.log('[EventCard] Rendering event:', {
+    id,
+    name,
+    photo_count,
+    approved_at,
+    photosCount: photos.length
+  });
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
+    const formatted = new Intl.DateTimeFormat('en-US', {
       month: 'long',
       day: 'numeric',
       year: 'numeric'
     }).format(date);
+    console.log(`[EventCard] Formatted date for ${name}:`, formatted);
+    return formatted;
   };
 
   const handleClick = () => {
+    console.log(`[EventCard] Clicked on event: ${name} (${id})`);
+    console.log(`[EventCard] Navigating to /event/${id}`);
     navigate(`/event/${id}`);
   };
 
   // Vintage corner decoration
   const getRandomCorner = (seed) => {
     const corners = ['◈', '✦', '❖', '✧', '◇'];
-    return corners[parseInt(seed) % corners.length];
+    const corner = corners[parseInt(seed) % corners.length];
+    console.log(`[EventCard] Corner decoration for seed ${seed}:`, corner);
+    return corner;
   };
 
   // Get first 4 photos for preview
   const previewPhotos = photos.slice(0, 4);
+  console.log(`[EventCard] ${name} - ${previewPhotos.length} preview photos out of ${photos.length}`);
 
   return (
     <div className="event-card" onClick={handleClick}>
@@ -33,20 +48,25 @@ export default function EventCard({ event }) {
         {previewPhotos.length > 0 ? (
           <>
             <div className="photo-preview-grid">
-              {previewPhotos.map((photo, index) => (
-                <div key={photo.id || index} className="photo-preview-item">
-                  <img 
-                    src={photo.url} 
-                    alt={`${name} preview ${index + 1}`}
-                    loading="lazy"
-                  />
-                  {index === 3 && photos.length > 4 && (
-                    <div className="photo-preview-overlay">
-                      <span>+{photos.length - 4}</span>
-                    </div>
-                  )}
-                </div>
-              ))}
+              {previewPhotos.map((photo, index) => {
+                console.log(`[EventCard] Rendering preview photo ${index + 1} for ${name}:`, photo.id);
+                return (
+                  <div key={photo.id || index} className="photo-preview-item">
+                    <img 
+                      src={photo.url} 
+                      alt={`${name} preview ${index + 1}`}
+                      loading="lazy"
+                      onLoad={() => console.log(`[EventCard] Photo ${photo.id} loaded`)}
+                      onError={() => console.error(`[EventCard] Failed to load photo ${photo.id}`)}
+                    />
+                    {index === 3 && photos.length > 4 && (
+                      <div className="photo-preview-overlay">
+                        <span>+{photos.length - 4}</span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
             <div className="photo-count-badge">
               <span className="photo-count-number">{photo_count}</span>

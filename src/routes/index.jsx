@@ -1,15 +1,12 @@
-import { createBrowserRouter } from 'react-router-dom'
-import Login from '../pages/Login/login'
-import Register from '../pages/Register/register'
-import Gallery from '../pages/Gallery/gallery'
-import Event from '../pages/Event/event'
-import Notifications from '../pages/Notifications/notifications'
+import { createBrowserRouter } from 'react-router-dom';
+import { ProtectedRoute } from '../components/ProtectedRoute';
+import Login from '../pages/Login/login';
+import Register from '../pages/Register/register';
+import Gallery from '../pages/Gallery/gallery';
+import Event from '../pages/Event/event';
+import Notifications from '../pages/Notifications/notifications';
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Gallery />,
-  },
   {
     path: '/login',
     element: <Login />,
@@ -19,13 +16,29 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
+    path: '/',
+    element: (
+      <ProtectedRoute>
+        <Gallery />
+      </ProtectedRoute>
+    ),
+  },
+  {
     path: '/event/:id',
-    element: <Event />,
+    element: (
+      <ProtectedRoute>
+        <Event />
+      </ProtectedRoute>
+    ),
   },
   {
     path: '/notifications',
-    element: <Notifications />,
+    element: (
+      <ProtectedRoute>
+        <Notifications />
+      </ProtectedRoute>
+    ),
   },
-])
+]);
 
-export default router
+export default router;

@@ -1,23 +1,23 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import './Navbar.css';
 import logo from '../../assets/Group 3 (1).svg';
 import notificationEmpty from '../../assets/notification-empty.svg';
 import notificationFull from '../../assets/notification-full.svg';
 import galleryIcon from '../../assets/gallery.svg';
 
-export default function Navbar({ onLogout, unreadCount = 0 }) {
+export default function Navbar({ unreadCount = 0 }) {
   const navigate = useNavigate();
+  const { logout, user } = useAuth();
   const [hasUnread, setHasUnread] = useState(unreadCount > 0);
 
   useEffect(() => {
     setHasUnread(unreadCount > 0);
   }, [unreadCount]);
 
-  const handleLogout = () => {
-    if (onLogout) {
-      onLogout();
-    }
+  const handleLogout = async () => {
+    await logout();
     navigate('/login');
   };
 
@@ -50,6 +50,13 @@ export default function Navbar({ onLogout, unreadCount = 0 }) {
             </div>
             <span className="nav-label">Notifications</span>
           </Link>
+
+          {/* User info */}
+          {user && (
+            <span className="navbar-username">
+              {user.username}
+            </span>
+          )}
 
           {/* Logout */}
           <button onClick={handleLogout} className="navbar-logout">

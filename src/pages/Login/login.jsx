@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import "./Login.css";
 import camera from "../../assets/Group 1.svg";
 import logo from "../../assets/Group 3 (1).svg";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     password: ""
@@ -13,6 +15,7 @@ export default function Login() {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isFlashing, setIsFlashing] = useState(false);
+  const [apiError, setApiError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +29,7 @@ export default function Login() {
         [name]: ""
       }));
     }
+    setApiError("");
   };
 
   const validate = () => {
@@ -49,18 +53,28 @@ export default function Login() {
     if (!validate()) return;
 
     setIsLoading(true);
+    setApiError("");
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const result = await login(formData.username, formData.password);
       
-      setIsFlashing(true);
-      setTimeout(() => {
-        setIsFlashing(false);
-        navigate('/');
-      }, 300);
-      
+      if (result.success) {
+        setIsFlashing(true);
+        setTimeout(() => {
+          setIsFlashing(false);
+          navigate('/');
+        }, 300);
+      } else {
+        // Handle specific error messages
+        if (result.error === 'INVALID_CREDENTIALS') {
+          setApiError('Invalid username or password');
+        } else {
+          setApiError(result.error || 'Login failed. Please try again.');
+        }
+      }
     } catch (error) {
       console.error("Login failed:", error);
+      setApiError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -74,6 +88,8 @@ export default function Login() {
 
           <form className="loginBox" onSubmit={handleSubmit}>
             <h2>Welcome Back</h2>
+
+            {apiError && <div className="api-error">{apiError}</div>}
 
             <div className="form-group">
               <input

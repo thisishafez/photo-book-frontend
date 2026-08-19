@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import "./Register.css";
 import camera from "../../assets/Group 1.svg";
 import logo from "../../assets/Group 3 (1).svg";
 
 export default function Register() {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -15,6 +17,7 @@ export default function Register() {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isFlashing, setIsFlashing] = useState(false);
+  const [apiError, setApiError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +31,7 @@ export default function Register() {
         [name]: ""
       }));
     }
+    setApiError("");
   };
 
   const validate = () => {
@@ -65,18 +69,28 @@ export default function Register() {
     if (!validate()) return;
 
     setIsLoading(true);
+    setApiError("");
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const result = await register(formData.username, formData.password);
       
-      setIsFlashing(true);
-      setTimeout(() => {
-        setIsFlashing(false);
-        navigate('/');
-      }, 300);
-      
+      if (result.success) {
+        setIsFlashing(true);
+        setTimeout(() => {
+          setIsFlashing(false);
+          navigate('/login');
+        }, 300);
+      } else {
+        // Handle specific error messages
+        if (result.error === 'USERNAME_TAKEN') {
+          setApiError('Username is already taken. Please choose another.');
+        } else {
+          setApiError(result.error || 'Registration failed. Please try again.');
+        }
+      }
     } catch (error) {
       console.error("Registration failed:", error);
+      setApiError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -90,6 +104,8 @@ export default function Register() {
 
           <form className="registerBox" onSubmit={handleSubmit}>
             <h2>Create Account</h2>
+
+            {apiError && <div className="api-error">{apiError}</div>}
 
             <div className="form-group">
               <input

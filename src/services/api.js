@@ -74,6 +74,7 @@ export const api = {
         }
         
         const data = await response.json();
+        console.log("[LOGIN DATA]", data);
         logResponse(endpoint, 'POST', response, data);
         console.log(`[API] Login successful for user: ${data.user?.username || username}`);
         return data;
@@ -414,6 +415,117 @@ export const api = {
       }
     }
   },
+  notifications: {
+
+  getNotifications: async () => {
+    const endpoint = '/notifications';
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to load notifications');
+    }
+
+    return await response.json();
+  },
+
+
+  markAsRead: async (notificationId) => {
+    const endpoint = `/notifications/${notificationId}/read`;
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to mark notification read');
+    }
+
+    return true;
+  },
+
+
+  approveMember: async (memberId) => {
+
+    const endpoint = `/event-members/${memberId}/approve`;
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method:'POST',
+      headers:{
+        'Authorization': token ? `Bearer ${token}` : '',
+        'Content-Type':'application/json'
+      }
+    });
+
+
+    if(!response.ok){
+      throw new Error('Approve failed');
+    }
+
+
+    return await response.json();
+  },
+
+
+  rejectMember: async (memberId) => {
+
+    const endpoint = `/event-members/${memberId}/reject`;
+    const token = localStorage.getItem('token');
+
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method:'POST',
+      headers:{
+        'Authorization': token ? `Bearer ${token}` : '',
+        'Content-Type':'application/json'
+      }
+    });
+
+
+    if(!response.ok){
+      throw new Error('Reject failed');
+    }
+
+
+    return await response.json();
+  },
+
+
+  removeMember: async(memberId)=>{
+
+    const endpoint=`/event-members/${memberId}`;
+    const token=localStorage.getItem('token');
+
+
+    const response=await fetch(`${API_BASE_URL}${endpoint}`,{
+      method:'DELETE',
+      headers:{
+        'Authorization':token ? `Bearer ${token}` : ''
+      }
+    });
+
+
+    if(!response.ok){
+      throw new Error('Remove failed');
+    }
+
+
+    return true;
+  }
+
+}
 };
 
 // Helper to get auth headers
@@ -429,3 +541,4 @@ export const getAuthHeaders = () => {
   });
   return headers;
 };
+

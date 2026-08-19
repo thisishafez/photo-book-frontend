@@ -22,32 +22,68 @@ export default function Notifications() {
     navigate('/login');
   };
 
-  const handleApprove = async (notificationId, eventId) => {
-    setProcessingId(notificationId);
-    // TODO: API call to approve tag
-    // POST /event-members/{eventMemberId}/approve
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Remove notification from list
-    removeNotification(notificationId);
-    setProcessingId(null);
-    
-    // Show success feedback
-    // In a real app, you'd navigate to the event or show a toast
-  };
+  const handleApprove = async(
+ notificationId,
+ memberId
+)=>{
 
-  const handleReject = async (notificationId, eventId) => {
-    setProcessingId(notificationId);
-    // TODO: API call to reject tag
-    // POST /event-members/{eventMemberId}/reject
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Remove notification from list
-    removeNotification(notificationId);
-    setProcessingId(null);
-    
-    // Show success feedback
-  };
+ try{
+
+ setProcessingId(notificationId);
+
+
+ await api.notifications.approveMember(memberId);
+
+
+ removeNotification(notificationId);
+
+
+ }catch(error){
+
+ console.error(
+ '[Notifications] Approve failed',
+ error
+ );
+
+ }
+ finally{
+
+ setProcessingId(null);
+
+ }
+
+};
+
+  const handleReject = async(
+ notificationId,
+ memberId
+)=>{
+
+
+try{
+
+setProcessingId(notificationId);
+
+
+await api.notifications.rejectMember(memberId);
+
+
+removeNotification(notificationId);
+
+
+}catch(error){
+
+console.error(error);
+
+}
+finally{
+
+setProcessingId(null);
+
+}
+
+
+};
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -190,7 +226,7 @@ export default function Notifications() {
                           className="action-btn approve"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleApprove(notification.id, notification.event_id);
+                            handleApprove(notification.id,  notification.event_member_id);
                           }}
                           disabled={processingId === notification.id}
                         >
@@ -200,7 +236,7 @@ export default function Notifications() {
                           className="action-btn reject"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleReject(notification.id, notification.event_id);
+                            handleReject(notification.id,  notification.event_member_id);
                           }}
                           disabled={processingId === notification.id}
                         >

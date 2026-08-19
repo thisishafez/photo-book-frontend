@@ -72,7 +72,7 @@ export default function Register() {
     setApiError("");
     
     try {
-      const result = await register(formData.username, formData.password);
+      const result = await register(formData.username, formData.email, formData.password);
       
       if (result.success) {
         setIsFlashing(true);

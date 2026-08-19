@@ -51,9 +51,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (username, password) => {
+  const register = async (username, email, password) => {
     try {
-      const response = await api.auth.register(username, password);
+      const response = await api.auth.register(username, email, password);
       return { success: true, user: response };
     } catch (error) {
       return { success: false, error: error.message };
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    try {
+    /*try {
       await api.auth.logout();
     } catch (error) {
       console.error('Logout error:', error);
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem('user');
       setUser(null);
       setIsAuthenticated(false);
-    }
+    } */
   };
 
   return (

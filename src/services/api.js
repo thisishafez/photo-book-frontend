@@ -1,67 +1,84 @@
-const API_BASE_URL = 'https://yadegar-api.duster.ir';
+const API_BASE_URL = "https://yadegar-api.duster.ir";
 
 export const api = {
-  // Auth endpoints
   auth: {
-    register: async (username, password) => {
+    register: async (username, email, password) => {
       const response = await fetch(`${API_BASE_URL}/register`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
       });
-      
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Registration failed');
+
+      const text = await response.text();
+
+      let data;
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Server returned an invalid response.");
       }
-      
-      return response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error?.message || data.message || "Registration failed"
+        );
+      }
+
+      return data;
     },
-    
+
     login: async (username, password) => {
       const response = await fetch(`${API_BASE_URL}/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+          username,
+          password,
+        }),
       });
-      
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Login failed');
+
+      const text = await response.text();
+
+      let data;
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Server returned an invalid response.");
       }
-      
-      return response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.error?.message || data.message || "Login failed"
+        );
+      }
+
+      return data;
     },
-    
+
     logout: async () => {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_BASE_URL}/logout`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      
-      // Clear local storage regardless of response
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      
-      if (!response.ok) {
-        console.warn('Logout API call failed, but local session cleared');
-      }
+      // No logout endpoint exists on the backend.
+      // Logging out is handled by clearing local storage.
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
   },
 };
 
-// Helper to get auth headers
 export const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
+
   return {
-    'Content-Type': 'application/json',
-    'Authorization': token ? `Bearer ${token}` : '',
+    "Content-Type": "application/json",
+    Authorization: token ? `Bearer ${token}` : "",
   };
 };

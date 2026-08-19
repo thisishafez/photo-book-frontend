@@ -17,6 +17,7 @@ export default function Navbar({ unreadCount = 0 }) {
   }, [unreadCount]);
 
   const handleLogout = async () => {
+    // Call logout from auth context (which handles both API and local cleanup)
     await logout();
     navigate('/login');
   };

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Notifications.css';
 import Navbar from '../../components/Navbar/Navbar';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { api } from '../../services/api';
 
 export default function Notifications() {
   const navigate = useNavigate();
@@ -26,6 +27,10 @@ export default function Notifications() {
  notificationId,
  memberId
 )=>{
+  console.log("Approve IDs:", {
+   notificationId,
+   memberId
+ });
 
  try{
 
@@ -226,7 +231,7 @@ setProcessingId(null);
                           className="action-btn approve"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleApprove(notification.id,  notification.event_member_id);
+                            handleApprove(notification.id,  notification.member_id);
                           }}
                           disabled={processingId === notification.id}
                         >
@@ -236,7 +241,7 @@ setProcessingId(null);
                           className="action-btn reject"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleReject(notification.id,  notification.event_member_id);
+                            handleReject(notification.id,  notification.member_id);
                           }}
                           disabled={processingId === notification.id}
                         >

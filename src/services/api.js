@@ -22,35 +22,43 @@ const logError = (endpoint, method, error) => {
 export const api = {
   // Auth endpoints
   auth: {
-    register: async (username, password) => {
-      console.log(`[API] Starting registration for user: ${username}`);
-      const endpoint = '/register';
-      
-      try {
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
-        });
-        
-        console.log(`[API] Registration response status: ${response.status}`);
-        
-        if (!response.ok) {
-          const error = await response.json();
-          logError(endpoint, 'POST', new Error(error.message || 'Registration failed'));
-          throw new Error(error.message || 'Registration failed');
-        }
-        
-        const data = await response.json();
-        logResponse(endpoint, 'POST', response, data);
-        return data;
-      } catch (error) {
-        logError(endpoint, 'POST', error);
-        throw error;
-      }
-    },
+    register: async (username, email, password) => {
+  console.log(`[API] Starting registration for user: ${username}`);
+
+  const endpoint = '/register';
+
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password
+      }),
+    });
+
+    console.log(`[API] Registration response status: ${response.status}`);
+
+    if (!response.ok) {
+      const error = await response.json();
+      logError(endpoint, 'POST', new Error(error.message || 'Registration failed'));
+      throw new Error(error.message || 'Registration failed');
+    }
+
+    const data = await response.json();
+
+    logResponse(endpoint, 'POST', response, data);
+
+    return data;
+
+  } catch(error) {
+    logError(endpoint, 'POST', error);
+    throw error;
+  }
+},
     
     login: async (username, password) => {
       console.log(`[API] Starting login for user: ${username}`);
@@ -62,9 +70,16 @@ export const api = {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({
+ identifier: username,
+ password
+}),
+          
         });
-        
+        console.log("[LOGIN BODY]", {
+    identifier: username,
+    password
+});
         console.log(`[API] Login response status: ${response.status}`);
         
         if (!response.ok) {

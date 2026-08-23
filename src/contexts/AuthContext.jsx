@@ -38,28 +38,29 @@ export const AuthProvider = ({ children }) => {
   try {
     const response = await api.auth.login(username, password);
 
+    console.log("[AUTH RESPONSE]", response);
+
     const user = {
       id: response.id,
       username: response.username
     };
 
-    // Store token and user
     localStorage.setItem('token', response.token);
     localStorage.setItem('user', JSON.stringify(user));
 
     setUser(user);
     setIsAuthenticated(true);
 
-    return { 
-      success: true, 
-      user 
+    return {
+      success: true,
+      user
     };
 
   } catch (error) {
 
-    return { 
-      success: false, 
-      error: error.message 
+    return {
+      success: false,
+      error: error.message
     };
 
   }
@@ -75,6 +76,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+      localStorage.removeItem('token');
+  localStorage.removeItem('user');
+
+  setUser(null);
+  setIsAuthenticated(false);
     /*try {
       await api.auth.logout();
     } catch (error) {

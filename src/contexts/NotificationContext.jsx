@@ -1,56 +1,114 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect, useRef } from 'react';
 import { api } from '../services/api';
+import { useAuth } from './AuthContext';
 
 const NotificationContext = createContext();
 
 export function NotificationProvider({ children }) {
+  const { isAuthenticated } = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Load notifications on mount
   useEffect(() => {
 
+
+  if (!isAuthenticated) {
+
+    setNotifications([]);
+    setIsLoading(false);
+
+    return;
+
+  }
+
+
   const loadNotifications = async () => {
 
-    setIsLoading(true);
+    try {
 
-    // Simulate API call
+      setIsLoading(true);
 
-    const loadNotifications = async () => {
+      const response =
+        await api.notifications.getNotifications();
 
-      try {
 
-        setIsLoading(true);
+      console.log(
+        "[Notifications] Loaded:",
+        response
+      );
 
-        const response = await api.notifications.getNotifications();
 
-        setNotifications(response.results || []);
+      setNotifications(
+        response.results || []
+      );
 
-      } catch(error){
 
-        console.error(
-          '[Notifications] Failed:',
-          error
-        );
+    } catch(error){
 
-        setNotifications([]);
+      console.error(
+        "[Notifications] Failed:",
+        error
+      );
 
-      }
-      finally{
 
-        setIsLoading(false);
+      setNotifications([]);
 
-      }
 
-    };
+    } finally {
 
-    setIsLoading(false);
+      setIsLoading(false);
+
+    }
 
   };
 
+
   loadNotifications();
 
-}, []);
+
+}, [isAuthenticated]);
+
+useEffect(() => {
+
+
+  if (!isAuthenticated) return;
+
+
+  const interval = setInterval(async()=>{
+
+
+    try {
+
+
+      const response =
+        await api.notifications.getNotifications();
+
+
+      setNotifications(
+        response.results || []
+      );
+
+
+    } catch(error){
+
+
+      console.error(
+        "[Notifications] Poll failed",
+        error
+      );
+
+
+    }
+
+
+  }, 30000);
+
+
+  return () => clearInterval(interval);
+
+
+}, [isAuthenticated]);
 
   // Get unread count
   const unreadCount = notifications.filter(n => !n.read).length;

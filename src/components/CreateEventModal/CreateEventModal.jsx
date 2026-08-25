@@ -4,6 +4,7 @@ import './CreateEventModal.css';
 
 export default function CreateEventModal({ isOpen, onClose, onCreate }) {
   const [eventName, setEventName] = useState('');
+  const [eventLocation, setEventLocation] = useState('');
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -20,6 +21,7 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
   console.log('[CreateEventModal] Component state:', {
     isOpen,
     eventName,
+    eventLocation,
     selectedPhotosCount: selectedPhotos.length,
     taggedUsersCount: taggedUsers.length,
     isUploading,
@@ -226,8 +228,10 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
     try {
       // Step 1: Create the event
       console.log('[CreateEventModal] Step 1: Creating event');
-      const eventResponse = await api.gallery.createEvent(eventName.trim());
-      console.log('[CreateEventModal] Event created:', eventResponse);
+const eventResponse = await api.gallery.createEvent(
+  eventName.trim(),
+  eventLocation.trim()
+);      console.log('[CreateEventModal] Event created:', eventResponse);
       setUploadProgress(20);
 
       const eventId = eventResponse.id;
@@ -293,6 +297,7 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
       // Reset form
       console.log('[CreateEventModal] Resetting form state');
       setEventName('');
+      setEventLocation('');
       setSelectedPhotos([]);
       setTaggedUsers([]);
       setTagSearchQuery('');
@@ -317,6 +322,7 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
     console.log('[CreateEventModal] Modal closing');
     if (!isUploading) {
       setEventName('');
+      setEventLocation('');
       setSelectedPhotos([]);
       setTaggedUsers([]);
       setTagSearchQuery('');
@@ -366,7 +372,23 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
           {errors.name && <span className="field-error">{errors.name}</span>}
           <span className="char-count">{eventName.length}/100</span>
         </div>
-
+              {/* Event Location */}
+<div className="form-group">
+  <label className="form-label">Location</label>
+  <input
+    type="text"
+    className="form-input"
+    placeholder="e.g., Tehran, Iran"
+    value={eventLocation}
+    onChange={(e) => {
+      console.log('[CreateEventModal] Event location changed:', e.target.value);
+      setEventLocation(e.target.value);
+    }}
+    disabled={isUploading}
+    maxLength={100}
+  />
+  <span className="char-count">{eventLocation.length}/100</span>
+</div>
         {/* Photo Upload */}
         <div className="form-group">
           <label className="form-label">Photos * (at least 1)</label>

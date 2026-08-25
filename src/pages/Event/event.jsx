@@ -909,6 +909,12 @@ try {
                 {event.name}
               </h1>
 
+              {event.location && (
+  <p className="event-location">
+    📍 {event.location}
+  </p>
+)}
+
 
 
               <p className="event-meta">

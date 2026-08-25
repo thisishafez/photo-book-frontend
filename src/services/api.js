@@ -43,9 +43,19 @@ export const api = {
     console.log(`[API] Registration response status: ${response.status}`);
 
     if (!response.ok) {
-      const error = await response.json();
-      logError(endpoint, 'POST', new Error(error.message || 'Registration failed'));
-      throw new Error(error.message || 'Registration failed');
+      const error = await response.json().catch(() => ({}));
+
+  console.log("[REGISTER ERROR DATA]", error);
+
+  const message =
+    error.error?.message ||
+    error.message ||
+    error.detail ||
+    'Registration failed';
+
+  logError(endpoint, 'POST', new Error(message));
+
+  throw new Error(message);
     }
 
     const data = await response.json();
@@ -83,9 +93,17 @@ export const api = {
         console.log(`[API] Login response status: ${response.status}`);
         
         if (!response.ok) {
-          const error = await response.json();
-          logError(endpoint, 'POST', new Error(error.message || 'Login failed'));
-          throw new Error(error.message || 'Login failed');
+            const error = await response.json().catch(() => ({}));
+
+  console.log("[LOGIN ERROR DATA]", error);
+
+  const message =
+    error.error?.message ||
+    error.message ||
+    error.detail ||
+    'Login failed';
+
+  throw new Error(message);
         }
         
         const data = await response.json();

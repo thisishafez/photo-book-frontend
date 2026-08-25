@@ -89,8 +89,8 @@ export default function Register() {
         }
       }
     } catch (error) {
-      console.error("Registration failed:", error);
-      setApiError('An unexpected error occurred. Please try again.');
+        console.error("Registration failed:", error);
+        setApiError(error.message || 'Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }

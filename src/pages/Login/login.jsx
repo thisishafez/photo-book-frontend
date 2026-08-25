@@ -74,7 +74,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Login failed:", error);
-      setApiError('An unexpected error occurred. Please try again.');
+  setApiError(error.message || 'Login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }

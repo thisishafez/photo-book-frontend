@@ -22,35 +22,53 @@ const logError = (endpoint, method, error) => {
 export const api = {
   // Auth endpoints
   auth: {
-    register: async (username, password) => {
-      console.log(`[API] Starting registration for user: ${username}`);
-      const endpoint = '/register';
-      
-      try {
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
-        });
-        
-        console.log(`[API] Registration response status: ${response.status}`);
-        
-        if (!response.ok) {
-          const error = await response.json();
-          logError(endpoint, 'POST', new Error(error.message || 'Registration failed'));
-          throw new Error(error.message || 'Registration failed');
-        }
-        
-        const data = await response.json();
-        logResponse(endpoint, 'POST', response, data);
-        return data;
-      } catch (error) {
-        logError(endpoint, 'POST', error);
-        throw error;
-      }
-    },
+    register: async (username, email, password) => {
+  console.log(`[API] Starting registration for user: ${username}`);
+
+  const endpoint = '/register';
+
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        email,
+        password
+      }),
+    });
+
+    console.log(`[API] Registration response status: ${response.status}`);
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+
+  console.log("[REGISTER ERROR DATA]", error);
+
+  const message =
+    error.error?.message ||
+    error.message ||
+    error.detail ||
+    'Registration failed';
+
+  logError(endpoint, 'POST', new Error(message));
+
+  throw new Error(message);
+    }
+
+    const data = await response.json();
+
+    logResponse(endpoint, 'POST', response, data);
+
+    return data;
+
+  } catch(error) {
+    logError(endpoint, 'POST', error);
+    throw error;
+  }
+},
     
     login: async (username, password) => {
       console.log(`[API] Starting login for user: ${username}`);
@@ -62,18 +80,34 @@ export const api = {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({
+ identifier: username,
+ password
+}),
+          
         });
-        
+        console.log("[LOGIN BODY]", {
+    identifier: username,
+    password
+});
         console.log(`[API] Login response status: ${response.status}`);
         
         if (!response.ok) {
-          const error = await response.json();
-          logError(endpoint, 'POST', new Error(error.message || 'Login failed'));
-          throw new Error(error.message || 'Login failed');
+            const error = await response.json().catch(() => ({}));
+
+  console.log("[LOGIN ERROR DATA]", error);
+
+  const message =
+    error.error?.message ||
+    error.message ||
+    error.detail ||
+    'Login failed';
+
+  throw new Error(message);
         }
         
         const data = await response.json();
+        console.log("[LOGIN DATA]", data);
         logResponse(endpoint, 'POST', response, data);
         console.log(`[API] Login successful for user: ${data.user?.username || username}`);
         return data;
@@ -292,11 +326,11 @@ export const api = {
       }
     },
 
-    createEvent: async (eventName) => {
+    createEvent: async (eventName, location) => {
       console.log(`[API] Starting event creation: "${eventName}"`);
       const endpoint = '/events';
       const token = localStorage.getItem('token');
-      const requestBody = { name: eventName };
+      const requestBody = { name: eventName, location: location};
       console.log(`[API] Request body:`, requestBody);
       
       try {
@@ -414,6 +448,117 @@ export const api = {
       }
     }
   },
+  notifications: {
+
+  getNotifications: async () => {
+    const endpoint = '/notifications';
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to load notifications');
+    }
+
+    return await response.json();
+  },
+
+
+  markAsRead: async (notificationId) => {
+    const endpoint = `/notifications/${notificationId}/read`;
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to mark notification read');
+    }
+
+    return true;
+  },
+
+
+  approveMember: async (memberId) => {
+
+    const endpoint = `/event-members/${memberId}/approve`;
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method:'POST',
+      headers:{
+        'Authorization': token ? `Bearer ${token}` : '',
+        'Content-Type':'application/json'
+      }
+    });
+
+
+    if(!response.ok){
+      throw new Error('Approve failed');
+    }
+
+
+    return await response.json();
+  },
+
+
+  rejectMember: async (memberId) => {
+
+    const endpoint = `/event-members/${memberId}/reject`;
+    const token = localStorage.getItem('token');
+
+
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      method:'POST',
+      headers:{
+        'Authorization': token ? `Bearer ${token}` : '',
+        'Content-Type':'application/json'
+      }
+    });
+
+
+    if(!response.ok){
+      throw new Error('Reject failed');
+    }
+
+
+    return await response.json();
+  },
+
+
+  removeMember: async(memberId)=>{
+
+    const endpoint=`/event-members/${memberId}`;
+    const token=localStorage.getItem('token');
+
+
+    const response=await fetch(`${API_BASE_URL}${endpoint}`,{
+      method:'DELETE',
+      headers:{
+        'Authorization':token ? `Bearer ${token}` : ''
+      }
+    });
+
+
+    if(!response.ok){
+      throw new Error('Remove failed');
+    }
+
+
+    return true;
+  }
+
+}
 };
 
 // Helper to get auth headers
@@ -429,3 +574,5 @@ export const getAuthHeaders = () => {
   });
   return headers;
 };
+
+export { API_BASE_URL };

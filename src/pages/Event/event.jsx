@@ -630,59 +630,27 @@ try {
   */
 
 
-  const handleApproveMember = async (memberId) => {
+  const handleApprove = async (memberId) => {
+
+  try {
+
+    await api.notifications.approveMember(memberId);
 
 
-    console.log(
-      '[Event] Approving member:',
-      memberId
+    // reload event data
+    loadEvent();
+
+
+  } catch(error) {
+
+    console.error(
+      "Approve failed",
+      error
     );
 
+  }
 
-
-    setEvent(prev => ({
-
-      ...prev,
-
-      members:
-        prev.members.map(member =>
-
-          member.id === memberId
-
-          ?
-          {
-            ...member,
-            status:'approved'
-          }
-
-          :
-          member
-
-        )
-
-    }));
-
-
-
-    setTagMessage({
-
-      type:'success',
-
-      text:
-        'Invitation approved'
-
-    });
-
-
-
-  };
-
-
-
-
-
-
-
+};
 
   const handleRejectMember = async (memberId) => {
 

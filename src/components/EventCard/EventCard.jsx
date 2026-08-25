@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './EventCard.css';
+import { API_BASE_URL } from '../../services/api';
 
 export default function EventCard({ event }) {
   const navigate = useNavigate();
@@ -53,7 +54,11 @@ export default function EventCard({ event }) {
                 return (
                   <div key={photo.id || index} className="photo-preview-item">
                     <img 
-                      src={photo.url} 
+  src={
+    photo.thumbnail_url
+      ? `${API_BASE_URL}${photo.thumbnail_url}`
+      : `${API_BASE_URL}${photo.url}`
+  }
                       alt={`${name} preview ${index + 1}`}
                       loading="lazy"
                       onLoad={() => console.log(`[EventCard] Photo ${photo.id} loaded`)}

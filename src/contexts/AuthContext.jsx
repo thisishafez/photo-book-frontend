@@ -35,21 +35,36 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (username, password) => {
-    try {
-      const response = await api.auth.login(username, password);
-      
-      // Store token and user
-      localStorage.setItem('token', response.token);
-      localStorage.setItem('user', JSON.stringify(response.user));
-      
-      setUser(response.user);
-      setIsAuthenticated(true);
-      
-      return { success: true, user: response.user };
-    } catch (error) {
-      return { success: false, error: error.message };
-    }
-  };
+  try {
+    const response = await api.auth.login(username, password);
+
+    console.log("[AUTH RESPONSE]", response);
+
+    const user = {
+      id: response.id,
+      username: response.username
+    };
+
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('user', JSON.stringify(user));
+
+    setUser(user);
+    setIsAuthenticated(true);
+
+    return {
+      success: true,
+      user
+    };
+
+  } catch (error) {
+
+    return {
+      success: false,
+      error: error.message
+    };
+
+  }
+};
 
   const register = async (username, email, password) => {
     try {
@@ -61,6 +76,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+      localStorage.removeItem('token');
+  localStorage.removeItem('user');
+
+  setUser(null);
+  setIsAuthenticated(false);
     /*try {
       await api.auth.logout();
     } catch (error) {

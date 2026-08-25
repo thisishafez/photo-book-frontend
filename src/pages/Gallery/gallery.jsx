@@ -49,11 +49,42 @@ export default function Gallery() {
       console.log('[Gallery] Received response from API:', response);
       
       const eventsData = response.events || [];
-      console.log(`[Gallery] Processing ${eventsData.length} events`);
-      console.log('[Gallery] Events data sample:', eventsData.slice(0, 2));
-      
-      setEvents(eventsData);
-      setFilteredEvents(eventsData);
+
+console.log(`[Gallery] Loading photos for ${eventsData.length} events`);
+
+const eventsWithPhotos = await Promise.all(
+  eventsData.map(async (event) => {
+    try {
+      const eventDetails = await api.gallery.getEvent(event.id);
+
+      return {
+        ...event,
+        photos: eventDetails.photos || []
+      };
+
+    } catch (error) {
+      console.error(
+        `[Gallery] Failed loading photos for event ${event.id}`,
+        error
+      );
+
+      return {
+        ...event,
+        photos: []
+      };
+    }
+  })
+);
+
+
+console.log(
+  '[Gallery] Events with photos:',
+  eventsWithPhotos
+);
+
+
+setEvents(eventsWithPhotos);
+setFilteredEvents(eventsWithPhotos);
       console.log('[Gallery] State updated with events');
       
       if (eventsData.length === 0) {

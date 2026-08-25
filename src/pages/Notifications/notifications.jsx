@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Notifications.css';
 import Navbar from '../../components/Navbar/Navbar';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { api } from '../../services/api';
 
 export default function Notifications() {
   const navigate = useNavigate();
@@ -22,32 +23,72 @@ export default function Notifications() {
     navigate('/login');
   };
 
-  const handleApprove = async (notificationId, eventId) => {
-    setProcessingId(notificationId);
-    // TODO: API call to approve tag
-    // POST /event-members/{eventMemberId}/approve
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Remove notification from list
-    removeNotification(notificationId);
-    setProcessingId(null);
-    
-    // Show success feedback
-    // In a real app, you'd navigate to the event or show a toast
-  };
+  const handleApprove = async(
+ notificationId,
+ memberId
+)=>{
+  console.log("Approve IDs:", {
+   notificationId,
+   memberId
+ });
 
-  const handleReject = async (notificationId, eventId) => {
-    setProcessingId(notificationId);
-    // TODO: API call to reject tag
-    // POST /event-members/{eventMemberId}/reject
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Remove notification from list
-    removeNotification(notificationId);
-    setProcessingId(null);
-    
-    // Show success feedback
-  };
+ try{
+
+ setProcessingId(notificationId);
+
+
+ await api.notifications.approveMember(memberId);
+
+
+ removeNotification(notificationId);
+
+
+ }catch(error){
+
+ console.error(
+ '[Notifications] Approve failed',
+ error
+ );
+
+ }
+ finally{
+
+ setProcessingId(null);
+
+ }
+
+};
+
+  const handleReject = async(
+ notificationId,
+ memberId
+)=>{
+
+
+try{
+
+setProcessingId(notificationId);
+
+
+await api.notifications.rejectMember(memberId);
+
+
+removeNotification(notificationId);
+
+
+}catch(error){
+
+console.error(error);
+
+}
+finally{
+
+setProcessingId(null);
+
+}
+
+
+};
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -75,28 +116,73 @@ export default function Notifications() {
   };
 
   const getNotificationMessage = (notification) => {
-    if (notification.type === 'tag_request') {
-      return (
-        <>
-          <span className="notif-highlight">{notification.from_user}</span>
-          {' tagged you in '}
-          <span className="notif-highlight">"{notification.event_name}"</span>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <span className="notif-highlight">{notification.from_user}</span>
-          {' rejected your tag in '}
-          <span className="notif-highlight">"{notification.event_name}"</span>
-        </>
-      );
-    }
-  };
+
+  if (notification.type === 'tag_request') {
+
+    return (
+      <>
+        <span className="notif-highlight">
+          {notification.from_user}
+        </span>
+        {' tagged you in '}
+        <span className="notif-highlight">
+          "{notification.event_name}"
+        </span>
+      </>
+    );
+
+  }
+
+
+  if (notification.type === 'tag_approved') {
+
+    return (
+      <>
+        <span className="notif-highlight">
+          {notification.from_user}
+        </span>
+        {' approved your tag in '}
+        <span className="notif-highlight">
+          "{notification.event_name}"
+        </span>
+      </>
+    );
+
+  }
+
+
+  if (notification.type === 'tag_rejected') {
+
+    return (
+      <>
+        <span className="notif-highlight">
+          {notification.from_user}
+        </span>
+        {' rejected your tag in '}
+        <span className="notif-highlight">
+          "{notification.event_name}"
+        </span>
+      </>
+    );
+
+  }
+
+};
 
   const getNotificationIcon = (type) => {
-    return type === 'tag_request' ? '📩' : '✕';
-  };
+
+  if(type === 'tag_request')
+    return '📩';
+
+  if(type === 'tag_approved')
+    return '✓';
+
+  if(type === 'tag_rejected')
+    return '✕';
+
+  return '🔔';
+
+};
 
   const LoadingSkeleton = () => (
     <div className="notifications-skeleton">
@@ -184,13 +270,14 @@ export default function Notifications() {
                     </div>
                     
                     {/* Actions for tag requests */}
-                    {notification.type === 'tag_request' && (
+                    {notification.type === 'tag_request' && 
+                    notification.member_status === 'invited' && (
                       <div className="notification-actions">
                         <button 
                           className="action-btn approve"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleApprove(notification.id, notification.event_id);
+                            handleApprove(notification.id,  notification.member_id);
                           }}
                           disabled={processingId === notification.id}
                         >
@@ -200,7 +287,7 @@ export default function Notifications() {
                           className="action-btn reject"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleReject(notification.id, notification.event_id);
+                            handleReject(notification.id,  notification.member_id);
                           }}
                           disabled={processingId === notification.id}
                         >
@@ -215,6 +302,14 @@ export default function Notifications() {
                         <span className="rejected-label">Tag declined</span>
                       </div>
                     )}
+                    {/* Approved tag message */}
+{notification.type === 'tag_approved' && (
+  <div className="notification-approved">
+    <span className="approved-label">
+      Tag approved
+    </span>
+  </div>
+)}
                   </div>
                 </div>
               ))}

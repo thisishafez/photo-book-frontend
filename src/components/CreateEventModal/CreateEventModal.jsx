@@ -4,6 +4,7 @@ import './CreateEventModal.css';
 
 export default function CreateEventModal({ isOpen, onClose, onCreate }) {
   const [eventName, setEventName] = useState('');
+  const [eventLocation, setEventLocation] = useState('');
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -20,6 +21,7 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
   console.log('[CreateEventModal] Component state:', {
     isOpen,
     eventName,
+    eventLocation,
     selectedPhotosCount: selectedPhotos.length,
     taggedUsersCount: taggedUsers.length,
     isUploading,
@@ -199,6 +201,10 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
       console.warn('[CreateEventModal] Validation failed: Event name too short');
       newErrors.name = 'Event name must be at least 3 characters';
     }
+    if (!eventLocation.trim()) {
+  console.warn('[CreateEventModal] Validation failed: Location is required');
+  newErrors.location = 'Location is required';
+}
     
     if (selectedPhotos.length === 0) {
       console.warn('[CreateEventModal] Validation failed: No photos selected');
@@ -226,7 +232,10 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
     try {
       // Step 1: Create the event
       console.log('[CreateEventModal] Step 1: Creating event');
-      const eventResponse = await api.gallery.createEvent(eventName.trim());
+const eventResponse = await api.gallery.createEvent(
+  eventName.trim(),
+  eventLocation.trim()
+);
       console.log('[CreateEventModal] Event created:', eventResponse);
       setUploadProgress(20);
 
@@ -293,6 +302,7 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
       // Reset form
       console.log('[CreateEventModal] Resetting form state');
       setEventName('');
+      setEventLocation('');
       setSelectedPhotos([]);
       setTaggedUsers([]);
       setTagSearchQuery('');
@@ -317,6 +327,7 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
     console.log('[CreateEventModal] Modal closing');
     if (!isUploading) {
       setEventName('');
+      setEventLocation('');
       setSelectedPhotos([]);
       setTaggedUsers([]);
       setTagSearchQuery('');
@@ -346,7 +357,7 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
         )}
 
         {/* Event Name */}
-        <div className="form-group">
+        <div className="event-form-group">
           <label className="form-label">Collection Name *</label>
           <input
             type="text"
@@ -366,9 +377,42 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
           {errors.name && <span className="field-error">{errors.name}</span>}
           <span className="char-count">{eventName.length}/100</span>
         </div>
+        {/* Event Location */}
+<div className="event-form-group">
+  <label className="form-label">Location *</label>
 
+  <input
+    type="text"
+    className={`form-input ${errors.location ? 'error' : ''}`}
+    placeholder="e.g., Paris, France"
+    value={eventLocation}
+    onChange={(e) => {
+      console.log('[CreateEventModal] Location changed:', e.target.value);
+      setEventLocation(e.target.value);
+
+      if (errors.location) {
+        setErrors(prev => ({
+          ...prev,
+          location: undefined
+        }));
+      }
+    }}
+    disabled={isUploading}
+    maxLength={150}
+  />
+
+  {errors.location && (
+    <span className="field-error">
+      {errors.location}
+    </span>
+  )}
+
+  <span className="char-count">
+    {eventLocation.length}/150
+  </span>
+</div>
         {/* Photo Upload */}
-        <div className="form-group">
+        <div className="event-form-group">
           <label className="form-label">Photos * (at least 1)</label>
           <div 
             className={`photo-upload-zone ${errors.photos ? 'error' : ''}`}
@@ -423,7 +467,7 @@ export default function CreateEventModal({ isOpen, onClose, onCreate }) {
         </div>
 
         {/* Tag Users */}
-        <div className="form-group">
+        <div className="event-form-group">
           <label className="form-label">Tag People</label>
           <div className="tag-search-container">
             <input

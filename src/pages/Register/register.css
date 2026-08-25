@@ -74,7 +74,7 @@
   color: #000;
 }
 
-.form-group {
+.event-form-group {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -272,7 +272,7 @@
 }
 
   /* Remove any margin that might push error down */
-  .form-group {
+.event-form-group {
     margin-bottom: 0;
   }
 }
@@ -326,7 +326,7 @@
     font-size: clamp(.55rem, 2vw, .8rem);
   }
 
-  .form-group {
+.event-form-group {
   height: clamp(22px, 5vw, 30px);
   }
 
@@ -368,7 +368,7 @@
   }
 
   /* Remove any margin that might push error down */
-  .form-group {
+.event-form-group {
   height: 20px;
   }
 

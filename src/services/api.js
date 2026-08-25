@@ -326,11 +326,11 @@ export const api = {
       }
     },
 
-    createEvent: async (eventName) => {
+    createEvent: async (eventName, location) => {
       console.log(`[API] Starting event creation: "${eventName}"`);
       const endpoint = '/events';
       const token = localStorage.getItem('token');
-      const requestBody = { name: eventName };
+      const requestBody = { name: eventName, location: location};
       console.log(`[API] Request body:`, requestBody);
       
       try {
@@ -575,3 +575,4 @@ export const getAuthHeaders = () => {
   return headers;
 };
 
+export { API_BASE_URL };

@@ -16,7 +16,6 @@ export default function Gallery() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState(null);
-  const [isSearching, setIsSearching] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   console.log('[Gallery] Component mounted');
@@ -107,57 +106,30 @@ setFilteredEvents(eventsWithPhotos);
     }
   };
 
-  // Handle search with debounce
   useEffect(() => {
-    console.log('[Gallery] Search effect triggered with query:', searchQuery);
-    
-    const searchTimeout = setTimeout(async () => {
-      console.log('[Gallery] Debounce timer completed for search:', searchQuery);
-      
-      if (searchQuery.trim() === '') {
-        console.log('[Gallery] Search query empty, reloading full gallery');
-        if (searchQuery === '') {
-          await loadGalleryEvents();
-        }
-        return;
-      }
+  console.log('[Gallery] Local search triggered:', searchQuery);
 
-      try {
-        setIsSearching(true);
-        setError(null);
-        console.log('[Gallery] Setting isSearching to true');
-        console.log('[Gallery] Calling api.gallery.searchEvents() with:', searchQuery);
-        
-        const response = await api.gallery.searchEvents(searchQuery);
-        console.log('[Gallery] Search response received:', response);
-        
-        const searchResults = response.events || [];
-        console.log(`[Gallery] Search found ${searchResults.length} results for "${searchQuery}"`);
-        console.log('[Gallery] Search results sample:', searchResults.slice(0, 2));
-        
-        setFilteredEvents(searchResults);
-        console.log('[Gallery] Updated filtered events with search results');
-      } catch (err) {
-        console.error('[Gallery] Error in search:', err);
-        console.error('[Gallery] Search error details:', {
-          message: err.message,
-          stack: err.stack,
-          searchQuery: searchQuery,
-          timestamp: new Date().toISOString()
-        });
-        setError(err.message || 'Search failed. Please try again.');
-        console.log('[Gallery] Set search error state');
-      } finally {
-        setIsSearching(false);
-        console.log('[Gallery] Search completed, isSearching set to false');
-      }
-    }, 500);
+  if (searchQuery.trim() === '') {
+    setFilteredEvents(events);
+    return;
+  }
 
-    return () => {
-      console.log('[Gallery] Clearing search timeout for:', searchQuery);
-      clearTimeout(searchTimeout);
-    };
-  }, [searchQuery]);
+  const query = searchQuery.toLowerCase();
+
+  const results = events.filter((event) => {
+    return (
+      event.name?.toLowerCase().includes(query) ||
+      event.location?.toLowerCase().includes(query)
+    );
+  });
+
+  console.log(
+    `[Gallery] Local search found ${results.length} results`
+  );
+
+  setFilteredEvents(results);
+
+}, [searchQuery, events]);
 
   const handleCreateEvent = async (eventData) => {
   console.log('[Gallery] Event already created:', eventData);
@@ -281,7 +253,6 @@ setFilteredEvents(eventsWithPhotos);
 
   console.log('[Gallery] Rendering component with state:', {
     isLoading,
-    isSearching,
     isCreating,
     hasError: !!error,
     error,
@@ -323,9 +294,8 @@ setFilteredEvents(eventsWithPhotos);
               value={searchQuery}
               onChange={handleSearchChange}
               className="search-input"
-              disabled={isLoading || isSearching}
+              disabled={isLoading}
             />
-            {isSearching && <span className="search-spinner">🔍</span>}
           </div>
 
           {/* Content */}

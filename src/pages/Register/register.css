@@ -112,28 +112,35 @@
 
 .registerBox input.error {
   border-color: #dc2626;
-  background: rgba(220, 38, 38, 0.05);
+  background: transparent;
 }
 
 .registerBox input.error:focus {
   border-color: #dc2626;
-  background: rgba(220, 38, 38, 0.08);
-}
-
-.registerBox input:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background: rgba(0, 0, 0, 0.05);
+  background: transparent;
 }
 
 .error-message {
-  color: #dc2626;
+  position: absolute;
+  left: 0;
+  top: calc(100% + 3px);
+
+  color: #dc2626 !important;
+  background: none !important;
+  background-color: transparent !important;
+
+  border: none !important;
+  box-shadow: none !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
   font-size: clamp(0.6rem, 0.7vw, 0.75rem);
-  margin-top: 1px;
   font-family: sans-serif;
-  animation: fadeIn 0.2s ease;
-  min-height: 16px;
-  line-height: 1.2;
+  line-height: 1;
+
+  animation: fadeIn 0.15s ease;
+  z-index: 10;
 }
 
 @keyframes fadeIn {

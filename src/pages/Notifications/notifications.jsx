@@ -116,28 +116,73 @@ setProcessingId(null);
   };
 
   const getNotificationMessage = (notification) => {
-    if (notification.type === 'tag_request') {
-      return (
-        <>
-          <span className="notif-highlight">{notification.from_user}</span>
-          {' tagged you in '}
-          <span className="notif-highlight">"{notification.event_name}"</span>
-        </>
-      );
-    } else {
-      return (
-        <>
-          <span className="notif-highlight">{notification.from_user}</span>
-          {' rejected your tag in '}
-          <span className="notif-highlight">"{notification.event_name}"</span>
-        </>
-      );
-    }
-  };
+
+  if (notification.type === 'tag_request') {
+
+    return (
+      <>
+        <span className="notif-highlight">
+          {notification.from_user}
+        </span>
+        {' tagged you in '}
+        <span className="notif-highlight">
+          "{notification.event_name}"
+        </span>
+      </>
+    );
+
+  }
+
+
+  if (notification.type === 'tag_approved') {
+
+    return (
+      <>
+        <span className="notif-highlight">
+          {notification.from_user}
+        </span>
+        {' approved your tag in '}
+        <span className="notif-highlight">
+          "{notification.event_name}"
+        </span>
+      </>
+    );
+
+  }
+
+
+  if (notification.type === 'tag_rejected') {
+
+    return (
+      <>
+        <span className="notif-highlight">
+          {notification.from_user}
+        </span>
+        {' rejected your tag in '}
+        <span className="notif-highlight">
+          "{notification.event_name}"
+        </span>
+      </>
+    );
+
+  }
+
+};
 
   const getNotificationIcon = (type) => {
-    return type === 'tag_request' ? '📩' : '✕';
-  };
+
+  if(type === 'tag_request')
+    return '📩';
+
+  if(type === 'tag_approved')
+    return '✓';
+
+  if(type === 'tag_rejected')
+    return '✕';
+
+  return '🔔';
+
+};
 
   const LoadingSkeleton = () => (
     <div className="notifications-skeleton">
@@ -225,7 +270,8 @@ setProcessingId(null);
                     </div>
                     
                     {/* Actions for tag requests */}
-                    {notification.type === 'tag_request' && (
+                    {notification.type === 'tag_request' && 
+                    notification.member_status === 'invited' && (
                       <div className="notification-actions">
                         <button 
                           className="action-btn approve"
@@ -256,6 +302,14 @@ setProcessingId(null);
                         <span className="rejected-label">Tag declined</span>
                       </div>
                     )}
+                    {/* Approved tag message */}
+{notification.type === 'tag_approved' && (
+  <div className="notification-approved">
+    <span className="approved-label">
+      Tag approved
+    </span>
+  </div>
+)}
                   </div>
                 </div>
               ))}

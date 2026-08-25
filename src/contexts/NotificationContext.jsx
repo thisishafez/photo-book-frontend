@@ -40,8 +40,11 @@ export function NotificationProvider({ children }) {
 
 
       setNotifications(
-        response.results || []
-      );
+  (response.results || []).filter(notification =>
+    notification.type !== "tag_request" ||
+    notification.member_status === "invited"
+  )
+);
 
 
     } catch(error){
@@ -86,8 +89,11 @@ useEffect(() => {
 
 
       setNotifications(
-        response.results || []
-      );
+  (response.results || []).filter(notification =>
+    notification.type !== "tag_request" ||
+    notification.member_status === "invited"
+  )
+);
 
 
     } catch(error){
@@ -144,11 +150,39 @@ useEffect(() => {
 };
 
   // Mark all notifications as read
-  const markAllAsRead = () => {
-    setNotifications(prev =>
-      prev.map(notif => ({ ...notif, read: true }))
+  const markAllAsRead = async () => {
+
+  try {
+
+    const unreadNotifications = notifications.filter(
+      notif => !notif.read
     );
-  };
+
+    await Promise.all(
+      unreadNotifications.map(notif =>
+        api.notifications.markAsRead(notif.id)
+      )
+    );
+
+
+    setNotifications(prev =>
+      prev.map(notif => ({
+        ...notif,
+        read: true
+      }))
+    );
+
+
+  } catch(error) {
+
+    console.error(
+      '[Notifications] Mark all read failed',
+      error
+    );
+
+  }
+
+};
 
   // Remove a notification (after approve/reject)
   const removeNotification = (notificationId) => {

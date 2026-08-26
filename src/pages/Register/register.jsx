@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import "./Register.css";
+import "./register.css";
 import camera from "../../assets/Group 1.svg";
 import logo from "../../assets/Group 3 (1).svg";
 

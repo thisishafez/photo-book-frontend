@@ -32,33 +32,34 @@
 /* CAMERA */
 .camera {
   position: relative;
-  width: min(80%, 600px);
-  max-height: 90vh;
+  width: min(80%, 600px, calc(90vh * 953 / 1487));
+  aspect-ratio: 953 / 1487;
   display: flex;
   justify-content: center;
   align-items: center;
+  container-type: inline-size;   /* NEW: lets children size off .camera's width */
 }
 
 .camera img {
   display: block;
   width: 100%;
-  height: auto;
-  max-height: 85vh;
+  height: 100%;
   object-fit: contain;
 }
 
 /* FORM */
 .registerBox {
   position: absolute;
-  top: 40%;
-  left: 57%;
+  top: 42%;
+  left: 58.5%;
   transform: translate(-50%, -50%);
-  width: 45%;
-  max-height: 80%;
+  width: 60%;
+  max-height: 58%;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px 10px;
+  justify-content: center;
+  gap: 1.5cqw;              /* was 6px */
+  padding: 2cqw 2.5cqw;     /* was 8px 10px */
   overflow-y: auto;
 }
 
@@ -72,8 +73,8 @@
 
 .registerBox h2 {
   text-align: center;
-  margin-bottom: 2px;
-  font-size: clamp(1rem, 2vw, 1.6rem);
+  margin-bottom: 0.5cqw;
+  font-size: 5cqw;          /* was clamp(1rem, 2vw, 1.6rem) */
   font-family: serif;
   letter-spacing: 1px;
   color: #000;
@@ -89,15 +90,15 @@
 }
 
 .registerBox input {
-  padding: 8px 14px;
+  padding: 1.5cqw 3cqw;     /* was 8px 14px */
   border: 2px solid black;
   border-radius: 8px;
-  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  font-size: 3cqw;          /* was clamp(0.75rem, 1vw, 0.9rem) */
   outline: none;
   background: transparent;
   font-family: sans-serif;
   width: 100%;
-  height: 38px;
+  height: 8cqw;             /* was fixed 38px */
 }
 
 .registerBox input::placeholder {
@@ -155,18 +156,18 @@
 }
 
 .registerBox button {
-  padding: 8px 16px;
+  padding: 1.5cqw 3cqw;
   border: 2px solid black;
   border-radius: 8px;
   background: black;
   color: white;
-  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  font-size: 3cqw;
   cursor: pointer;
   font-weight: 500;
   transition: all 0.2s ease;
   width: 100%;
-  margin-top: 2px;
-  height: 38px;
+  margin-top: 0.5cqw;
+  height: 8cqw;             /* was fixed 38px */
   flex-shrink: 0;
 }
 
@@ -190,11 +191,10 @@
   transform: none;
 }
 
-/* Link to Login */
 .registerBox .login-link {
   text-align: center;
-  margin-top: 2px;
-  font-size: clamp(0.65rem, 0.8vw, 0.8rem);
+  margin-top: 0.5cqw;
+  font-size: 2.5cqw;
   font-family: sans-serif;
   flex-shrink: 0;
 }

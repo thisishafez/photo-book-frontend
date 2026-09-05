@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import { api } from '../services/api';
+import { isTokenExpired } from '../utils/jwt';
 
 const AuthContext = createContext();
 
@@ -16,23 +17,26 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load user from localStorage on mount
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-    
-    if (token && storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Error parsing stored user:', error);
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-      }
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  const storedUser = localStorage.getItem('user');
+
+  if (token && storedUser && !isTokenExpired(token)) {
+    try {
+      setUser(JSON.parse(storedUser));
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error('Error parsing stored user:', error);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
     }
-    setIsLoading(false);
-  }, []);
+  } else if (token) {
+    // token exists but is expired/invalid — clear stale cache
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }
+  setIsLoading(false);
+}, []);
 
   const login = async (username, password) => {
   try {

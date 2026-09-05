@@ -392,59 +392,81 @@ const eventResponse = await api.gallery.createEvent(
   <span className="char-count">{eventLocation.length}/100</span>
 </div>
         {/* Photo Upload */}
-        <div className="form-group">
-          <label className="form-label">Photos * (at least 1)</label>
-          <div 
-            className={`photo-upload-zone ${errors.photos ? 'error' : ''}`}
-            onDragOver={handleDragOver}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-          >
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={handleFileSelect}
-              className="photo-file-input"
-              disabled={isUploading}
-              id="photo-upload-input"
-            />
-            <label htmlFor="photo-upload-input" className="photo-upload-label">
-              <span className="upload-icon">📸</span>
-              <span className="upload-text">Drop photos here or click to browse</span>
-              <span className="upload-sub">Supports JPG, PNG, GIF (max 10MB each)</span>
-            </label>
-          </div>
-          {errors.photos && <span className="field-error">{errors.photos}</span>}
-          
-          {/* Photo Preview Grid */}
-          {selectedPhotos.length > 0 && (
-            <div className="photo-preview-grid">
-              {selectedPhotos.map((photo, index) => (
-                <div key={index} className="photo-preview-item">
-                  <img 
-                    src={URL.createObjectURL(photo)} 
-                    alt={`Upload ${index + 1}`}
-                    className="photo-preview-image"
-                  />
-                  <button 
-                    className="photo-remove-btn"
-                    onClick={() => handleRemovePhoto(index)}
-                    disabled={isUploading}
-                  >
-                    ✕
-                  </button>
-                  <span className="photo-filename">{photo.name}</span>
-                </div>
-              ))}
-            </div>
-          )}
-          <span className="photo-count">
-            {selectedPhotos.length} {selectedPhotos.length === 1 ? 'photo' : 'photos'} selected
-          </span>
-        </div>
+<div className="form-group">
+  <label className="form-label">Photos * (at least 1)</label>
+
+  {/* Hidden file input, shared by the empty dropzone and the "add more" tile */}
+  <input
+    ref={fileInputRef}
+    type="file"
+    accept="image/*"
+    multiple
+    onChange={handleFileSelect}
+    className="photo-file-input-hidden"
+    disabled={isUploading}
+    id="photo-upload-input"
+  />
+
+{selectedPhotos.length === 0 ? (
+  <div 
+    className={`photo-upload-zone ${errors.photos ? 'error' : ''}`}
+    onDragOver={handleDragOver}
+    onDragEnter={handleDragEnter}
+    onDragLeave={handleDragLeave}
+    onDrop={handleDrop}
+  >
+    <label htmlFor="photo-upload-input" className="photo-upload-label">
+      <span className="upload-icon">📸</span>
+      <span className="upload-text">Drop photos here or click to browse</span>
+      <span className="upload-sub">Supports JPG, PNG, GIF (max 10MB each)</span>
+    </label>
+  </div>
+) : (
+  <div 
+    className={`upload-preview-grid ${errors.photos ? 'error' : ''}`}
+    onDragOver={handleDragOver}
+    onDragEnter={handleDragEnter}
+    onDragLeave={handleDragLeave}
+    onDrop={handleDrop}
+  >
+    {selectedPhotos.map((photo, index) => (
+      <div key={index} className="upload-preview-item">
+        <img 
+          src={URL.createObjectURL(photo)} 
+          alt={`Upload ${index + 1}`}
+          className="upload-preview-image"
+        />
+        <button 
+          className="photo-remove-btn"
+          onClick={() => handleRemovePhoto(index)}
+          disabled={isUploading}
+        >
+          ✕
+        </button>
+        <span className="photo-filename">{photo.name}</span>
+      </div>
+    ))}
+
+    <button
+      type="button"
+      className="upload-add-more-tile"
+      onClick={() => fileInputRef.current?.click()}
+      disabled={isUploading}
+    >
+      <span className="upload-add-more-content">
+        <span className="add-more-icon">+</span>
+        <span className="add-more-label">Add more</span>
+      </span>
+    </button>
+  </div>
+)}
+
+  {errors.photos && <span className="field-error">{errors.photos}</span>}
+
+  <span className="photo-count">
+    {selectedPhotos.length} {selectedPhotos.length === 1 ? 'photo' : 'photos'} selected
+  </span>
+</div>
 
         {/* Tag Users */}
         <div className="form-group">

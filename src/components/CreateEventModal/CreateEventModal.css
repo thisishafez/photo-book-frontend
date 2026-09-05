@@ -245,27 +245,11 @@
 }
 
 /* Photo Preview Grid */
-.photo-preview-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 12px;
-  margin-top: 12px;
-}
 
-.photo-preview-item {
-  position: relative;
-  aspect-ratio: 1;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #f0ece6;
-  border: 1px solid #e8e4de;
-}
 
-.photo-preview-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+
+
+
 
 .photo-remove-btn {
   position: absolute;
@@ -580,6 +564,88 @@
   border-color: #666;
 }
 
+/* Upload preview grid (photos staged for upload — distinct from EventCard's photo-preview-*) */
+.upload-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.upload-preview-grid.error {
+  outline: 2px solid #e74c3c;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.upload-preview-item {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f0ece6;
+  border: 1px solid #e8e4de;
+}
+
+.upload-preview-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-add-more-tile {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  border: 2px dashed #e8e4de;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #999;
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.upload-add-more-tile:hover:not(:disabled) {
+  border-color: #bfb9b2;
+  background: #faf8f6;
+  color: #666;
+}
+
+.upload-add-more-tile:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.upload-add-more-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.add-more-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.add-more-label {
+  font-size: 0.65rem;
+  font-style: italic;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
   .create-event-modal {
@@ -592,7 +658,7 @@
     font-size: 1.4rem;
   }
 
-  .photo-preview-grid {
+   .upload-preview-grid {
     grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
     gap: 8px;
   }
@@ -635,7 +701,7 @@
     font-size: 0.9rem;
   }
 
-  .photo-preview-grid {
+   .upload-preview-grid {
     grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
     gap: 6px;
   }
@@ -660,6 +726,10 @@
   40% { content: '.'; }
   60% { content: '..'; }
   80%, 100% { content: '...'; }
+}
+
+.photo-file-input-hidden {
+  display: none;
 }
 
 
@@ -753,9 +823,21 @@
   color: #888;
 }
 
-.create-event-modal-dark .photo-preview-item {
+.create-event-modal-dark .upload-preview-item {
   background: #333;
   border-color: #444;
+}
+
+.create-event-modal-dark .upload-add-more-tile {
+  border-color: #444;
+  background: #1a1a1a;
+  color: #888;
+}
+
+.create-event-modal-dark .upload-add-more-tile:hover:not(:disabled) {
+  border-color: #666;
+  background: #242424;
+  color: #b8b3ac;
 }
 
 .create-event-modal-dark .photo-count {

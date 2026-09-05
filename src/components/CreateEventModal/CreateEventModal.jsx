@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { api } from '../../services/api';
+import { useTheme } from '../../contexts/ThemeContext';
 import './CreateEventModal.css';
 
 export default function CreateEventModal({ isOpen, onClose, onCreate }) {
+  const { darkMode } = useTheme();
   const [eventName, setEventName] = useState('');
   const [eventLocation, setEventLocation] = useState('');
   const [selectedPhotos, setSelectedPhotos] = useState([]);
@@ -341,7 +343,7 @@ const eventResponse = await api.gallery.createEvent(
 
   return (
     <div className="create-event-modal-overlay" onClick={handleClose}>
-      <div className="create-event-modal" onClick={(e) => e.stopPropagation()}>
+      <div className={`create-event-modal${darkMode ? ' create-event-modal-dark' : ''}`} onClick={(e) => e.stopPropagation()}>
         <button className="modal-close-btn" onClick={handleClose}>✕</button>
         
         <h2 className="modal-title">Create New Collection</h2>

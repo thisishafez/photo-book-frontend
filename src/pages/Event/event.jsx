@@ -4,6 +4,7 @@ import './Event.css';
 import Navbar from '../../components/Navbar/Navbar';
 import PhotoGrid from '../../components/PhotoGrid/PhotoGrid';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { api } from '../../services/api';
 
 const API_BASE_URL = 'https://yadegar-api.duster.ir';
@@ -15,6 +16,7 @@ export default function Event() {
   const navigate = useNavigate();
   const { unreadCount } = useNotifications();
 
+  const { darkMode } = useTheme();
 
   const [event, setEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -766,7 +768,7 @@ try {
 
     return (
 
-      <div className="event-page">
+      <div className={`event-page${darkMode ? ' event-page-dark' : ''}`}>
 
         <Navbar
           onLogout={handleLogout}
@@ -811,7 +813,7 @@ try {
 
     return (
 
-      <div className="event-page">
+      <div className={`event-page${darkMode ? ' event-page-dark' : ''}`}>
 
 
         <Navbar
@@ -873,7 +875,7 @@ try {
 
     return (
 
-    <div className="event-page">
+    <div className={`event-page${darkMode ? ' event-page-dark' : ''}`}>
 
 
       <Navbar
@@ -1230,11 +1232,7 @@ try {
 
             <div
 
-              className="modal-content"
-
-              onClick={
-                e => e.stopPropagation()
-              }
+              className={`modal-content${darkMode ? ' modal-content-dark' : ''}`} onClick={e => e.stopPropagation()}
 
             >
 
@@ -1433,11 +1431,7 @@ try {
 
             <div
 
-              className="modal-content"
-
-              onClick={
-                e => e.stopPropagation()
-              }
+              className={`modal-content${darkMode ? ' modal-content-dark' : ''}`} onClick={e => e.stopPropagation()}
 
             >
 

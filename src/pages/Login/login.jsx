@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import "./Login.css";
-import camera from "../../assets/Group 1.svg";
-import logo from "../../assets/Group 3 (1).svg";
+import camera from "../../assets/camera.svg";
+import cameraDarkMode from "../../assets/cameraDarkMode.svg";
+import logo from "../../assets/logo.svg";
+import logoDarkMode from "../../assets/logoDarkMode.svg";
 
 export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { darkMode } = useTheme();
   const [formData, setFormData] = useState({
     username: "",
     password: ""
@@ -81,10 +85,10 @@ export default function Login() {
   };
 
   return (
-    <div className={`container ${isFlashing ? 'flash' : ''}`}>
+    <div className={`container${darkMode ? ' container-dark' : ''} ${isFlashing ? 'flash' : ''}`}>
       <section className="left">
         <div className="camera">
-          <img src={camera} alt="Camera Frame" />
+          <img src={darkMode ? cameraDarkMode : camera} alt="Camera Frame" />
 
           <form className="loginBox" onSubmit={handleSubmit}>
             <h2>Welcome Back</h2>
@@ -95,6 +99,7 @@ export default function Login() {
               <input
                 type="text"
                 name="username"
+                autoComplete="username"
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
@@ -108,6 +113,7 @@ export default function Login() {
               <input
                 type="password"
                 name="password"
+                autoComplete="current-password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
@@ -131,7 +137,7 @@ export default function Login() {
       <section className="right">
         <div className="right-content">
           <div className="logo-wrapper">
-            <img src={logo} alt="Shared Event Photo Book Logo" />
+            <img src={darkMode ? logoDarkMode : logo} alt="Shared Event Photo Book Logo" />
           </div>
           <h1>Shared Event Photo Book</h1>
           <p>Share photos from your favorite moments with the people who were actually there.</p>

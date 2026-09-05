@@ -349,3 +349,70 @@
 
   z-index: 10;
 }
+/* Server-side error message */
+.api-error {
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c0392b;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: clamp(0.75rem, 1vw, 0.9rem);
+  font-family: sans-serif;
+  text-align: center;
+}
+
+/* Dark mode */
+.container-dark .left {
+  background: #1a1a1a;
+}
+
+.container-dark .loginBox h2 {
+  color: #faf8f6;
+}
+
+.container-dark .loginBox input {
+  border-color: #555;
+  color: #faf8f6;
+}
+
+.container-dark .loginBox input::placeholder {
+  color: #999;
+}
+
+.container-dark .loginBox input:focus {
+  border-color: #faf8f6;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.container-dark .loginBox input:disabled {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.container-dark .form-group input.error {
+  border-color: #ef5350;
+}
+
+.container-dark .loginBox button {
+  background: #faf8f6;
+  color: #1a1a1a;
+  border-color: #faf8f6;
+}
+
+.container-dark .loginBox .register-link {
+  color: #b8b3ac;
+}
+
+.container-dark .loginBox .register-link a {
+  color: #faf8f6;
+}
+
+.container-dark .api-error {
+  background: rgba(239, 83, 80, 0.15);
+  border-color: #ef5350;
+  color: #ef5350;
+}
+
+.container-dark .logo-wrapper {
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}

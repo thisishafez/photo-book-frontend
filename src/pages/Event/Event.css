@@ -743,3 +743,246 @@
   align-items: center;
   gap: 5px;
 }
+
+/* Dark mode */
+.event-page-dark {
+  background: #1a1a1a;
+}
+
+.event-page-dark .back-btn {
+  color: #faf8f6;
+}
+
+.event-page-dark .event-header {
+  border-bottom-color: #333;
+}
+
+.event-page-dark .event-title {
+  color: #faf8f6;
+}
+
+.event-page-dark .event-meta,
+.event-page-dark .event-location {
+  color: #b8b3ac;
+}
+
+.event-page-dark .action-btn {
+  color: #faf8f6;
+  border-color: #444;
+}
+
+.event-page-dark .action-btn:hover {
+  background: #faf8f6;
+  color: #1a1a1a;
+  border-color: #faf8f6;
+}
+
+.event-page-dark .action-btn.primary {
+  background: #faf8f6;
+  color: #1a1a1a;
+  border-color: #faf8f6;
+}
+
+.event-page-dark .action-btn.primary:hover {
+  background: #e8e4de;
+  border-color: #e8e4de;
+}
+
+.event-page-dark .tag-message.success {
+  background: rgba(46, 125, 50, 0.15);
+  color: #81c784;
+  border-color: #2e7d32;
+}
+
+.event-page-dark .tag-message.error {
+  background: rgba(198, 40, 40, 0.15);
+  color: #e57373;
+  border-color: #c62828;
+}
+
+.event-page-dark .section-title {
+  color: #faf8f6;
+}
+
+.event-page-dark .member-card {
+  background: #242424;
+  border-color: #333;
+}
+
+.event-page-dark .member-card:hover {
+  border-color: #444;
+  background: #2a2a2a;
+}
+
+.event-page-dark .member-avatar {
+  background: #3a3a3a;
+  color: #faf8f6;
+}
+
+.event-page-dark .member-name {
+  color: #faf8f6;
+}
+
+.event-page-dark .member-tagged-by {
+  color: #888;
+}
+
+.event-page-dark .status-approved {
+  background: rgba(46, 125, 50, 0.2);
+  color: #81c784;
+}
+
+.event-page-dark .status-invited {
+  background: rgba(230, 81, 0, 0.2);
+  color: #ffb74d;
+}
+
+.event-page-dark .status-rejected {
+  background: rgba(198, 40, 40, 0.2);
+  color: #e57373;
+}
+
+.event-page-dark .member-action.approve {
+  color: #81c784;
+  border-color: #2e7d32;
+  background: rgba(46, 125, 50, 0.15);
+}
+
+.event-page-dark .member-action.approve:hover {
+  background: rgba(46, 125, 50, 0.3);
+}
+
+.event-page-dark .member-action.reject {
+  color: #e57373;
+  border-color: #c62828;
+  background: rgba(198, 40, 40, 0.15);
+}
+
+.event-page-dark .member-action.reject:hover {
+  background: rgba(198, 40, 40, 0.3);
+}
+
+.event-page-dark .loading-spinner {
+  border-color: #333;
+  border-top-color: #faf8f6;
+}
+
+.event-page-dark .event-loading p,
+.event-page-dark .event-not-found p {
+  color: #b8b3ac;
+}
+
+.event-page-dark .event-not-found h2 {
+  color: #faf8f6;
+}
+
+/* Modals */
+.modal-content-dark {
+  background: #242424;
+}
+
+.modal-content-dark .modal-close {
+  color: #b8b3ac;
+}
+
+.modal-content-dark .modal-close:hover {
+  color: #faf8f6;
+}
+
+.modal-content-dark .modal-title {
+  color: #faf8f6;
+}
+
+.modal-content-dark .file-drop-zone {
+  border-color: #444;
+  background: #1a1a1a;
+}
+
+.modal-content-dark .file-drop-zone:hover {
+  border-color: #faf8f6;
+  background: #242424;
+}
+
+.modal-content-dark .file-text,
+.modal-content-dark .file-selected {
+  color: #faf8f6;
+}
+
+.modal-content-dark .file-sub {
+  color: #888;
+}
+
+.modal-content-dark .btn-primary {
+  background: #faf8f6;
+  color: #1a1a1a;
+  border-color: #faf8f6;
+}
+
+.modal-content-dark .btn-primary:hover:not(:disabled) {
+  background: #e8e4de;
+  border-color: #e8e4de;
+}
+
+.modal-content-dark .btn-secondary {
+  color: #b8b3ac;
+  border-color: #444;
+}
+
+.modal-content-dark .btn-secondary:hover {
+  background: #333;
+  color: #faf8f6;
+}
+
+.modal-content-dark .progress-bar {
+  background: #333;
+}
+
+.modal-content-dark .progress-fill {
+  background: #faf8f6;
+}
+
+.modal-content-dark .progress-text {
+  color: #b8b3ac;
+}
+
+.modal-content-dark .tag-search-input {
+  background: #1a1a1a;
+  border-color: #444;
+  color: #faf8f6;
+}
+
+.modal-content-dark .tag-search-input:focus {
+  border-color: #faf8f6;
+}
+
+.modal-content-dark .search-result-item {
+  background: #1a1a1a;
+  border-color: #444;
+}
+
+.modal-content-dark .search-result-item:hover {
+  border-color: #faf8f6;
+  background: #2a2a2a;
+}
+
+.modal-content-dark .result-avatar {
+  background: #3a3a3a;
+  color: #faf8f6;
+}
+
+.modal-content-dark .result-name {
+  color: #faf8f6;
+}
+
+.modal-content-dark .result-tag-btn {
+  background: #faf8f6;
+  color: #1a1a1a;
+}
+
+.modal-content-dark .result-tag-btn:hover {
+  background: #e8e4de;
+}
+
+.modal-content-dark .search-empty {
+  color: #888;
+}

@@ -6,10 +6,12 @@ import EventCard from '../../components/EventCard/EventCard';
 import CreateEventModal from '../../components/CreateEventModal/CreateEventModal';
 import { useNotifications } from '../../contexts/NotificationContext';
 import { api } from '../../services/api';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export default function Gallery() {
   const navigate = useNavigate();
   const { unreadCount } = useNotifications();
+  const { darkMode } = useTheme();
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -263,7 +265,7 @@ setFilteredEvents(eventsWithPhotos);
   });
 
   return (
-    <div className="gallery-page">
+      <div className={`gallery-page${darkMode ? ' gallery-page-dark' : ''}`}>
       <Navbar onLogout={handleLogout} unreadCount={unreadCount} />
 
       <main className="gallery-main">

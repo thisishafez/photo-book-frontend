@@ -661,3 +661,214 @@
   60% { content: '..'; }
   80%, 100% { content: '...'; }
 }
+
+
+/* Dark mode */
+.create-event-modal-dark {
+  background: #242424;
+}
+
+.create-event-modal-dark::-webkit-scrollbar-track {
+  background: #333;
+}
+
+.create-event-modal-dark::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+.create-event-modal-dark::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+.create-event-modal-dark .modal-close-btn {
+  color: #b8b3ac;
+}
+
+.create-event-modal-dark .modal-close-btn:hover {
+  background: #333;
+  color: #faf8f6;
+}
+
+.create-event-modal-dark .modal-title {
+  color: #faf8f6;
+}
+
+.create-event-modal-dark .modal-subtitle {
+  color: #b8b3ac;
+}
+
+.create-event-modal-dark .form-label {
+  color: #faf8f6;
+}
+
+.create-event-modal-dark .form-input {
+  background: #1a1a1a;
+  border-color: #444;
+  color: #faf8f6;
+}
+
+.create-event-modal-dark .form-input:focus {
+  border-color: #faf8f6;
+  background: #1a1a1a;
+}
+
+.create-event-modal-dark .form-input.error {
+  border-color: #e74c3c;
+}
+
+.create-event-modal-dark .char-count {
+  color: #888;
+}
+
+.create-event-modal-dark .field-error {
+  color: #ff6b5b;
+}
+
+.create-event-modal-dark .error-message {
+  background: rgba(198, 40, 40, 0.15);
+  border-color: #c62828;
+  color: #ff6b5b;
+}
+
+.create-event-modal-dark .photo-upload-zone {
+  border-color: #444;
+  background: #1a1a1a;
+}
+
+.create-event-modal-dark .photo-upload-zone:hover {
+  border-color: #666;
+  background: #242424;
+}
+
+.create-event-modal-dark .photo-upload-zone.error {
+  border-color: #e74c3c;
+  background: rgba(198, 40, 40, 0.08);
+}
+
+.create-event-modal-dark .upload-text {
+  color: #e0dcd5;
+}
+
+.create-event-modal-dark .upload-sub {
+  color: #888;
+}
+
+.create-event-modal-dark .photo-preview-item {
+  background: #333;
+  border-color: #444;
+}
+
+.create-event-modal-dark .photo-count {
+  color: #b8b3ac;
+}
+
+.create-event-modal-dark .tag-search-results {
+  background: #1a1a1a;
+  border-color: #444;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.create-event-modal-dark .tag-search-results::-webkit-scrollbar-track {
+  background: #333;
+}
+
+.create-event-modal-dark .tag-search-results::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+.create-event-modal-dark .tag-result-item:hover {
+  background: #2a2a2a;
+}
+
+.create-event-modal-dark .tag-result-avatar {
+  background: #444;
+  color: #faf8f6;
+}
+
+.create-event-modal-dark .tag-result-name {
+  color: #faf8f6;
+}
+
+.create-event-modal-dark .tag-result-btn {
+  background: #faf8f6;
+  color: #1a1a1a;
+}
+
+.create-event-modal-dark .tag-result-btn:hover {
+  background: #e8e4de;
+}
+
+.create-event-modal-dark .tag-search-empty,
+.create-event-modal-dark .tag-search-loading {
+  color: #888;
+}
+
+.create-event-modal-dark .tagged-user-item {
+  background: #333;
+  border-color: #444;
+}
+
+.create-event-modal-dark .tagged-user-avatar {
+  background: #4a4a4a;
+  color: #faf8f6;
+}
+
+.create-event-modal-dark .tagged-user-name {
+  color: #faf8f6;
+}
+
+.create-event-modal-dark .tagged-user-remove {
+  color: #888;
+}
+
+.create-event-modal-dark .tagged-user-remove:hover:not(:disabled) {
+  color: #ff6b5b;
+}
+
+.create-event-modal-dark .tagged-count {
+  color: #b8b3ac;
+}
+
+.create-event-modal-dark .upload-progress-bar {
+  background: #333;
+}
+
+.create-event-modal-dark .upload-progress-fill {
+  background: #faf8f6;
+}
+
+.create-event-modal-dark .upload-progress-text {
+  color: #b8b3ac;
+}
+
+.create-event-modal-dark .modal-actions {
+  border-top-color: #444;
+}
+
+.create-event-modal-dark .btn-cancel {
+  background: #333;
+  color: #b8b3ac;
+  border-color: #444;
+}
+
+.create-event-modal-dark .btn-cancel:hover:not(:disabled) {
+  background: #444;
+  color: #faf8f6;
+}
+
+.create-event-modal-dark .btn-create {
+  background: #faf8f6;
+  color: #1a1a1a;
+  border-color: #faf8f6;
+}
+
+.create-event-modal-dark .btn-create:hover:not(:disabled) {
+  background: #e8e4de;
+  border-color: #e8e4de;
+}
+
+.create-event-modal-dark .btn-create:disabled {
+  background: #555;
+  border-color: #555;
+  color: #999;
+}

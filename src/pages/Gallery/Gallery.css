@@ -316,3 +316,75 @@
 .empty-state-btn:active {
   transform: scale(0.98);
 }
+
+/* Dark mode */
+.gallery-page-dark {
+  background: #1a1a1a;
+}
+
+.gallery-page-dark .gallery-header {
+  border-bottom-color: #333;
+}
+
+.gallery-page-dark .gallery-title,
+.gallery-page-dark .empty-state h3 {
+  color: #faf8f6;
+}
+
+.gallery-page-dark .gallery-subtitle,
+.gallery-page-dark .empty-state p {
+  color: #b8b3ac;
+}
+
+.gallery-page-dark .create-event-btn,
+.gallery-page-dark .empty-state-btn {
+  background: #faf8f6;
+  color: #1a1a1a;
+  border-color: #faf8f6;
+}
+
+.gallery-page-dark .create-event-btn:hover,
+.gallery-page-dark .empty-state-btn:hover {
+  background: #e8e4de;
+  border-color: #e8e4de;
+}
+
+.gallery-page-dark .search-input {
+  background: #242424;
+  border-color: #333;
+  color: #faf8f6;
+}
+
+.gallery-page-dark .search-input::placeholder {
+  color: #888;
+}
+
+.gallery-page-dark .search-input:focus {
+  border-color: #faf8f6;
+  background: #2a2a2a;
+}
+
+.gallery-page-dark .event-card-skeleton {
+  background: #242424;
+  border-color: #333;
+}
+
+.gallery-page-dark .skeleton-thumbnail,
+.gallery-page-dark .skeleton-title,
+.gallery-page-dark .skeleton-date,
+.gallery-page-dark .skeleton-divider {
+  background: #333;
+}
+
+.gallery-page-dark .skeleton-content {
+  background: #242424;
+}
+
+.gallery-page-dark .empty-state {
+  background: #242424;
+  border-color: #333;
+}
+
+.gallery-page-dark .empty-state-sub {
+  color: #888 !important;
+}

@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import "./register.css";
-import camera from "../../assets/Group 1.svg";
-import logo from "../../assets/Group 3 (1).svg";
+import camera from "../../assets/camera.svg";
+import cameraDarkMode from "../../assets/cameraDarkMode.svg";
+import logo from "../../assets/logo.svg";
+import logoDarkMode from "../../assets/logoDarkMode.svg";
 
 export default function Register() {
   const navigate = useNavigate();
   const { register } = useAuth();
+  const { darkMode } = useTheme();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -97,10 +101,10 @@ export default function Register() {
   };
 
   return (
-    <div className={`container ${isFlashing ? 'flash' : ''}`}>
+    <div className={`container${darkMode ? ' container-dark' : ''} ${isFlashing ? 'flash' : ''}`}>
       <section className="left">
         <div className="camera">
-          <img src={camera} alt="Camera Frame" />
+          <img src={darkMode ? cameraDarkMode : camera} alt="Camera Frame" />
 
           <form className="registerBox" onSubmit={handleSubmit}>
             <h2>Create Account</h2>
@@ -111,6 +115,7 @@ export default function Register() {
               <input
                 type="text"
                 name="username"
+                autoComplete="username"
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
@@ -124,6 +129,7 @@ export default function Register() {
               <input
                 type="email"
                 name="email"
+                autoComplete="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
@@ -137,6 +143,7 @@ export default function Register() {
               <input
                 type="password"
                 name="password"
+                autoComplete="new-password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
@@ -150,6 +157,7 @@ export default function Register() {
               <input
                 type="password"
                 name="confirmPassword"
+                autoComplete="new-password"
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
@@ -173,7 +181,7 @@ export default function Register() {
       <section className="right">
         <div className="right-content">
           <div className="logo-wrapper">
-            <img src={logo} alt="Shared Event Photo Book Logo" />
+            <img src={darkMode ? logoDarkMode : logo} alt="Shared Event Photo Book Logo" />
           </div>
           <h1>Join the community</h1>
           <p>Start sharing photos from your favorite moments with the people who were there.</p>

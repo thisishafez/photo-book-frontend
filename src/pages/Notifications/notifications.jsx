@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import './Notifications.css';
 import Navbar from '../../components/Navbar/Navbar';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { api } from '../../services/api';
 
 export default function Notifications() {
   const navigate = useNavigate();
+  const { darkMode } = useTheme();
   const { 
     notifications, 
     isLoading, 
@@ -212,7 +214,7 @@ setProcessingId(null);
   );
 
   return (
-    <div className="notifications-page">
+    <div className={`notifications-page${darkMode ? ' notifications-page-dark' : ''}`}>
       <Navbar onLogout={handleLogout} unreadCount={unreadCount} />
 
       <main className="notifications-main">

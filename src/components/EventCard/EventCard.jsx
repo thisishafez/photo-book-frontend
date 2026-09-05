@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import './EventCard.css';
 import { API_BASE_URL } from '../../services/api';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export default function EventCard({ event }) {
   const navigate = useNavigate();
+    const { darkMode } = useTheme();
   const { id, name, photo_count, approved_at, photos = [] } = event;
 
   console.log('[EventCard] Rendering event:', {
@@ -44,7 +46,7 @@ export default function EventCard({ event }) {
   console.log(`[EventCard] ${name} - ${previewPhotos.length} preview photos out of ${photos.length}`);
 
   return (
-    <div className="event-card" onClick={handleClick}>
+    <div className={`event-card${darkMode ? ' event-card-dark' : ''}`} onClick={handleClick}>
       <div className="event-card-thumbnail">
         {previewPhotos.length > 0 ? (
           <>

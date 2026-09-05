@@ -454,3 +454,134 @@
     font-size: 1.3rem;
   }
 }
+/* Dark mode */
+.notifications-page-dark {
+  background: #1a1a1a;
+}
+
+.notifications-page-dark .notifications-header {
+  border-bottom-color: #333;
+}
+
+.notifications-page-dark .notifications-title {
+  color: #faf8f6;
+}
+
+.notifications-page-dark .notifications-subtitle {
+  color: #b8b3ac;
+}
+
+.notifications-page-dark .mark-all-read-btn {
+  color: #faf8f6;
+  border-color: #444;
+}
+
+.notifications-page-dark .mark-all-read-btn:hover {
+  background: #faf8f6;
+  color: #1a1a1a;
+  border-color: #faf8f6;
+}
+
+.notifications-page-dark .notification-item {
+  background: #242424;
+  border-color: #333;
+}
+
+.notifications-page-dark .notification-item.unread {
+  background: #2a2a2a;
+  border-color: #444;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.notifications-page-dark .notification-item.unread:hover {
+  border-color: #faf8f6;
+}
+
+.notifications-page-dark .notification-item:hover:not(.unread) {
+  border-color: #444;
+}
+
+.notifications-page-dark .notification-item.unread::before {
+  background: #faf8f6;
+}
+
+.notifications-page-dark .notification-icon {
+  background: #333;
+}
+
+.notifications-page-dark .notification-item.unread .notification-icon {
+  background: #3a3a3a;
+}
+
+.notifications-page-dark .notification-message {
+  color: #faf8f6;
+}
+
+.notifications-page-dark .notification-message .notif-highlight {
+  color: #faf8f6;
+  text-decoration-color: #666;
+}
+
+.notifications-page-dark .notification-date {
+  color: #888;
+}
+
+.notifications-page-dark .unread-dot {
+  color: #faf8f6;
+}
+
+.notifications-page-dark .action-btn.approve {
+  color: #81c784;
+  border-color: #2e7d32;
+  background: rgba(46, 125, 50, 0.15);
+}
+
+.notifications-page-dark .action-btn.approve:hover:not(:disabled) {
+  background: rgba(46, 125, 50, 0.3);
+  border-color: #81c784;
+}
+
+.notifications-page-dark .action-btn.reject {
+  color: #e57373;
+  border-color: #c62828;
+  background: rgba(198, 40, 40, 0.15);
+}
+
+.notifications-page-dark .action-btn.reject:hover:not(:disabled) {
+  background: rgba(198, 40, 40, 0.3);
+  border-color: #e57373;
+}
+
+.notifications-page-dark .rejected-label {
+  background: rgba(198, 40, 40, 0.15);
+  color: #e57373;
+  border-color: #c62828;
+}
+
+.notifications-page-dark .notification-skeleton-item {
+  background: #242424;
+  border-color: #333;
+}
+
+.notifications-page-dark .skeleton-icon,
+.notifications-page-dark .skeleton-line,
+.notifications-page-dark .skeleton-btn {
+  background: #333;
+}
+
+.notifications-page-dark .notifications-empty {
+  background: #242424;
+  border-color: #333;
+}
+
+.notifications-page-dark .notifications-empty h3 {
+  color: #faf8f6;
+}
+
+.notifications-page-dark .notifications-empty p {
+  color: #b8b3ac;
+}
+
+.notifications-page-dark .notifications-empty .empty-sub {
+  color: #888;
+}

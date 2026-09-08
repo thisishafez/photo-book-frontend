@@ -1,20 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import { useTheme } from "../../contexts/ThemeContext";
-import "./Login.css";
-import camera from "../../assets/camera.svg";
-import cameraDarkMode from "../../assets/cameraDarkMode.svg";
-import logo from "../../assets/logo.svg";
-import logoDarkMode from "../../assets/logoDarkMode.svg";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useTheme } from "../../../contexts/ThemeContext";
+import "./register.css";
+import camera from "../../../assets/camera.svg";
+import cameraDarkMode from "../../../assets/cameraDarkMode.svg";
+import logo from "../../../assets/logo.svg";
+import logoDarkMode from "../../../assets/logoDarkMode.svg";
 
-export default function Login() {
+export default function Register() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { register } = useAuth();
   const { darkMode } = useTheme();
   const [formData, setFormData] = useState({
     username: "",
-    password: ""
+    email: "",
+    password: "",
+    confirmPassword: ""
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -43,8 +45,22 @@ export default function Login() {
       newErrors.username = "Username is required";
     }
     
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    
     if (!formData.password.trim()) {
       newErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+    
+    if (!formData.confirmPassword.trim()) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
     }
     
     setErrors(newErrors);
@@ -60,24 +76,24 @@ export default function Login() {
     setApiError("");
     
     try {
-      const result = await login(formData.username, formData.password);
+      const result = await register(formData.username, formData.email, formData.password);
       
       if (result.success) {
         setIsFlashing(true);
         setTimeout(() => {
           setIsFlashing(false);
-          navigate('/');
+          navigate('/login');
         }, 300);
       } else {
         // Handle specific error messages
-        if (result.error === 'INVALID_CREDENTIALS') {
-          setApiError('Invalid username or password');
+        if (result.error === 'USERNAME_TAKEN') {
+          setApiError('Username is already taken. Please choose another.');
         } else {
-          setApiError(result.error || 'Login failed. Please try again.');
+          setApiError(result.error || 'Registration failed. Please try again.');
         }
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Registration failed:", error);
       setApiError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -90,8 +106,8 @@ export default function Login() {
         <div className="camera">
           <img src={darkMode ? cameraDarkMode : camera} alt="Camera Frame" />
 
-          <form className="loginBox" onSubmit={handleSubmit}>
-            <h2>Welcome Back</h2>
+          <form className="registerBox" onSubmit={handleSubmit}>
+            <h2>Create Account</h2>
 
             {apiError && <div className="api-error">{apiError}</div>}
 
@@ -111,9 +127,23 @@ export default function Login() {
 
             <div className="form-group">
               <input
+                type="email"
+                name="email"
+                autoComplete="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                className={errors.email ? "error" : ""}
+                disabled={isLoading}
+              />
+              {errors.email && <span className="error-message">{errors.email}</span>}
+            </div>
+
+            <div className="form-group">
+              <input
                 type="password"
                 name="password"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
@@ -123,12 +153,26 @@ export default function Login() {
               {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
 
+            <div className="form-group">
+              <input
+                type="password"
+                name="confirmPassword"
+                autoComplete="new-password"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className={errors.confirmPassword ? "error" : ""}
+                disabled={isLoading}
+              />
+              {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+            </div>
+
             <button type="submit" disabled={isLoading}>
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? 'Creating account...' : 'Register'}
             </button>
 
-            <div className="register-link">
-              <Link to="/register">Don't have an account? Sign up</Link>
+            <div className="login-link">
+              <Link to="/login">Already have an account? Log in</Link>
             </div>
           </form>
         </div>
@@ -139,8 +183,8 @@ export default function Login() {
           <div className="logo-wrapper">
             <img src={darkMode ? logoDarkMode : logo} alt="Shared Event Photo Book Logo" />
           </div>
-          <h1>Shared Event Photo Book</h1>
-          <p>Share photos from your favorite moments with the people who were actually there.</p>
+          <h1>Join the community</h1>
+          <p>Start sharing photos from your favorite moments with the people who were there.</p>
         </div>
       </section>
     </div>

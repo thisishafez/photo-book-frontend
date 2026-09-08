@@ -1,0 +1,138 @@
+.home-main {
+
+padding:40px;
+
+}
+
+
+
+.home-container {
+
+max-width:1200px;
+
+margin:auto;
+
+}
+
+
+
+.home-container h1 {
+
+font-size:36px;
+
+margin-bottom:10px;
+
+}
+
+
+
+.home-subtitle {
+
+color:#777;
+
+margin-bottom:40px;
+
+}
+
+
+
+.home-container section {
+
+margin-bottom:50px;
+
+}
+
+
+
+.home-container h2 {
+
+margin-bottom:20px;
+
+font-size:28px;
+
+}
+
+
+
+
+.activity-grid {
+
+
+display:grid;
+
+
+grid-template-columns:
+
+repeat(
+auto-fill,
+minmax(280px,1fr)
+);
+
+
+gap:25px;
+
+
+}
+
+
+
+
+.create-activity-btn {
+
+
+padding:15px 25px;
+
+
+border:none;
+
+
+border-radius:12px;
+
+
+background:#111;
+
+
+color:white;
+
+
+font-size:18px;
+
+
+cursor:pointer;
+
+
+}
+
+
+
+
+/* DARK MODE */
+
+
+.home-dark {
+
+background:#111;
+
+color:white;
+
+min-height:100vh;
+
+}
+
+
+
+.home-dark .activity-card {
+
+background:#1d1d1d;
+
+}
+
+
+
+.home-dark .activity-description,
+
+.home-dark .activity-reason {
+
+color:#bbb;
+
+}

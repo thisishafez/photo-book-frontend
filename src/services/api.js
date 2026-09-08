@@ -1,5 +1,95 @@
 const API_BASE_URL = 'https://yadegar-api.duster.ir';
 
+// ================================
+// MOCK DATABASE (temporary)
+// Replace with backend calls later
+// ================================
+
+const mockActivities = [
+  {
+    id: "activity-1",
+    title: "Hiking Adventure",
+    description: "Explore nature trails with friends.",
+    source: "host",
+    rating: 4.8,
+    category: "outdoor",
+    image: null
+  },
+  {
+    id: "activity-2",
+    title: "Board Game Night",
+    description: "Relax and play games together.",
+    source: "user",
+    rating: 4.5,
+    category: "indoor",
+    image: null
+  },
+  {
+    id: "activity-3",
+    title: "Cooking Workshop",
+    description: "Learn new recipes together.",
+    source: "host",
+    rating: 4.9,
+    category: "food",
+    image: null
+  }
+];
+
+
+const mockCircle = [
+  {
+    id:"friend-1",
+    username:"alex",
+    status:"accepted"
+  },
+  {
+    id:"friend-2",
+    username:"sara",
+    status:"accepted"
+  }
+];
+
+
+const mockCircleRequests = [
+  {
+    id:"request-1",
+    username:"john",
+    status:"pending"
+  }
+];
+
+
+const mockHangouts = [
+  {
+    id:"hangout-1",
+    activity:"Hiking Adventure",
+    date:"2026-09-15",
+    status:"planned",
+    participants:3
+  }
+];
+
+
+const mockArchives = [
+  {
+    id:"archive-1",
+    title:"Mountain Trip",
+    date:"2026-08-20",
+    photos:12,
+    messages:35
+  }
+];
+
+
+const mockBadges = [
+  {
+    id:"badge-1",
+    title:"Mountain Explorer",
+    description:"Completed a hiking activity",
+    visible:true
+  }
+];
+
 // Helper for logging API responses
 const logResponse = (endpoint, method, response, data) => {
   console.log(`[API] ${method} ${endpoint} - Status: ${response.status} ${response.statusText}`);
@@ -559,6 +649,366 @@ export const api = {
   }
 
 }
+
+,profile: {
+
+  getProfile: async()=>{
+
+    console.log("[MOCK] Getting profile");
+
+    return {
+      id:"user-1",
+      username:"demo",
+      display_name:"Demo User",
+      bio:"Adventure lover"
+    };
+
+  },
+
+
+  updateProfile: async(data)=>{
+
+    console.log(
+      "[MOCK] Updating profile",
+      data
+    );
+
+
+    return {
+      success:true,
+      ...data
+    };
+
+  },
+
+
+  getInterests: async()=>{
+
+    return [
+      "hiking",
+      "movies",
+      "cycling"
+    ];
+
+  },
+
+
+  updateInterests: async(interests)=>{
+
+    console.log(
+      "[MOCK] Interests updated",
+      interests
+    );
+
+
+    return {
+      status:"ok"
+    };
+
+  }
+
+},activities: {
+
+  getRecommendations: async()=>{
+
+    console.log(
+      "[MOCK] Loading recommendations"
+    );
+
+
+    return {
+      activities:mockActivities
+    };
+
+  },
+
+
+  getActivity: async(id)=>{
+
+
+    return mockActivities.find(
+      activity=>activity.id===id
+    );
+
+  },
+
+
+  createActivity: async(data)=>{
+
+
+    const activity={
+
+      id:
+        `activity-${Date.now()}`,
+
+      ...data,
+
+      rating:0,
+
+      source:"user"
+
+    };
+
+
+    mockActivities.push(activity);
+
+
+    return activity;
+
+  }
+
+},
+circle: {
+
+
+getCircle: async()=>{
+
+ console.log(
+  "[MOCK] Loading circle"
+ );
+
+ return mockCircle;
+
+},
+
+
+
+getRequests: async()=>{
+
+ return mockCircleRequests;
+
+},
+
+
+
+sendRequest: async(userId)=>{
+
+
+ const request={
+
+ id:
+ `request-${Date.now()}`,
+
+ username:userId,
+
+ status:"pending"
+
+ };
+
+
+ mockCircleRequests.push(request);
+
+
+ return request;
+
+},
+
+
+
+acceptRequest: async(id)=>{
+
+
+ const request =
+ mockCircleRequests.find(
+  r=>r.id===id
+ );
+
+
+ if(request){
+
+  request.status="accepted";
+
+ }
+
+
+ return request;
+
+},
+
+
+
+rejectRequest: async(id)=>{
+
+
+ return {
+  success:true,
+  id
+ };
+
+
+},
+
+
+
+removeFriend: async(id)=>{
+
+
+ return {
+  success:true,
+  id
+ };
+
+
+}
+
+},
+hangouts:{
+
+
+getHangouts:async()=>{
+
+
+return mockHangouts;
+
+
+},
+
+
+
+createHangout:async(data)=>{
+
+
+const hangout={
+
+id:
+`hangout-${Date.now()}`,
+
+...data,
+
+status:"planned"
+
+};
+
+
+mockHangouts.push(hangout);
+
+
+return hangout;
+
+
+},
+
+
+
+inviteUser:async(hangoutId,userId)=>{
+
+
+return {
+
+success:true,
+
+hangoutId,
+
+userId
+
+};
+
+
+},
+
+
+
+cancelHangout:async(id)=>{
+
+
+return {
+
+success:true,
+
+id
+
+};
+
+
+}
+
+
+},
+archive:{
+
+
+getArchives:async()=>{
+
+
+return mockArchives;
+
+
+},
+
+
+
+getArchive:async(id)=>{
+
+
+return mockArchives.find(
+ a=>a.id===id
+);
+
+
+},
+
+
+
+uploadMedia:async(id,file)=>{
+
+
+console.log(
+ "[MOCK] Upload",
+ file
+);
+
+
+return {
+
+success:true,
+
+archive:id
+
+};
+
+
+}
+
+
+},
+badges:{
+
+
+getBadges:async()=>{
+
+
+return mockBadges;
+
+
+},
+
+
+
+toggleVisibility:async(id)=>{
+
+
+const badge =
+mockBadges.find(
+ b=>b.id===id
+);
+
+
+if(badge){
+
+ badge.visible =
+ !badge.visible;
+
+}
+
+
+return badge;
+
+
+}
+
+
+}
+
 };
 
 // Helper to get auth headers

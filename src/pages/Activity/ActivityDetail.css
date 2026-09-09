@@ -121,3 +121,56 @@
   font-style: italic;
   margin: 0;
 }
+
+/* Add this to your ActivityDetail.css */
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-body);
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  margin-bottom: 24px;
+  border-radius: 6px;
+  transition: all var(--kh-transition, 0.2s);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.back-btn:hover {
+  color: var(--kh-ink);
+  background: var(--kh-surface-raised);
+}
+
+.back-btn:focus-visible {
+  outline: 2px solid var(--kh-ink-soft);
+  outline-offset: 2px;
+}
+
+/* Make sure the button text is visible in dark mode */
+.activity-detail-page-dark .back-btn {
+  color: #B9B2C4; /* Explicit fallback for dark mode */
+}
+
+.activity-detail-page-dark .back-btn:hover {
+  color: #F2EEE6; /* Explicit fallback for dark mode hover */
+  background: #262233; /* Explicit fallback for dark mode hover background */
+}
+
+/* Alternative: If you want the back button to be more prominent */
+.back-btn-prominent {
+  background: var(--kh-surface-raised);
+  color: var(--kh-ink);
+  border: 1px solid var(--kh-border);
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.back-btn-prominent:hover {
+  background: var(--kh-border);
+  color: var(--kh-ink);
+  transform: translateX(-2px);
+}

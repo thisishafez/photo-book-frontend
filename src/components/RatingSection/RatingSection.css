@@ -1,0 +1,125 @@
+@import "../../styles/tokens.css";
+
+.rating-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
+  font-family: var(--kh-font-body);
+}
+
+.rating-loading {
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-body);
+  font-size: 0.9rem;
+}
+
+.rating-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rating-stars {
+  position: relative;
+  display: inline-block;
+  font-size: 1.4rem;
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+.rating-stars-empty {
+  color: var(--kh-border);
+}
+
+.rating-stars-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--kh-marigold);
+}
+
+.rating-average {
+  font-family: var(--kh-font-display);
+  font-size: 1.15rem;
+  color: var(--kh-ink);
+}
+
+.rating-count {
+  font-size: 0.85rem;
+  color: var(--kh-ink-soft);
+}
+
+.rating-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--kh-border);
+}
+
+.rating-input label {
+  font-size: 0.85rem;
+  color: var(--kh-ink-soft);
+}
+
+.rating-input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rating-input-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--kh-marigold);
+}
+
+.rating-input-value {
+  min-width: 2.5ch;
+  font-family: var(--kh-font-display);
+  font-size: 1rem;
+  color: var(--kh-ink);
+  text-align: right;
+}
+
+.rating-submit-btn {
+  align-self: flex-start;
+  padding: 8px 18px;
+  border: none;
+  border-radius: var(--kh-radius-sm);
+  background: var(--kh-marigold);
+  color: #2A1B03;
+  font-family: var(--kh-font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background var(--kh-transition);
+}
+
+.rating-submit-btn:hover:not(:disabled) {
+  background: var(--kh-marigold-dark);
+}
+
+.rating-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rating-notice {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.rating-notice-success {
+  color: var(--kh-approved-text);
+}
+
+.rating-notice-error {
+  color: var(--kh-brick);
+}

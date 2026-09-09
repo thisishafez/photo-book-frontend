@@ -564,86 +564,37 @@ export const api = {
   // ===============================
 
 
-  activities:{
+ activities: {
+  // Public/Discovery feed — approved activities only
+  list: async () => request("/activities"),
 
+  // kept for backward compatibility with any existing callers
+  getRecommendations: async () => ({ activities: await request("/activities") }),
 
-    getRecommendations:
-      async()=>{
+  getActivity: async (id) => request(`/activities/${id}`),
+  getActivityDetails: async (id) => request(`/activities/${id}`),
 
+  createActivity: async (title, description) =>
+    request("/activities", { method: "POST", body: { title, description: description || null } }),
 
-        return null;
+  getModerationQueue: async () => request("/activities/moderation/queue"),
+  approveActivity: async (id) => request(`/activities/${id}/approve`, { method: "POST" }),
+  rejectActivity: async (id, reason) =>
+    request(`/activities/${id}/reject`, { method: "POST", body: reason ? { reason } : undefined }),
 
+  // Ratings — backed by internal/rating. Score is 0–5 in 0.5 steps;
+  // POST upserts (a second call from the same user overwrites their score).
+  getRatingSummary: async (id) => request(`/activities/${id}/rating`),
+  submitRating: async (id, score) =>
+    request(`/activities/${id}/rating`, { method: "POST", body: { score } }),
 
-      },
-
-
-    getActivity:
-      async(id)=>{
-
-
-        return null;
-
-
-      },
-
-
-    getActivityDetails:
-      async(id)=>{
-
-
-        return null;
-
-
-      },
-
-
-    getComments:
-      async(id)=>{
-
-
-        return null;
-
-
-      },
-
-
-    addComment:
-      async(
-        activityId,
-        comment
-      )=>{
-
-
-        return null;
-
-
-      },
-
-
-    addRating:
-      async(
-        activityId,
-        rating
-      )=>{
-
-
-        return null;
-
-
-      },
-
-
-    createActivity:
-      async(data)=>{
-
-
-        return null;
-
-
-      }
-
-
-  },
+  // No backend domain wired into the frontend yet — Comment IS built on
+  // the backend (internal/comment), this is just left for Phase 6 so we
+  // don't build the UI ahead of the roadmap. Left as explicit failures
+  // instead of silently mocking data.
+  getComments: async () => { throw new Error("Comments aren't available yet."); },
+  addComment: async () => { throw new Error("Comments aren't available yet."); },
+},
 
 
 
@@ -656,70 +607,34 @@ export const api = {
   // ===============================
 
 
-  circle:{
+  circle: {
+  getCircle: async () => request("/circle"),
+  getIncomingRequests: async () => request("/circle/requests/incoming"),
+  getOutgoingRequests: async () => request("/circle/requests/outgoing"),
 
+  sendRequestByHandle: async (handle) =>
+    request("/circle/requests", { method: "POST", body: { handle } }),
+  sendRequestByUserId: async (userId) =>
+    request("/circle/requests", { method: "POST", body: { user_id: userId } }),
 
-    getCircle:
-      async()=>{
+  acceptRequest: async (requestId) =>
+    request(`/circle/requests/${requestId}/accept`, { method: "POST" }),
+  declineRequest: async (requestId) =>
+    request(`/circle/requests/${requestId}/decline`, { method: "POST" }),
 
+  severConnection: async (connectionId) =>
+    request(`/circle/connections/${connectionId}`, { method: "DELETE" }),
 
-        return null;
+  blockUser: async (userId) =>
+    request("/circle/blocks", { method: "POST", body: { user_id: userId } }),
+  unblockUser: async (userId) =>
+    request(`/circle/blocks/${userId}`, { method: "DELETE" }),
+  getBlocks: async () => request("/circle/blocks"),
+},
 
-
-      },
-
-
-    getRequests:
-      async()=>{
-
-
-        return null;
-
-
-      },
-
-
-    sendRequest:
-      async(userId)=>{
-
-
-        return null;
-
-
-      },
-
-
-    acceptRequest:
-      async(id)=>{
-
-
-        return null;
-
-
-      },
-
-
-    rejectRequest:
-      async(id)=>{
-
-
-        return null;
-
-
-      },
-
-
-    removeFriend:
-      async(id)=>{
-
-
-        return null;
-
-
-      }
-
-
-  },
+users: {
+  getById: async (id) => request(`/users/${id}`), // needs the backend addition above
+},
 
 
 

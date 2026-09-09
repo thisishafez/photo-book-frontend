@@ -1,211 +1,64 @@
-import { createContext, useState, useContext, useEffect, useRef } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import { api } from '../services/api';
 import { useAuth } from './AuthContext';
+import { getUserProfile } from '../utils/userCache';
 
 const NotificationContext = createContext();
 
 export function NotificationProvider({ children }) {
   const { isAuthenticated } = useAuth();
-  const [notifications, setNotifications] = useState([]);
+  const [incomingRequests, setIncomingRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load notifications on mount
-  useEffect(() => {
-
-
-  if (!isAuthenticated) {
-
-    setNotifications([]);
-    setIsLoading(false);
-
-    return;
-
-  }
-
-
-  const loadNotifications = async () => {
-
+  const loadIncoming = async () => {
     try {
-
-      setIsLoading(true);
-
-      const response =
-        await api.notifications.getNotifications();
-
-
-      console.log(
-        "[Notifications] Loaded:",
-        response
+      const requests = await api.circle.getIncomingRequests();
+      const enriched = await Promise.all(
+        requests.map(async (req) => {
+          const profile = await getUserProfile(req.RequesterID);
+          return { ...req, requesterName: profile.display_name, requesterHandle: profile.handle };
+        })
       );
-
-
-      setNotifications(
-  (response.results || []).filter(notification =>
-    notification.type !== "tag_request" ||
-    notification.member_status === "invited"
-  )
-);
-
-
-    } catch(error){
-
-      console.error(
-        "[Notifications] Failed:",
-        error
-      );
-
-
-      setNotifications([]);
-
-
+      setIncomingRequests(enriched);
+    } catch (error) {
+      console.error('[Notifications] Failed to load circle requests', error);
+      setIncomingRequests([]);
     } finally {
-
       setIsLoading(false);
-
     }
-
   };
 
-
-  loadNotifications();
-
-
-}, [isAuthenticated]);
-
-useEffect(() => {
-
-
-  if (!isAuthenticated) return;
-
-
-  const interval = setInterval(async()=>{
-
-
-    try {
-
-
-      const response =
-        await api.notifications.getNotifications();
-
-
-      setNotifications(
-  (response.results || []).filter(notification =>
-    notification.type !== "tag_request" ||
-    notification.member_status === "invited"
-  )
-);
-
-
-    } catch(error){
-
-
-      console.error(
-        "[Notifications] Poll failed",
-        error
-      );
-
-
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setIncomingRequests([]);
+      setIsLoading(false);
+      return;
     }
+    setIsLoading(true);
+    loadIncoming();
+  }, [isAuthenticated]);
 
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const interval = setInterval(loadIncoming, 30000);
+    return () => clearInterval(interval);
+  }, [isAuthenticated]);
 
-  }, 30000);
+  const unreadCount = incomingRequests.length;
 
-
-  return () => clearInterval(interval);
-
-
-}, [isAuthenticated]);
-
-  // Get unread count
-  const unreadCount = notifications.filter(n => !n.read).length;
-
-  // Mark a single notification as read
-  const markAsRead = async(notificationId)=>{
-
-  try{
-
-    await api.notifications.markAsRead(notificationId);
-
-
-    setNotifications(prev =>
-      prev.map(notif =>
-        notif.id === notificationId
-        ?
-        {...notif, read:true}
-        :
-        notif
-      )
-    );
-
-
-  }catch(error){
-
-    console.error(
-      '[Notifications] Read failed',
-      error
-    );
-
-  }
-
-};
-
-  // Mark all notifications as read
-  const markAllAsRead = async () => {
-
-  try {
-
-    const unreadNotifications = notifications.filter(
-      notif => !notif.read
-    );
-
-    await Promise.all(
-      unreadNotifications.map(notif =>
-        api.notifications.markAsRead(notif.id)
-      )
-    );
-
-
-    setNotifications(prev =>
-      prev.map(notif => ({
-        ...notif,
-        read: true
-      }))
-    );
-
-
-  } catch(error) {
-
-    console.error(
-      '[Notifications] Mark all read failed',
-      error
-    );
-
-  }
-
-};
-
-  // Remove a notification (after approve/reject)
-  const removeNotification = (notificationId) => {
-    setNotifications(prev =>
-      prev.filter(notif => notif.id !== notificationId)
-    );
+  const acceptRequest = async (requestId) => {
+    await api.circle.acceptRequest(requestId);
+    setIncomingRequests(prev => prev.filter(r => r.ID !== requestId));
   };
 
-  // Add a notification (for future API integration)
-  const addNotification = (notification) => {
-    setNotifications(prev => [notification, ...prev]);
+  const declineRequest = async (requestId) => {
+    await api.circle.declineRequest(requestId);
+    setIncomingRequests(prev => prev.filter(r => r.ID !== requestId));
   };
 
   return (
     <NotificationContext.Provider value={{
-      notifications,
-      isLoading,
-      unreadCount,
-      markAsRead,
-      markAllAsRead,
-      removeNotification,
-      addNotification,
-      setNotifications
+      incomingRequests, isLoading, unreadCount, acceptRequest, declineRequest, refresh: loadIncoming,
     }}>
       {children}
     </NotificationContext.Provider>
@@ -214,8 +67,6 @@ useEffect(() => {
 
 export function useNotifications() {
   const context = useContext(NotificationContext);
-  if (!context) {
-    throw new Error('useNotifications must be used within a NotificationProvider');
-  }
+  if (!context) throw new Error('useNotifications must be used within a NotificationProvider');
   return context;
 }

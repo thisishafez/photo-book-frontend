@@ -1,0 +1,59 @@
+/* src/styles/tokens.css
+   Shared design tokens for Khātere. "Khātere" (memory/keepsake) is a
+   social-hangout app — warm, communal, a little nocturnal (evenings out
+   with friends). Palette leans lantern-marigold + deep teal rather than
+   the generic cream/terracotta combo, so it reads as its own product. */
+
+:root {
+  /* Ink & surfaces */
+  --kh-ink: #201A2B;         /* primary text, deep aubergine-black */
+  --kh-ink-soft: #6B6572;    /* secondary text */
+  --kh-surface: #FBF8F3;     /* page background, warm parchment */
+  --kh-surface-raised: #FFFFFF;
+  --kh-border: #E7E0D6;
+
+  /* Accents */
+  --kh-marigold: #E29A3C;    /* primary accent — invite, submit, highlight */
+  --kh-marigold-dark: #C27E27;
+  --kh-teal: #1F6F6B;        /* secondary accent — approve, confirm */
+  --kh-teal-dark: #17524F;
+  --kh-brick: #B34638;       /* reject / destructive */
+  --kh-brick-dark: #92382D;
+
+  /* Status */
+  --kh-pending-bg: #FBEFDA;
+  --kh-pending-text: #8A5B15;
+  --kh-approved-bg: #E4F1EE;
+  --kh-approved-text: #175C56;
+  --kh-rejected-bg: #F7E7E4;
+  --kh-rejected-text: #8C3B2E;
+
+  /* Type */
+  --kh-font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --kh-font-body: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Shape & motion */
+  --kh-radius: 10px;
+  --kh-radius-sm: 6px;
+  --kh-shadow: 0 1px 2px rgba(32, 26, 43, 0.06), 0 4px 16px rgba(32, 26, 43, 0.06);
+  --kh-transition: 150ms ease;
+}
+
+/* Dark mode surfaces, reused by any page that toggles a *-dark class
+   via ThemeContext (see ActivityDetail). */
+.kh-dark {
+  --kh-ink: #F2EEE6;
+  --kh-ink-soft: #B9B2C4;
+  --kh-surface: #1C1926;
+  --kh-surface-raised: #262233;
+  --kh-border: #38334A;
+
+  --kh-pending-bg: #3A2F17;
+  --kh-pending-text: #F2C877;
+  --kh-approved-bg: #16332E;
+  --kh-approved-text: #7FD9C9;
+  --kh-rejected-bg: #3A2019;
+  --kh-rejected-text: #F0A08F;
+
+  --kh-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.35);
+}

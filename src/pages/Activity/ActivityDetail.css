@@ -1,435 +1,123 @@
-.activity-detail-container{
+@import "../../styles/tokens.css";
 
-
-max-width:900px;
-
-margin:auto;
-
-padding:40px;
-
-
+.activity-detail-page {
+  min-height: 100vh;
+  background: var(--kh-surface);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
+  transition: background var(--kh-transition), color var(--kh-transition);
 }
 
-
-
-.activity-cover{
-
-
-height:350px;
-
-border-radius:20px;
-
-overflow:hidden;
-
-
-background:#eee;
-
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-
-font-size:80px;
-
-
+/* Reuses the dark tokens from tokens.css directly (this file is plain CSS,
+   not a CSS module, so `composes:` isn't available here). */
+.activity-detail-page-dark {
+  --kh-ink: #F2EEE6;
+  --kh-ink-soft: #B9B2C4;
+  --kh-surface: #1C1926;
+  --kh-surface-raised: #262233;
+  --kh-border: #38334A;
+  --kh-pending-bg: #3A2F17;
+  --kh-pending-text: #F2C877;
+  --kh-approved-bg: #16332E;
+  --kh-approved-text: #7FD9C9;
+  --kh-rejected-bg: #3A2019;
+  --kh-rejected-text: #F0A08F;
+  --kh-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
-
-
-.activity-cover img{
-
-
-width:100%;
-
-height:100%;
-
-object-fit:cover;
-
-
+.activity-detail-container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
 }
 
-
-
-.activity-detail-container h1{
-
-
-font-size:40px;
-
-margin-top:30px;
-
-
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 24px;
 }
 
-
-
-.creator{
-
-color:#777;
-
+.back-btn:hover {
+  color: var(--kh-ink);
 }
 
-
-
-.description{
-
-
-font-size:18px;
-
-line-height:1.6;
-
-margin:30px 0;
-
-
+.activity-detail-container h1 {
+  font-family: var(--kh-font-display);
+  font-size: 2.1rem;
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 8px;
+  color: var(--kh-ink);
 }
 
-
-
-.rating-section{
-
-
-display:flex;
-
-gap:15px;
-
-align-items:center;
-
-
-margin-bottom:30px;
-
-
+.creator {
+  color: var(--kh-ink-soft);
+  font-size: 0.95rem;
+  margin: 0 0 16px;
 }
 
-
-
-section{
-
-
-margin-top:40px;
-
-
+.creator strong {
+  color: var(--kh-ink);
+  font-weight: 600;
 }
 
-.activity-detail-page{
-
-min-height:100vh;
-
-background:white;
-
-color:#222;
-
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
-
-.activity-detail-page-dark{
-
-background:#111;
-
-color:white;
-
+.status-pending {
+  background: var(--kh-pending-bg);
+  color: var(--kh-pending-text);
 }
 
-.activity-card{
-
-background:white;
-
+.status-approved {
+  background: var(--kh-approved-bg);
+  color: var(--kh-approved-text);
 }
 
-
-.activity-detail-page-dark .activity-card{
-
-background:#1e1e1e;
-
-color:white;
-
-}
-.activity-detail-page-dark textarea{
-
-background:#222;
-
-color:white;
-
-border:1px solid #444;
-
+.status-rejected {
+  background: var(--kh-rejected-bg);
+  color: var(--kh-rejected-text);
 }
 
-.selected-star{
-
-color:gold;
-
+.description {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--kh-ink);
+  margin: 0 0 28px;
+  max-width: 62ch;
 }
 
-/* =========================
-   BACK BUTTON
-========================= */
-
-.back-btn{
-
-padding:10px 18px;
-
-border-radius:10px;
-
-border:none;
-
-cursor:pointer;
-
-background:#eee;
-
-margin-bottom:25px;
-
-font-size:15px;
-
+.comments-section {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--kh-border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-
-.activity-detail-page-dark .back-btn{
-
-background:#333;
-
-color:white;
-
+.comments-section h2 {
+  font-family: var(--kh-font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--kh-ink);
 }
 
-
-
-/* =========================
-   USER RATING
-========================= */
-
-
-.user-rating-box{
-
-
-margin-top:40px;
-
-padding:25px;
-
-border-radius:18px;
-
-background:#f7f7f7;
-
-
-}
-
-
-.activity-detail-page-dark .user-rating-box{
-
-
-background:#1e1e1e;
-
-
-}
-
-
-
-.user-rating-box h2{
-
-
-margin-bottom:20px;
-
-
-}
-
-
-
-.stars{
-
-
-display:flex;
-
-gap:10px;
-
-margin-bottom:20px;
-
-
-}
-
-
-
-.stars button{
-
-
-font-size:35px;
-
-border:none;
-
-background:none;
-
-cursor:pointer;
-
-color:#aaa;
-
-
-}
-
-
-
-.stars button.selected-star{
-
-
-color:#ffc107;
-
-
-}
-
-
-
-.user-rating-box button:not(.stars button){
-
-
-padding:12px 20px;
-
-border:none;
-
-border-radius:10px;
-
-cursor:pointer;
-
-background:#222;
-
-color:white;
-
-
-}
-
-
-
-.activity-detail-page-dark .user-rating-box button:not(.stars button){
-
-background:white;
-
-color:black;
-
-}
-
-
-
-/* =========================
- COMMENTS
-========================= */
-
-
-.comments-section{
-
-
-margin-top:50px;
-
-
-}
-
-
-
-.comments-list{
-
-
-display:flex;
-
-flex-direction:column;
-
-gap:15px;
-
-
-}
-
-
-
-/* =========================
- COMMENT INPUT
-========================= */
-
-
-.comment-box{
-
-
-margin-top:30px;
-
-padding:25px;
-
-border-radius:18px;
-
-background:#f7f7f7;
-
-
-}
-
-
-
-.activity-detail-page-dark .comment-box{
-
-
-background:#1e1e1e;
-
-
-}
-
-
-
-.comment-box textarea{
-
-
-width:100%;
-
-min-height:120px;
-
-resize:vertical;
-
-padding:15px;
-
-border-radius:12px;
-
-border:1px solid #ccc;
-
-font-size:16px;
-
-
-}
-
-
-
-.activity-detail-page-dark .comment-box textarea{
-
-
-background:#222;
-
-color:white;
-
-border-color:#555;
-
-
-}
-
-
-
-.comment-box button{
-
-
-margin-top:15px;
-
-padding:12px 25px;
-
-border-radius:10px;
-
-border:none;
-
-cursor:pointer;
-
-background:#222;
-
-color:white;
-
-
-}
-
-
-
-.activity-detail-page-dark .comment-box button{
-
-
-background:white;
-
-color:black;
-
-
+.coming-soon {
+  color: var(--kh-ink-soft);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0;
 }

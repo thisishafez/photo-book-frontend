@@ -33,6 +33,7 @@ export default function ProfileSetup() {
   } = useTheme();
 
 
+
   const {
     user
   } = useAuth();
@@ -49,6 +50,20 @@ export default function ProfileSetup() {
   const [
     handle,
     setHandle
+  ] = useState("");
+
+
+
+  const [
+    businessName,
+    setBusinessName
+  ] = useState("");
+
+
+
+  const [
+    locationInfo,
+    setLocationInfo
   ] = useState("");
 
 
@@ -82,22 +97,30 @@ export default function ProfileSetup() {
 
 
 
+
   useEffect(() => {
 
 
-    api.user
-      .getInterestCatalog()
+    if(user?.accountType === "user"){
 
-      .then(setCatalog)
+      api.user
+        .getInterestCatalog()
 
-      .catch(() => {
-        setError(
-          "Couldn't load interests. You can add them later."
-        );
-      });
+        .then(setCatalog)
+
+        .catch(() => {
+
+          setError(
+            "Couldn't load interests. You can add them later."
+          );
+
+        });
+
+    }
 
 
-  }, []);
+  }, [user]);
+
 
 
 
@@ -109,11 +132,16 @@ export default function ProfileSetup() {
 
     setSelected(prev =>
 
+
       prev.includes(id)
 
-        ? prev.filter(item => item !== id)
+        ? prev.filter(
+            item => item !== id
+          )
 
-        : [
+        :
+
+          [
             ...prev,
             id
           ]
@@ -122,6 +150,7 @@ export default function ProfileSetup() {
 
 
   };
+
 
 
 
@@ -141,19 +170,59 @@ export default function ProfileSetup() {
     try {
 
 
-      await api.user.createProfile(
-        displayName.trim(),
-        handle.trim(),
-        null
-      );
+      /*
+        Regular User
+      */
+
+      if(
+        user.accountType === "user"
+      ){
+
+
+        await api.user.createProfile(
+
+          displayName.trim(),
+
+          handle.trim(),
+
+          null
+
+        );
 
 
 
-      if (selected.length > 0) {
+        if(selected.length > 0){
 
 
-        await api.user.setInterests(
-          selected
+          await api.user.setInterests(
+            selected
+          );
+
+
+        }
+
+
+      }
+
+
+
+
+
+      /*
+        Host
+      */
+
+      else if(
+        user.accountType === "host"
+      ){
+
+
+        await api.host.createProfile(
+
+          businessName.trim(),
+
+          locationInfo.trim() || null
+
         );
 
 
@@ -162,9 +231,32 @@ export default function ProfileSetup() {
 
 
 
+
+      /*
+        Moderator
+      */
+
+      else if(
+        user.accountType === "moderator"
+      ){
+
+
+        await api.moderator.createProfile();
+
+
+      }
+
+
+
+
+
+
       localStorage.setItem(
-        "profileCompleted",
+
+        `profileCompleted:${user.id}`,
+
         "true"
+
       );
 
 
@@ -173,16 +265,23 @@ export default function ProfileSetup() {
 
 
 
-    } catch (err) {
+    }
+
+    catch(err){
 
 
       setError(
+
         err.message ||
+
         "Couldn't save your profile. Please try again."
+
       );
 
 
-    } finally {
+    }
+
+    finally{
 
 
       setIsLoading(false);
@@ -199,10 +298,54 @@ export default function ProfileSetup() {
 
 
 
+
+
   const canContinue =
-    displayName.trim() &&
-    handle.trim() &&
+
+
+    (
+
+      user?.accountType === "moderator"
+
+
+      ||
+
+      (
+
+        user?.accountType === "host"
+
+        &&
+
+        businessName.trim()
+
+      )
+
+
+      ||
+
+      (
+
+        user?.accountType === "user"
+
+        &&
+
+        displayName.trim()
+
+        &&
+
+        handle.trim()
+
+      )
+
+
+    )
+
+
+    &&
+
     !isLoading;
+
+
 
 
 
@@ -216,16 +359,31 @@ export default function ProfileSetup() {
     <div
 
       className={
+
         `profile-setup-page ${
-          darkMode ? "dark" : ""
+
+          darkMode
+
+          ?
+
+          "dark"
+
+          :
+
+          ""
+
         }`
+
       }
 
     >
 
 
 
+
       <div className="profile-setup-card">
+
+
 
 
 
@@ -237,8 +395,13 @@ export default function ProfileSetup() {
 
 
         <p>
-          Tell us a bit about yourself, then pick your interests.
+
+          Tell us a bit about yourself,
+          then pick your interests.
+
         </p>
+
+
 
 
 
@@ -247,9 +410,13 @@ export default function ProfileSetup() {
         {
           error && (
 
+
             <div className="api-error">
+
               {error}
+
             </div>
+
 
           )
         }
@@ -260,60 +427,48 @@ export default function ProfileSetup() {
 
 
 
-        <div className="form-group">
+
+        {
+          user?.accountType === "user"
+
+          &&
+
+          (
+
+          <>
 
 
-          <input
-
-            type="text"
-
-            placeholder="Display name"
-
-            value={displayName}
-
-            onChange={(e) =>
-              setDisplayName(
-                e.target.value
-              )
-            }
-
-            disabled={isLoading}
-
-          />
+            <div className="form-group">
 
 
-        </div>
+              <input
 
 
+                type="text"
 
 
+                placeholder="Display name"
 
 
+                value={displayName}
 
 
-        <div className="form-group">
+                onChange={(e)=>
+
+                  setDisplayName(
+                    e.target.value
+                  )
+
+                }
 
 
-          <input
-
-            type="text"
-
-            placeholder="Handle (e.g. yasin)"
-
-            value={handle}
-
-            onChange={(e) =>
-              setHandle(
-                e.target.value.toLowerCase()
-              )
-            }
-
-            disabled={isLoading}
-
-          />
+                disabled={isLoading}
 
 
-        </div>
+              />
+
+
+            </div>
 
 
 
@@ -322,57 +477,252 @@ export default function ProfileSetup() {
 
 
 
-        <div className="interest-grid">
+            <div className="form-group">
 
 
-          {
-            catalog.map(
-              interest => (
+              <input
 
 
-                <button
-
-                  key={interest.ID}
-
-                  className={
-                    selected.includes(
-                      interest.ID
-                    )
-
-                      ? "interest selected"
-
-                      : "interest"
-                  }
+                type="text"
 
 
-                  onClick={() =>
-                    toggleInterest(
-                      interest.ID
-                    )
-                  }
+                placeholder="Handle (e.g. yasin)"
 
 
-                  disabled={isLoading}
-
-                  type="button"
-
-                >
-
-                  {
-                    interest.Label
-                  }
+                value={handle}
 
 
-                </button>
+                onChange={(e)=>
+
+                  setHandle(
+                    e.target.value.toLowerCase()
+                  )
+
+                }
 
 
-              )
-            )
-          }
+                disabled={isLoading}
+
+
+              />
+
+
+            </div>
 
 
 
-        </div>
+
+
+
+
+
+
+            <div className="interest-grid">
+
+
+              {
+
+                catalog.map(
+
+                  interest => (
+
+
+                    <button
+
+
+                      key={interest.ID}
+
+
+                      className={
+
+                        selected.includes(
+                          interest.ID
+                        )
+
+                        ?
+
+                        "interest selected"
+
+                        :
+
+                        "interest"
+
+                      }
+
+
+
+                      onClick={()=>
+
+                        toggleInterest(
+                          interest.ID
+                        )
+
+                      }
+
+
+
+                      disabled={isLoading}
+
+
+
+                      type="button"
+
+
+                    >
+
+
+                      {
+                        interest.Label
+                      }
+
+
+                    </button>
+
+
+                  )
+
+
+                )
+
+              }
+
+
+            </div>
+
+
+
+          </>
+
+          )
+
+        }
+
+
+
+
+
+
+
+
+
+        {
+          user?.accountType === "host"
+
+          &&
+
+          (
+
+
+          <>
+
+
+            <div className="form-group">
+
+
+              <input
+
+
+                type="text"
+
+
+                placeholder="Business name"
+
+
+                value={businessName}
+
+
+                onChange={(e)=>
+
+                  setBusinessName(
+                    e.target.value
+                  )
+
+                }
+
+
+                disabled={isLoading}
+
+
+              />
+
+
+            </div>
+
+
+
+
+
+
+
+            <div className="form-group">
+
+
+              <input
+
+
+                type="text"
+
+
+                placeholder="Location information"
+
+
+                value={locationInfo}
+
+
+                onChange={(e)=>
+
+                  setLocationInfo(
+                    e.target.value
+                  )
+
+                }
+
+
+                disabled={isLoading}
+
+
+              />
+
+
+            </div>
+
+
+
+          </>
+
+
+          )
+
+        }
+
+
+
+
+
+
+
+
+
+        {
+          user?.accountType === "moderator"
+
+          &&
+
+          (
+
+
+            <p>
+
+              Your moderator account is ready.
+              Click continue to finish setup.
+
+            </p>
+
+
+          )
+
+        }
+
 
 
 
@@ -383,18 +733,33 @@ export default function ProfileSetup() {
 
         <button
 
+
           className="continue-btn"
+
 
           disabled={!canContinue}
 
+
+
           onClick={handleContinue}
+
+
 
         >
 
+
           {
+
             isLoading
-              ? "Saving..."
-              : "Continue"
+
+            ?
+
+            "Saving..."
+
+            :
+
+            "Continue"
+
           }
 
 
@@ -404,7 +769,10 @@ export default function ProfileSetup() {
 
 
 
+
       </div>
+
+
 
 
 

@@ -429,7 +429,55 @@ export const api = {
 
 
   },
+  // ===============================
+  // HOST PROFILE
+  // ===============================
 
+  host: {
+
+    createProfile:
+      async(
+        businessName,
+        locationInfo
+      ) => {
+
+        return request(
+          "/host/profile",
+          {
+            method:"POST",
+
+            body:{
+              business_name: businessName,
+              location_info: locationInfo
+            }
+          }
+        );
+
+      }
+
+  },
+
+
+
+  // ===============================
+  // MODERATOR PROFILE
+  // ===============================
+
+  moderator: {
+
+    createProfile:
+      async()=>{
+
+        return request(
+          "/moderator/profile",
+          {
+            method:"POST"
+          }
+        );
+
+      }
+
+  },
 
 
 

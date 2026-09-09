@@ -1,0 +1,65 @@
+.circle-container{
+
+
+max-width:800px;
+
+margin:auto;
+
+padding:40px;
+
+
+}
+
+
+
+.circle-page{
+
+
+min-height:100vh;
+
+background:white;
+
+color:#222;
+
+
+}
+
+
+
+.dark.circle-page{
+
+
+background:#111;
+
+color:white;
+
+
+}
+
+.home-btn{
+  border:none;
+  background:none;
+  color:inherit;
+  font-size:16px;
+  cursor:pointer;
+  padding:0;
+  margin-bottom:20px;
+}
+
+/* CircleList.css */
+.find-friends-btn{
+  padding:10px 20px;
+  border:none;
+  border-radius:10px;
+  background:#4a4ae0;
+  color:white;
+  cursor:pointer;
+  font-size:15px;
+  margin-top:10px;
+  margin-bottom:20px;
+  display:inline-block;
+}
+
+.find-friends-btn:hover{
+  background:#3a3ac0;
+}

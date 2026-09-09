@@ -16,8 +16,6 @@ import CreateActivity from '../pages/Activity/CreateActivity';
 
 // Circle
 import CircleList from '../pages/Circle/CircleList';
-import FindFriends from '../pages/Circle/FindFriends';
-import CircleRequests from '../pages/Circle/CircleRequests';
 
 
 // Hangouts
@@ -147,27 +145,6 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-
-
-  {
-    path: '/circle/search',
-    element: (
-      <ProtectedRoute>
-        <FindFriends />
-      </ProtectedRoute>
-    ),
-  },
-
-
-  {
-    path: '/circle/requests',
-    element: (
-      <ProtectedRoute>
-        <CircleRequests />
-      </ProtectedRoute>
-    ),
-  },
-
 
 
   /*

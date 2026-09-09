@@ -1,0 +1,129 @@
+.meetup-pin {
+  margin-top: 30px;
+
+  padding: 24px;
+
+  border: 2px solid #111;
+
+  border-radius: 18px;
+
+  background: #fff;
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.09);
+}
+
+.meetup-pin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.meetup-pin-header h2 {
+  margin: 0;
+}
+
+.meetup-required {
+  font-size: 12px;
+
+  background: #fff0cc;
+
+  color: #75530e;
+
+  padding: 6px 10px;
+
+  border-radius: 20px;
+}
+
+.meetup-pin-details {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+}
+
+.meetup-detail {
+  padding: 14px;
+
+  background: #f5f5f5;
+
+  border-radius: 12px;
+}
+
+.meetup-detail-label {
+  display: block;
+
+  font-size: 12px;
+
+  color: #777;
+
+  margin-bottom: 5px;
+}
+
+.meetup-pin-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.meetup-confirm-btn,
+.meetup-map-btn {
+  flex: 1;
+
+  padding: 13px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+}
+
+.meetup-confirm-btn {
+  background: #111;
+  color: white;
+}
+
+.meetup-map-btn {
+  background: #e7e7e7;
+  color: #222;
+}
+
+
+/* DARK MODE */
+
+.dark .meetup-pin {
+  background: #1d1d1d;
+
+  border-color: #f5f5f5;
+}
+
+.dark .meetup-required {
+  background: #493a13;
+  color: #ffdc78;
+}
+
+.dark .meetup-detail {
+  background: #292929;
+}
+
+.dark .meetup-detail-label {
+  color: #aaa;
+}
+
+.dark .meetup-confirm-btn {
+  background: white;
+  color: #111;
+}
+
+.dark .meetup-map-btn {
+  background: #333;
+  color: white;
+}

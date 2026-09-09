@@ -1,0 +1,100 @@
+.hangout-card {
+
+
+background:white;
+
+padding:25px;
+
+border-radius:18px;
+
+
+margin-bottom:20px;
+
+
+cursor:pointer;
+
+
+box-shadow:
+
+0 5px 15px rgba(0,0,0,.08);
+
+
+}
+
+
+
+.hangout-card:hover {
+
+transform:translateY(-3px);
+
+}
+
+
+
+.hangout-status {
+
+
+display:inline-block;
+
+
+margin-top:15px;
+
+
+padding:7px 15px;
+
+
+border-radius:20px;
+
+
+font-size:14px;
+
+
+}
+
+
+
+.planned {
+
+
+background:#3498db;
+
+color:white;
+
+
+}
+
+
+
+.completed {
+
+
+background:#2ecc71;
+
+color:white;
+
+
+}
+
+
+
+.cancelled {
+
+
+background:#e74c3c;
+
+color:white;
+
+
+}
+
+
+
+.dark .hangout-card {
+
+
+background:#1e1e1e;
+
+color:white;
+
+
+}

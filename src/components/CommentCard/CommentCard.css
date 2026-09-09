@@ -1,0 +1,61 @@
+.comment-card{
+
+
+background:white;
+
+padding:20px;
+
+border-radius:15px;
+
+
+box-shadow:
+
+0 5px 15px rgba(0,0,0,.08);
+
+
+margin-bottom:15px;
+
+
+color:#222;
+
+
+transition:.2s;
+
+
+}
+
+
+
+.comment-header{
+
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+
+}
+
+
+
+/* =====================
+   DARK MODE
+===================== */
+
+
+.activity-detail-page.dark .comment-card{
+
+
+background:#1e1e1e;
+
+color:white;
+
+
+box-shadow:
+
+0 5px 15px rgba(0,0,0,.4);
+
+
+}

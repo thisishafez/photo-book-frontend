@@ -1,0 +1,86 @@
+.hangout-detail-page {
+  min-height: 100vh;
+
+  background: #f6f6f6;
+
+  color: #222;
+}
+
+.hangout-detail-container {
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding: 40px 24px 70px;
+}
+
+.hangout-back-btn {
+  border: none;
+
+  background: transparent;
+
+  color: #555;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  margin-bottom: 25px;
+}
+
+.hangout-detail-header {
+  margin-bottom: 25px;
+}
+
+.hangout-detail-header h1 {
+  font-size: 36px;
+
+  margin-bottom: 8px;
+}
+
+.hangout-detail-meta {
+  color: #777;
+}
+
+.hangout-danger-zone {
+  margin-top: 30px;
+
+  padding-top: 25px;
+
+  border-top: 1px solid #ddd;
+}
+
+.cancel-hangout-btn {
+  padding: 12px 20px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: #d63c3c;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+
+/* DARK MODE */
+
+.hangout-detail-page.dark {
+  background: #111;
+
+  color: white;
+}
+
+.hangout-detail-page.dark .hangout-back-btn {
+  color: #bbb;
+}
+
+.hangout-detail-page.dark .hangout-detail-meta {
+  color: #aaa;
+}
+
+.hangout-detail-page.dark .hangout-danger-zone {
+  border-color: #333;
+}

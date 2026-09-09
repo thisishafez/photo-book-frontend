@@ -1,0 +1,195 @@
+.invite-hangout-page {
+  min-height: 100vh;
+  background: #f6f6f6;
+  color: #222;
+}
+
+.invite-hangout-container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.invite-hangout-back {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 15px;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+.invite-hangout-header {
+  margin-bottom: 30px;
+}
+
+.invite-hangout-header h1 {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.invite-hangout-header p {
+  color: #777;
+  line-height: 1.5;
+}
+
+.invite-friends-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.invite-friend-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: white;
+
+  padding: 18px 20px;
+
+  border: 2px solid transparent;
+  border-radius: 16px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 16px rgba(0, 0, 0, 0.06);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.invite-friend-row:hover {
+  transform: translateY(-2px);
+}
+
+.invite-friend-row.selected {
+  border-color: #222;
+}
+
+.invite-friend-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.invite-friend-avatar {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eee;
+
+  font-weight: 700;
+}
+
+.invite-friend-name {
+  font-weight: 600;
+}
+
+.invite-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.invite-summary {
+  margin-top: 25px;
+
+  padding: 16px;
+
+  border-radius: 14px;
+
+  background: #eee;
+
+  color: #555;
+}
+
+.invite-actions {
+  display: flex;
+  gap: 12px;
+
+  margin-top: 25px;
+}
+
+.invite-create-btn,
+.invite-solo-btn {
+  flex: 1;
+
+  padding: 14px 20px;
+
+  border: none;
+  border-radius: 12px;
+
+  font-size: 16px;
+
+  cursor: pointer;
+}
+
+.invite-create-btn {
+  background: #111;
+  color: white;
+}
+
+.invite-solo-btn {
+  background: #e7e7e7;
+  color: #222;
+}
+
+.invite-create-btn:hover,
+.invite-solo-btn:hover {
+  opacity: 0.86;
+}
+
+
+/* DARK MODE */
+
+.invite-hangout-page.dark {
+  background: #111;
+  color: #f5f5f5;
+}
+
+.invite-hangout-page.dark .invite-hangout-back {
+  color: #bbb;
+}
+
+.invite-hangout-page.dark .invite-hangout-header p {
+  color: #aaa;
+}
+
+.invite-hangout-page.dark .invite-friend-row {
+  background: #1e1e1e;
+
+  box-shadow:
+    0 5px 16px rgba(0, 0, 0, 0.3);
+}
+
+.invite-hangout-page.dark .invite-friend-row.selected {
+  border-color: white;
+}
+
+.invite-hangout-page.dark .invite-friend-avatar {
+  background: #333;
+}
+
+.invite-hangout-page.dark .invite-summary {
+  background: #222;
+  color: #bbb;
+}
+
+.invite-hangout-page.dark .invite-create-btn {
+  background: white;
+  color: #111;
+}
+
+.invite-hangout-page.dark .invite-solo-btn {
+  background: #333;
+  color: white;
+}

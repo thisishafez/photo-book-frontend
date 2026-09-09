@@ -1,0 +1,84 @@
+.hangouts-page {
+
+
+min-height:100vh;
+
+background:white;
+
+
+}
+
+
+
+.hangouts-container {
+
+
+max-width:900px;
+
+margin:auto;
+
+padding:40px;
+
+
+}
+
+
+
+.hangout-tabs {
+
+
+display:flex;
+
+gap:15px;
+
+margin-bottom:30px;
+
+
+}
+
+
+
+.hangout-tabs button {
+
+
+padding:12px 20px;
+
+
+border:none;
+
+border-radius:12px;
+
+
+background:#111;
+
+color:white;
+
+
+cursor:pointer;
+
+
+}
+
+
+
+.dark.hangouts-page {
+
+
+background:#111;
+
+color:white;
+
+
+}
+
+
+
+.dark .hangout-tabs button {
+
+
+background:white;
+
+color:black;
+
+
+}

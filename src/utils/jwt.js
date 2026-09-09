@@ -1,12 +1,17 @@
-// src/utils/jwt.js
-export function isTokenExpired(token) {
+export function decodeToken(token) {
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    if (!payload.exp) return false; // no exp claim, treat as non-expiring
-    const nowInSeconds = Date.now() / 1000;
-    return payload.exp < nowInSeconds;
-  } catch (error) {
-    // malformed token = treat as expired
-    return true;
+    const payload = token.split('.')[1];
+    const json = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(json);
+  } catch {
+    return null;
   }
+}
+
+export function isTokenExpired(token) {
+  const claims = decodeToken(token);
+  if (!claims?.exp) return true; // no exp claim = treat as expired/invalid
+
+  // exp is in seconds since epoch; Date.now() is in ms
+  return claims.exp * 1000 <= Date.now();
 }

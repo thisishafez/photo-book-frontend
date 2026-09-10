@@ -1,6 +1,9 @@
 export const API_BASE_URL = 'https://api.duster.ir';
 export const MEDIA_BASE_URL =
   "https://media.duster.ir";
+
+import { normalizeHostBadge, normalizeQRCode, normalizeUserBadge, normalizeUserBadges } from "../utils/normalizeBadge";
+import { normalizeUserProfile, normalizeHostProfile, normalizeModeratorProfile } from "../utils/normalizeProfile";
 // Later:
 // const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -520,7 +523,8 @@ export const api = {
         );
 
 
-      }
+      }, 
+      getProfile: async () => normalizeUserProfile(await request("/user/profile")),
 
 
   },
@@ -548,7 +552,8 @@ export const api = {
           }
         );
 
-      }
+      },
+      getProfile: async () => normalizeHostProfile(await request("/host/profile")),
 
   },
 
@@ -570,7 +575,8 @@ export const api = {
           }
         );
 
-      }
+      },
+      getProfile: async () => normalizeModeratorProfile(await request("/moderator/profile")),
 
   },
 
@@ -668,6 +674,26 @@ export const api = {
 
   getActivity: async (id) => request(`/activities/${id}`),
   getActivityDetails: async (id) => request(`/activities/${id}`),
+    // Host-configured badge template — internal/badge, mounted under
+  // the activity group: POST/GET /activities/:id/badge.
+  createBadge: async (id, name, iconKey) =>
+    normalizeHostBadge(
+      await request(`/activities/${id}/badge`, {
+        method: "POST",
+        body: { name, icon_key: iconKey },
+      })
+    ),
+  getHostBadge: async (id) =>
+    normalizeHostBadge(await request(`/activities/${id}/badge`)),
+
+  // Fixed one-per-activity QR code — internal/qrcode, same mounting
+  // pattern: POST/GET /activities/:id/qrcode.
+  generateQRCode: async (id) =>
+    normalizeQRCode(
+      await request(`/activities/${id}/qrcode`, { method: "POST" })
+    ),
+  getQRCode: async (id) =>
+    normalizeQRCode(await request(`/activities/${id}/qrcode`)),
 
   createActivity: async (title, description) =>
     request("/activities", { method: "POST", body: { title, description: description || null } }),
@@ -1135,31 +1161,41 @@ hangouts: {
   // BADGES
   // ===============================
 
+badges: {
+  // GET /user/badges — mounted under the authenticated /user group,
+  // see internal/userbadge/adapters/http/handler.go. Always returns
+  // the caller's own badges.
+  getBadges: async () => normalizeUserBadges(await request("/user/badges")),
 
-  badges:{
+  // No single-badge GET exists in the handler shown (only
+  // ListMyBadges) — pull it out of the full list instead of
+  // inventing a route that may not exist.
+  getBadge: async (id) => {
+    const all = await api.badges.getBadges();
+    return all.find((b) => String(b.id) === String(id)) || null;
+  },
 
-
-    getBadges:
-      async()=>{
-
-
-        return null;
-
-
-      },
-
-
-    toggleVisibility:
-      async(id)=>{
-
-
-        return null;
-
-
-      }
-
-
-  }
+  // TODO(backend): no toggle-visibility use case/endpoint was in the
+  // userbadge handler shown (only ListUserBadgesUseCase). This guesses
+  // a REST-action route consistent with the rest of the app's
+  // /approve, /decline, /cancel-style endpoints — confirm with
+  // backend and fix the path once it's built. Don't wire this up to
+  // the Profile UI until then.
+  toggleVisibility: async (id) =>
+    normalizeUserBadge(
+      await request(`/user/badges/${id}/toggle-visibility`, { method: "POST" })
+    ),
+},
+// ===============================
+// ATTENDANCE (QR scan)
+// ===============================
+attendance: {
+  // POST /attendance/scan — standalone route, not under /activities
+  // (see comment in handler.go — the scanned code names the activity,
+  // not the URL).
+  verifyScan: async (code) =>
+    request("/attendance/scan", { method: "POST", body: { code } }),
+}
 
 
 

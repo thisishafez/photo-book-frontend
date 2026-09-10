@@ -1,0 +1,10 @@
+.qr-scanner-container { max-width: 480px; margin: 0 auto; padding: 24px 16px; }
+.qr-scanner-back { background: none; border: none; cursor: pointer; margin-bottom: 12px; }
+.qr-scanner-subtitle { color: #666; margin-bottom: 20px; }
+.qr-scanner-camera { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.qr-scanner-video { width: 100%; border-radius: 12px; background: #000; aspect-ratio: 1 / 1; object-fit: cover; }
+.qr-scanner-manual { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.qr-scanner-notice { margin-top: 16px; padding: 10px 14px; border-radius: 8px; }
+.qr-scanner-notice-success { background: #e6f7ec; color: #1a7a3d; }
+.qr-scanner-notice-error { background: #fdecea; color: #b3261e; }
+.qr-scanner-dark { background: #1a1a1a; color: #eee; }

@@ -1,0 +1,178 @@
+.invite-friends-page {
+  min-height: 100vh;
+  background: #f8f5ef;
+  color: #272238;
+  padding: 40px 20px;
+}
+
+
+.invite-friends-page-dark {
+  background: #151515;
+  color: #f5f5f5;
+}
+
+
+
+.invite-friends-container {
+
+  max-width: 650px;
+
+  margin: 0 auto;
+
+}
+
+
+
+.invite-friends-container h1 {
+
+  font-size: 42px;
+
+  margin-bottom: 30px;
+
+}
+
+
+
+
+
+.invite-form {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 25px;
+
+}
+
+
+
+
+
+.friend-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+}
+
+
+
+
+
+.friend-list-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 16px 20px;
+
+  background: white;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+
+}
+
+
+
+.friend-list-item:hover {
+
+  transform: translateY(-2px);
+
+}
+
+
+
+.friend-list-item input {
+
+  width: 18px;
+
+  height: 18px;
+
+}
+
+
+
+
+
+.invite-submit {
+
+  width: 100%;
+
+  padding: 15px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #222;
+
+  color: white;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+}
+
+
+
+.invite-submit:disabled {
+
+  opacity: 0.5;
+
+  cursor: not-allowed;
+
+}
+
+
+
+
+
+.invite-error {
+
+  background: #ffe5e5;
+
+  color: #a00000;
+
+  padding: 15px;
+
+  border-radius: 10px;
+
+  margin-bottom: 20px;
+
+}
+
+
+
+
+
+.invite-friends-page-dark .friend-list-item {
+
+  background: #242424;
+
+  color: white;
+
+}
+
+
+
+.invite-friends-page-dark .invite-submit {
+
+  background: white;
+
+  color: black;
+
+}

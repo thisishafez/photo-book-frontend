@@ -44,9 +44,9 @@
 .kh-dark {
   --kh-ink: #F2EEE6;
   --kh-ink-soft: #B9B2C4;
-  --kh-surface: #1C1926;
-  --kh-surface-raised: #262233;
-  --kh-border: #38334A;
+  --kh-surface: #242324;
+  --kh-surface-raised: #313133;
+  --kh-border: #3f3e41;
 
   --kh-pending-bg: #3A2F17;
   --kh-pending-text: #F2C877;

@@ -188,3 +188,132 @@
     width: 100%;
   }
 }
+
+/* ============================= */
+/* Dark Theme                    */
+/* ============================= */
+
+.activity-moderation-page-dark {
+
+  background: #282828;
+
+  color: #f9fafb;
+
+}
+
+
+/* Heading */
+
+.activity-moderation-page-dark h1 {
+
+  color: #f9fafb;
+
+}
+
+
+/* Empty / loading box */
+
+.activity-moderation-page-dark > p {
+
+  background: #1f2937;
+
+  border-color: #374151;
+
+  color: #d1d5db;
+
+}
+
+
+/* Moderation cards */
+
+.activity-moderation-page-dark .moderation-item {
+
+  background: #1f2937;
+
+  border-color: #374151;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+
+}
+
+
+/* Card title */
+
+.activity-moderation-page-dark .moderation-item h3 {
+
+  color: #f9fafb;
+
+}
+
+
+/* Description */
+
+.activity-moderation-page-dark .moderation-item > p:not(.moderation-meta) {
+
+  color: #d1d5db;
+
+}
+
+
+/* Submitted by */
+
+.activity-moderation-page-dark .moderation-meta {
+
+  border-color: #374151;
+
+  color: #9ca3af;
+
+}
+
+
+/* Error */
+
+.activity-moderation-page-dark .api-error {
+
+  background: rgba(239,68,68,0.15);
+
+  border-color: #ef4444;
+
+  color: #fca5a5;
+
+}
+
+
+/* Approve */
+
+.activity-moderation-page-dark .moderation-actions button:first-child {
+
+  background: var(--kh-teal);
+
+  color: white;
+
+}
+
+
+.activity-moderation-page-dark
+.moderation-actions button:first-child:hover:not(:disabled) {
+
+  background: var(--kh-teal-dark);
+
+}
+
+
+/* Reject */
+
+.activity-moderation-page-dark .moderation-actions button:last-child {
+
+  border-color: #f87171;
+
+  color: #fca5a5;
+
+}
+
+
+.activity-moderation-page-dark
+.moderation-actions button:last-child:hover:not(:disabled) {
+
+  background: #dc2626;
+
+  color: white;
+
+}

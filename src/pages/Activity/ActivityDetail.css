@@ -13,9 +13,9 @@
 .activity-detail-page-dark {
   --kh-ink: #F2EEE6;
   --kh-ink-soft: #B9B2C4;
-  --kh-surface: #1C1926;
-  --kh-surface-raised: #262233;
-  --kh-border: #38334A;
+  --kh-surface: #141414;
+  --kh-surface-raised: #080809;
+  --kh-border: #403f41;
   --kh-pending-bg: #3A2F17;
   --kh-pending-text: #F2C877;
   --kh-approved-bg: #16332E;

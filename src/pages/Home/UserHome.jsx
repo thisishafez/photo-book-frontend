@@ -1,33 +1,11 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ActivityCard from "../../components/ActivityCard/ActivityCard";
-import { api } from "../../services/api";
+import { useSuggestedActivities } from "../../hooks/useSuggestedActivities";
 
 export default function UserHome({ user }) {
   const navigate = useNavigate();
 
-  const [activities, setActivities] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadActivities();
-  }, []);
-
-  const loadActivities = async () => {
-    try {
-      setLoading(true);
-
-      const response = await api.activities.list();
-
-      setActivities(response || []);
-    } catch (error) {
-      console.error("[UserHome] Failed loading activities", error);
-
-      setActivities([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { activities: suggestions, loading } = useSuggestedActivities();
 
   return (
     <>
@@ -38,23 +16,21 @@ export default function UserHome({ user }) {
       </p>
 
       <section>
-        <h2>All Activities</h2>
+        <h2>For You</h2>
 
         {loading ? (
           <p>Loading activities...</p>
-        ) : activities.length === 0 ? (
+        ) : suggestions.length === 0 ? (
           <p>No activities available yet.</p>
         ) : (
           <div className="activity-grid">
-            {activities.map((activity) => (
+            {suggestions.map(({ activity }) => (
               <ActivityCard
                 key={activity.ID}
                 title={activity.Title}
                 description={activity.Description}
                 category={activity.SourceType}
-                onClick={() =>
-                  navigate(`/activity/${activity.ID}`)
-                }
+                onClick={() => navigate(`/activity/${activity.ID}`)}
               />
             ))}
           </div>

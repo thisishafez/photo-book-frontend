@@ -1196,7 +1196,22 @@ attendance: {
   // not the URL).
   verifyScan: async (code) =>
     request("/attendance/scan", { method: "POST", body: { code } }),
-}
+},
+// ===============================
+// RECOMMENDATIONS
+// ===============================
+recommendations: {
+  // GET /recommendations?limit=20
+  getSuggestions: async (limit = null) => {
+    const query = limit ? `?limit=${encodeURIComponent(limit)}` : "";
+    return request(`/recommendations${query}`);
+  },
+
+  // POST /recommendations/refresh — forces a live recompute,
+  // bypassing the cache.
+  refreshSuggestions: async () =>
+    request("/recommendations/refresh", { method: "POST" }),
+},
 
 
 

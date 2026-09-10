@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ActivityCard from "../../components/ActivityCard/ActivityCard";
 import { api } from "../../services/api";
+import { useSuggestedActivities } from "../../hooks/useSuggestedActivities";
 
 export default function HostHome({ user }) {
   const navigate = useNavigate();
 
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { activities: suggestions, loading: suggestionsLoading } =
+    useSuggestedActivities();
 
   useEffect(() => {
     loadActivities();
@@ -94,13 +98,13 @@ export default function HostHome({ user }) {
       <section>
         <h2>Discover Activities</h2>
 
-        {loading ? (
+        {suggestionsLoading ? (
           <p>Loading activities...</p>
-        ) : activities.length === 0 ? (
+        ) : suggestions.length === 0 ? (
           <p>No activities available yet.</p>
         ) : (
           <div className="activity-grid">
-            {activities.map((activity) => (
+            {suggestions.map(({ activity }) => (
               <ActivityCard
                 key={activity.ID}
                 title={activity.Title}

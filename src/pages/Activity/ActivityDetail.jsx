@@ -8,6 +8,7 @@ import { api } from "../../services/api";
 import { getUserProfile } from "../../utils/userCache";
 import "./ActivityDetail.css";
 import RatingSection from "../../components/RatingSection/RatingSection";
+import CommentSection from "../../components/CommentSection/CommentSection";
 
 const sourceLabels = { host: "a host", moderator: "a moderator" };
 
@@ -75,10 +76,12 @@ export default function ActivityDetail() {
         <InviteButton onClick={handleInvite} />
 
         <section className="comments-section">
-  <h2>Ratings</h2>
-  <RatingSection activityId={activity.ID} />
-  <p className="coming-soon">Comments — coming soon.</p>
-</section>
+          <h2>Ratings</h2>
+          <RatingSection activityId={activity.ID} />
+
+          <h2>Comments</h2>
+          <CommentSection activityId={activity.ID} />
+        </section>
       </main>
     </div>
   );

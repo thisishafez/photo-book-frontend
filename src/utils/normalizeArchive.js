@@ -6,6 +6,8 @@
 
 import { pick } from "./normalizeHangout";
 
+import { MEDIA_BASE_URL } from "../services/api";
+
 // UploadMedia's doc comment on the backend says media_type is
 // "photo" | "gif" | "video" | "audio". MediaGrid.jsx was built
 // expecting "image" for photos, so translate here rather than
@@ -30,8 +32,17 @@ export const normalizeMedia = (raw) => {
       pick(raw, "media_type", "MediaType", "type", "Type")
     ),
     url:
-      pick(raw, "url", "URL", "media_url", "MediaURL", "file_url", "FileURL") ??
-      null,
+  normalizeMediaUrl(
+    pick(
+      raw,
+      "url",
+      "URL",
+      "media_url",
+      "MediaURL",
+      "file_url",
+      "FileURL"
+    )
+  ),
     name:
       pick(
         raw,
@@ -57,6 +68,27 @@ export const normalizeMedia = (raw) => {
   };
 };
 
+const normalizeMediaUrl = (rawUrl) => {
+
+  if (!rawUrl) {
+    return null;
+  }
+
+
+  // Already a complete URL
+  if (
+    rawUrl.startsWith("http://") ||
+    rawUrl.startsWith("https://")
+  ) {
+
+    return rawUrl;
+
+  }
+
+
+  return `${MEDIA_BASE_URL}/${rawUrl.replace(/^\/+/, "")}`;
+
+};
 // The archive record itself is minimal — just
 // {ID, HangoutID, ChatSnapshot, Status, CreatedAt, UpdatedAt}. GET
 // /archives returns an array of these directly. GET /archives/:id

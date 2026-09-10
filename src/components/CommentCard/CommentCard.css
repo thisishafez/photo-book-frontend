@@ -1,61 +1,87 @@
-.comment-card{
+@import "../../styles/tokens.css";
 
-
-background:white;
-
-padding:20px;
-
-border-radius:15px;
-
-
-box-shadow:
-
-0 5px 15px rgba(0,0,0,.08);
-
-
-margin-bottom:15px;
-
-
-color:#222;
-
-
-transition:.2s;
-
-
+.comment-card {
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
+  transition: box-shadow var(--kh-transition);
 }
 
-
-
-.comment-header{
-
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-
+.comment-card:hover {
+  box-shadow: var(--kh-shadow);
 }
 
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
 
+.comment-header strong {
+  font-family: var(--kh-font-display);
+  font-size: 1rem;
+  color: var(--kh-ink);
+}
 
-/* =====================
-   DARK MODE
-===================== */
+.comment-time {
+  font-size: 0.78rem;
+  color: var(--kh-ink-soft);
+  white-space: nowrap;
+}
 
+.comment-body {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--kh-ink);
+  white-space: pre-wrap;
+}
 
-.activity-detail-page.dark .comment-card{
+.comment-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
+.comment-vote-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius-sm);
+  background: transparent;
+  color: var(--kh-ink-soft);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition:
+    background var(--kh-transition),
+    color var(--kh-transition),
+    border-color var(--kh-transition);
+}
 
-background:#1e1e1e;
+.comment-vote-btn:hover:not(:disabled) {
+  border-color: var(--kh-marigold);
+  color: var(--kh-marigold-dark);
+}
 
-color:white;
+.comment-vote-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
-
-box-shadow:
-
-0 5px 15px rgba(0,0,0,.4);
-
-
+.comment-score {
+  min-width: 1.5ch;
+  text-align: center;
+  font-family: var(--kh-font-display);
+  font-size: 0.9rem;
+  color: var(--kh-ink);
 }

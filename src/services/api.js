@@ -1,4 +1,6 @@
-const API_BASE_URL = 'https://api.duster.ir';
+export const API_BASE_URL = 'https://api.duster.ir';
+export const MEDIA_BASE_URL =
+  "https://media.duster.ir";
 // Later:
 // const API_BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -681,13 +683,34 @@ export const api = {
   submitRating: async (id, score) =>
     request(`/activities/${id}/rating`, { method: "POST", body: { score } }),
 
-  // No backend domain wired into the frontend yet — Comment IS built on
-  // the backend (internal/comment), this is just left for Phase 6 so we
-  // don't build the UI ahead of the roadmap. Left as explicit failures
-  // instead of silently mocking data.
-  getComments: async () => { throw new Error("Comments aren't available yet."); },
-  addComment: async () => { throw new Error("Comments aren't available yet."); },
+  // Comments — backed by internal/comment. ListComments only returns
+  // approved comments (moderation-gated); a freshly-created comment
+  // won't show up here until a moderator approves it.
+  getComments: async (id) => request(`/activities/${id}/comment`),
+  addComment: async (id, body) =>
+    request(`/activities/${id}/comment`, { method: "POST", body: { body } }),
+
+  // AI-generated aggregate summary of a activity's comments. 200 with
+  // available:false until the first summary has been generated.
+  getCommentSummary: async (id) => request(`/activities/${id}/comment/summary`),
 },
+
+  // ===============================
+  // COMMENTS (voting + moderation)
+  // ===============================
+  //
+  // Vote is its own top-level route (a vote targets a comment directly,
+  // not an activity) — see comment/adapters/http/handler.go
+  // RegisterVoteRoute / RegisterModerationRoutes.
+
+  comments: {
+    vote: async (commentId, value) =>
+      request(`/comment/${commentId}/vote`, { method: "POST", body: { value } }),
+
+    getModerationQueue: async () => request("/moderator/comment/queue"),
+    approveComment: async (id) => request(`/moderator/comment/${id}/approve`, { method: "POST" }),
+    rejectComment: async (id) => request(`/moderator/comment/${id}/reject`, { method: "POST" }),
+  },
 
 
 
@@ -1172,12 +1195,4 @@ export const getAuthHeaders = () => {
   };
 
 
-};
-
-
-
-
-
-export {
-  API_BASE_URL
 };

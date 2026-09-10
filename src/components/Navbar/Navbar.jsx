@@ -10,10 +10,31 @@ import notificationEmpty from '../../assets/notification-empty.svg';
 import notificationFull from '../../assets/notification-full.svg';
 import galleryIcon from '../../assets/gallery.svg';
 
+const NAV_LINKS = {
+  user: [
+    { key: 'home', to: '/', label: 'Home', icon: galleryIcon },
+    { key: 'archive', to: '/archives', label: 'Archive' },
+    { key: 'circle', to: '/circle', label: 'Circle' },
+    { key: 'hangouts', to: '/hangouts', label: 'Hangouts' },
+    { key: 'profile', to: '/profile', label: 'Profile' },
+  ],
+  host: [
+    { key: 'dashboard', to: '/host/dashboard', label: 'Dashboard' },
+    { key: 'home', to: '/', label: 'Home', icon: galleryIcon },
+    { key: 'profile', to: '/profile', label: 'Profile' },
+  ],
+  moderator: [
+    { key: 'home', to: '/', label: 'Home', icon: galleryIcon },
+    { key: 'profile', to: '/profile', label: 'Profile' },
+  ],
+};
+
 export default function Navbar({ unreadCount = 0 }) {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
   const { darkMode, toggleDarkMode } = useTheme();
+
+  const navLinks = NAV_LINKS[user?.accountType] ?? [];
 
   const [hasUnread, setHasUnread] = useState(unreadCount > 0);
 
@@ -44,17 +65,20 @@ export default function Navbar({ unreadCount = 0 }) {
 
         <div className="navbar-right">
 
-          {/* Gallery Navigation */}
-          <Link to="/" className="navbar-nav-link">
-            <img
-              src={galleryIcon}
-              alt="Gallery"
-              className="nav-icon"
-            />
-            <span className="nav-label">
-              Gallery
-            </span>
-          </Link>
+          {navLinks.map((link) => (
+            <Link key={link.key} to={link.to} className="navbar-nav-link">
+              {link.icon && (
+                <img
+                  src={link.icon}
+                  alt={link.label}
+                  className="nav-icon"
+                />
+              )}
+              <span className="nav-label">
+                {link.label}
+              </span>
+            </Link>
+          ))}
 
 
           {/* Notifications */}

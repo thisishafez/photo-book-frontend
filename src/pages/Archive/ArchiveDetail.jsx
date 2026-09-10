@@ -32,7 +32,87 @@ import {
 }
 from "../../contexts/ThemeContext";
 
+import {
+  getUserProfile
+}
+from "../../utils/userCache";
+
+import {
+  normalizeHangout
+}
+from "../../utils/normalizeHangout";
+
+import {
+  normalizeArchiveDetail,
+  normalizeMedia,
+  getChatSnapshotSenderIds
+}
+from "../../utils/normalizeArchive";
+
 import "./ArchiveDetail.css";
+
+
+// Same pattern used in HangoutDetail.jsx / ChatBox.jsx.
+const getCurrentUserId = () => {
+
+  try {
+
+    const user = JSON.parse(
+      localStorage.getItem("user") || "null"
+    );
+
+    return (
+      user?.id ||
+      user?.user_id ||
+      user?.account_id ||
+      null
+    );
+
+  } catch {
+
+    return null;
+
+  }
+
+};
+
+
+const getActivityName = (hangout) => {
+
+  if (!hangout?.activity) {
+    return null;
+  }
+
+  if (typeof hangout.activity === "string") {
+    return hangout.activity;
+  }
+
+  return (
+    hangout.activity.title ||
+    hangout.activity.name ||
+    null
+  );
+
+};
+
+
+// 1 week after the hangout's scheduled end, per the Phase 5 spec.
+// The archive record itself doesn't carry this (confirmed against a
+// real response) — it's derived client-side from the linked
+// hangout's ScheduledEndAt.
+const computeUploadWindowEnds = (hangout) => {
+
+  if (!hangout?.scheduled_end_at) {
+    return null;
+  }
+
+  const end = new Date(hangout.scheduled_end_at).getTime();
+
+  return new Date(
+    end + 7 * 24 * 60 * 60 * 1000
+  ).toISOString();
+
+};
 
 
 export default function ArchiveDetail() {
@@ -82,6 +162,10 @@ export default function ArchiveDetail() {
     useState(false);
 
 
+  const currentUserId =
+    getCurrentUserId();
+
+
 
   useEffect(
   () => {
@@ -123,16 +207,137 @@ useEffect(
         );
 
 
-        const data =
+        const raw =
           await api.archive
             .getArchive(
               id
             );
 
 
-        setArchive(
-          data
-        );
+        // First pass: just enough to know the linked hangout id and
+        // which sender ids the archived chat references. Confirmed
+        // against a real response — GET /archives/:id does NOT embed
+        // title/activity/date/location/participants at all, only
+        // {Archive: {ID, HangoutID, ChatSnapshot, Status, ...},
+        // Media: [...]}. Everything hangout-shaped has to come from
+        // a separate hangout fetch.
+        const preview =
+          normalizeArchiveDetail(
+            raw,
+            { currentUserId }
+          );
+
+        if (!preview) {
+          throw new Error("Archive not found.");
+        }
+
+        // Same nested-under-a-capitalized-key shape as
+        // GetHangoutUseCase (see HangoutDetail.jsx's loadHangout).
+        const hangoutRaw =
+          await api.hangouts
+            .getHangout(preview.hangoutId)
+            .catch(() => null);
+
+        const hangoutContainer =
+          hangoutRaw?.hangout ||
+          hangoutRaw?.Hangout ||
+          hangoutRaw?.data ||
+          hangoutRaw;
+
+        const hangout =
+          hangoutRaw &&
+          normalizeHangout({
+            ...hangoutRaw,
+            ...hangoutContainer,
+          });
+
+        // Best-effort — the meetup pin is a separate endpoint and a
+        // hangout may never have had one confirmed.
+        const pinRaw =
+          await api.hangouts
+            .getMeetupPin(preview.hangoutId)
+            .catch(() => null);
+
+        const pinContainer =
+          pinRaw?.pin ||
+          pinRaw?.Pin ||
+          pinRaw?.data ||
+          pinRaw;
+
+        const pin =
+          pinRaw && {
+            ...pinRaw,
+            ...pinContainer,
+          };
+
+        // Resolve display names for anyone the archived chat or the
+        // hangout's participant list mentions.
+        const idsNeedingProfiles = [
+          ...new Set(
+            [
+              ...(hangout?.participants || []).map(
+                participant => participant.user_id
+              ),
+              ...getChatSnapshotSenderIds(
+                preview.chatSnapshot
+              )
+            ].filter(Boolean)
+          )
+        ];
+
+        const profiles =
+          await Promise.all(
+            idsNeedingProfiles.map(
+              userId =>
+                getUserProfile(userId)
+                  .then(profile => [userId, profile])
+            )
+          );
+
+        const senderNames =
+          Object.fromEntries(
+            profiles.map(
+              ([userId, profile]) => [
+                userId,
+                profile?.display_name ||
+                  profile?.handle ||
+                  "Participant"
+              ]
+            )
+          );
+
+
+        const detail =
+          normalizeArchiveDetail(
+            raw,
+            { currentUserId, senderNames }
+          );
+
+        const participants =
+          (hangout?.participants || []).map(
+            participant => ({
+              id: participant.user_id,
+              userId: participant.user_id,
+              displayName:
+                senderNames[participant.user_id] ||
+                "Participant",
+            })
+          );
+
+        setArchive({
+          ...detail,
+          // These all come from the linked hangout, not the archive
+          // record itself (see normalizeArchive.js).
+          title: hangout?.title || "Hangout",
+          activity: getActivityName(hangout),
+          date: hangout?.scheduled_at || detail.createdAt,
+          location: pin?.place_name || pin?.PlaceName || null,
+          uploadWindowEnds: computeUploadWindowEnds(hangout),
+          // "Didn't happen" is a property of the HANGOUT's status,
+          // not the archive's own active/purged lifecycle flag.
+          status: hangout?.status === "cancelled" ? "cancelled" : "completed",
+          participants,
+        });
 
       }
 
@@ -160,15 +365,22 @@ useEffect(
 
 
   const handleUpload =
-    async file => {
+    async (file, duration) => {
 
 
-      const media =
+      const rawMedia =
         await api.archive
           .uploadMedia(
             id,
-            file
+            file,
+            duration
           );
+
+
+      const media =
+        normalizeMedia(
+          rawMedia
+        );
 
 
       setArchive(
@@ -179,7 +391,10 @@ useEffect(
           media: [
             ...previous.media,
             media
-          ]
+          ],
+
+          mediaCount:
+            previous.mediaCount + 1
 
         })
       );
@@ -187,60 +402,10 @@ useEffect(
   };
 
 
-
-  const handleDeleteMedia =
-    async mediaId => {
-
-
-      const confirmed =
-        window.confirm(
-          "Hide this media from your archive? Other participants will still be able to see it."
-        );
-
-
-      if (!confirmed) {
-        return;
-      }
-
-
-      try {
-
-        await api.archive
-          .deleteMediaForMe(
-            id,
-            mediaId
-          );
-
-
-        setArchive(
-          previous => ({
-
-            ...previous,
-
-            media:
-              previous.media.filter(
-                item =>
-                  item.id !==
-                  mediaId
-              )
-
-          })
-        );
-
-      }
-
-      catch (
-        error
-      ) {
-
-        console.error(
-          "Failed to hide media",
-          error
-        );
-
-      }
-
-    };
+  // The backend doesn't yet expose a per-media personal-delete route
+  // (see services/api.js archive.deleteMediaForMe) — only whole-archive
+  // delete exists in Phase 5, so MediaGrid is rendered below without
+  // an onDelete handler and its "Hide" button never appears.
 
 
 
@@ -266,10 +431,20 @@ useEffect(
         );
 
 
-        await api.archive
-          .deleteArchiveForMe(
-            id
+        const result =
+          await api.archive
+            .deleteArchiveForMe(
+              id
+            );
+
+
+        if (result?.purged) {
+
+          window.alert(
+            "Every participant had hidden this memory, so it's now been permanently deleted for everyone."
           );
+
+        }
 
 
         navigate(
@@ -782,9 +957,6 @@ useEffect(
               <MediaGrid
                 media={
                   archive.media
-                }
-                onDelete={
-                  handleDeleteMedia
                 }
               />
 

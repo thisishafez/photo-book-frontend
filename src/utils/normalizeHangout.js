@@ -41,9 +41,17 @@ export const normalizeHangout = (raw) => {
     description: pick(raw, "description", "Description"),
     status: pick(raw, "status", "Status"),
     scheduled_at: pick(raw, "scheduled_at", "ScheduledAt"),
+    // Confirmed by the backend team alongside the cancel/complete spec
+    // (2026-09-10) — wasn't part of the shape we normalized before.
+    scheduled_end_at: pick(raw, "scheduled_end_at", "ScheduledEndAt"),
     organizer_id: pick(raw, "organizer_id", "OrganizerID"),
     activity_id: pick(raw, "activity_id", "ActivityID"),
     activity: pick(raw, "activity", "Activity") ?? null,
+    // Optimistic-concurrency counter the backend bumps on every write.
+    // Not sent back on any request yet, but worth carrying through so
+    // a future If-Match-style guard doesn't need another round of
+    // "add this field to the normalizer" first.
+    version: pick(raw, "version", "Version"),
     participants,
   };
 };

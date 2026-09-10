@@ -114,6 +114,8 @@ export default function HangoutDetail() {
   const [pinError, setPinError] = useState("");
 
   const [cancelling, setCancelling] = useState(false);
+  const [completing, setCompleting] = useState(false);
+  const [starting, setStarting] = useState(false);
 
   const loadHangout = async () => {
     try {
@@ -298,6 +300,62 @@ export default function HangoutDetail() {
     }
   };
 
+  // POST /hangouts/:id/status { status: "ongoing" }. Nothing in this
+  // app ever moved a hangout out of "planned" before, which meant
+  // handleComplete's target state ("ongoing") was unreachable and its
+  // button never showed. The /status endpoint validates "the correct
+  // next step" generically, so it's the same call as handleComplete
+  // with a different target status.
+  const handleStart = async () => {
+    if (starting) {
+      return;
+    }
+
+    try {
+      setStarting(true);
+      setError("");
+
+      await api.hangouts.updateStatus(id, "ongoing");
+
+      await loadHangout();
+    } catch (err) {
+      setError(
+        err.message ||
+          "Unable to start hangout."
+      );
+    } finally {
+      setStarting(false);
+    }
+  };
+
+  // POST /hangouts/:id/status { status: "completed" }. Backend only
+  // allows this from "ongoing" — planned can't jump straight to
+  // completed — so the button only shows in that state. Organizer-only,
+  // same as cancel; 403/409/400 come back with a human-readable
+  // `error` string from the backend's shared error handler, so surfacing
+  // err.message as-is (same as handleCancel) is enough.
+  const handleComplete = async () => {
+    if (completing) {
+      return;
+    }
+
+    try {
+      setCompleting(true);
+      setError("");
+
+      await api.hangouts.updateStatus(id, "completed");
+
+      await loadHangout();
+    } catch (err) {
+      setError(
+        err.message ||
+          "Unable to mark hangout as completed."
+      );
+    } finally {
+      setCompleting(false);
+    }
+  };
+
   const handleInviteResponded = async () => {
     await loadHangout();
     await loadPin();
@@ -441,6 +499,32 @@ export default function HangoutDetail() {
 
         {!isFinal && (
           <ChatBox hangoutId={id} />
+        )}
+
+        {isOrganizer && hangout.status === "planned" && (
+          <button
+            className="start-hangout-btn"
+            type="button"
+            disabled={starting}
+            onClick={handleStart}
+          >
+            {starting
+              ? "Starting..."
+              : "Start Hangout"}
+          </button>
+        )}
+
+        {isOrganizer && hangout.status === "ongoing" && (
+          <button
+            className="complete-hangout-btn"
+            type="button"
+            disabled={completing}
+            onClick={handleComplete}
+          >
+            {completing
+              ? "Marking Completed..."
+              : "Mark as Completed"}
+          </button>
         )}
 
         {isOrganizer && !isFinal && (

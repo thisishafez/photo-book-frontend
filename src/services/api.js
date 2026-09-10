@@ -118,6 +118,76 @@ async function request(
 
 
 
+// Same auth/refresh handling as request(), but for multipart/form-data
+// bodies (file uploads) instead of JSON — the central request() helper
+// always sets Content-Type: application/json when a body is present,
+// which breaks the multipart boundary the browser needs to set itself.
+async function requestMultipart(
+  path,
+  formData,
+  { method = "POST", isRetry = false } = {}
+) {
+
+  const token = localStorage.getItem("access_token");
+
+  const response = await fetch(
+    `${API_BASE_URL}${path}`,
+    {
+      method,
+
+      headers: {
+        ...(token
+          ? { Authorization: `Bearer ${token}` }
+          : {})
+        // No Content-Type here on purpose — the browser sets
+        // multipart/form-data with the right boundary itself.
+      },
+
+      body: formData
+    }
+  );
+
+  if (
+    response.status === 401 &&
+    !isRetry
+  ) {
+
+    const refreshed = await tryRefresh();
+
+    if (refreshed) {
+      return requestMultipart(
+        path,
+        formData,
+        { method, isRetry: true }
+      );
+    }
+
+  }
+
+  const data =
+    await response
+      .json()
+      .catch(() => ({}));
+
+  if (!response.ok) {
+
+    const requestError = new Error(
+      data.error ||
+      `Request failed (${response.status})`
+    );
+
+    requestError.status = response.status;
+
+    throw requestError;
+
+  }
+
+  return data;
+
+}
+
+
+
 async function tryRefresh() {
 
 
@@ -214,6 +284,25 @@ async function tryRefresh() {
 }
 
 
+
+
+
+// Backend media_type is "photo" | "gif" | "video" | "audio" (see
+// archive/adapters/http/handler.go UploadMedia doc comment) — derive
+// it from the browser File's MIME type rather than asking the caller
+// to know the backend's vocabulary.
+const mediaTypeFromFile = (file) => {
+
+  const mime = file?.type || "";
+
+  if (mime === "image/gif") return "gif";
+  if (mime.startsWith("image/")) return "photo";
+  if (mime.startsWith("video/")) return "video";
+  if (mime.startsWith("audio/")) return "audio";
+
+  return "photo";
+
+};
 
 
 
@@ -890,6 +979,19 @@ hangouts: {
       }
     );
 
+  },
+
+
+  // GET /hangouts/pending-upload-prompt
+  // The logic (ListPendingUploadPromptsUseCase) lives in the archive
+  // module, but it's mounted onto the hangout route group — see
+  // RegisterUploadPromptRoute in archive/adapters/http/handler.go.
+  getPendingUploadPrompts: async () => {
+
+    return request(
+      "/hangouts/pending-upload-prompt"
+    );
+
   }
 
 },
@@ -908,60 +1010,92 @@ hangouts: {
   archive:{
 
 
+    // GET /archives
     getArchives:
       async()=>{
 
-
-        return null;
-
+        return request(
+          "/archives"
+        );
 
       },
 
 
+    // GET /archives/:id
     getArchive:
       async(id)=>{
 
-
-        return null;
-
+        return request(
+          `/archives/${id}`
+        );
 
       },
 
 
+    // POST /archives/:id/media (multipart/form-data: file, media_type,
+    // duration_seconds). durationSeconds is required by the backend
+    // for video/audio and ignored otherwise.
     uploadMedia:
       async(
         archiveId,
-        file
+        file,
+        durationSeconds = null
       )=>{
 
+        const formData = new FormData();
 
-        return null;
+        formData.append("file", file);
+        formData.append(
+          "media_type",
+          mediaTypeFromFile(file)
+        );
 
+        if (durationSeconds != null) {
+          formData.append(
+            "duration_seconds",
+            String(Math.round(durationSeconds))
+          );
+        }
+
+        return requestMultipart(
+          `/archives/${archiveId}/media`,
+          formData
+        );
 
       },
 
 
+    // NOTE: archive/adapters/http/handler.go only exposes archive-level
+    // personal delete (POST /:id/delete) — there is no per-media
+    // delete route yet, so this stays unimplemented until the backend
+    // adds one. ArchiveDetail.jsx doesn't offer a "hide this media"
+    // action for the same reason.
     deleteMediaForMe:
       async(
         archiveId,
         mediaId
       )=>{
 
-
-        return null;
-
+        throw new Error(
+          "Hiding individual media isn't available yet."
+        );
 
       },
 
 
+    // POST /archives/:id/delete — sets the caller's personal-delete
+    // flag. Once every participant has done this the backend purges
+    // the archive server-side; the response's `purged` flag reflects
+    // whether that just happened.
     deleteArchiveForMe:
       async(
         archiveId
       )=>{
 
-
-        return null;
-
+        return request(
+          `/archives/${archiveId}/delete`,
+          { method: "POST" }
+        );
 
       }
 

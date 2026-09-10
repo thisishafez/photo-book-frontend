@@ -1,14 +1,6 @@
-import {
-  useEffect,
-  useState
-} from 'react';
-
-import {
-  useNavigate
-} from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 import Navbar from '../../components/Navbar/Navbar';
-import ActivityCard from '../../components/ActivityCard/ActivityCard';
 
 import {
   useNotifications
@@ -19,14 +11,20 @@ import {
 } from '../../contexts/ThemeContext';
 
 import {
-  api
-} from '../../services/api';
+  useAuth
+} from '../../contexts/AuthContext';
+
+import {
+  getUserProfile
+} from '../../utils/userCache';
+
+import UserHome from './UserHome';
+import HostHome from './HostHome';
+import ModeratorHome from './ModeratorHome';
 
 import './Home.css';
 
 export default function Home() {
-  const navigate = useNavigate();
-
   const {
     unreadCount
   } = useNotifications();
@@ -35,113 +33,62 @@ export default function Home() {
     darkMode
   } = useTheme();
 
-  const [activities, setActivities] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    user
+  } = useAuth();
 
-  const user =
-    JSON.parse(localStorage.getItem('user')) || {
-      username: 'User'
-    };
+  // AuthContext's user object only carries id/email/accountType —
+  // there's no username. Look up the real profile once, the same
+  // way ChatBox/MeetupPin/ActivityModeration already do, instead of
+  // showing "Hello, undefined" like the old greeting did.
+  const [displayName, setDisplayName] = useState('');
 
   useEffect(() => {
-    loadActivities();
-  }, []);
+    if (!user?.id) return;
 
-  const loadActivities = async () => {
-    try {
-      setLoading(true);
+    let cancelled = false;
 
-      const response = await api.activities.list();
+    getUserProfile(user.id).then((profile) => {
+      if (cancelled) return;
 
-      setActivities(response || []);
-    } catch (error) {
-      console.error(
-        '[Home] Failed loading activities',
-        error
+      setDisplayName(
+        profile?.display_name || profile?.handle || ''
       );
+    });
 
-      setActivities([]);
-    } finally {
-      setLoading(false);
-    }
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id]);
+
+  const viewer = {
+    ...user,
+    displayName: displayName || user?.email || '',
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+  const renderHome = () => {
+    switch (user?.accountType) {
+      case 'host':
+        return <HostHome user={viewer} />;
 
-    navigate('/login');
+      case 'moderator':
+        return <ModeratorHome user={viewer} />;
+
+      case 'user':
+      default:
+        return <UserHome user={viewer} />;
+    }
   };
 
   return (
     <div
       className={`home-page ${darkMode ? 'home-dark' : ''}`}
     >
-      <Navbar
-        onLogout={handleLogout}
-        unreadCount={unreadCount}
-      />
+      <Navbar unreadCount={unreadCount} />
 
       <main className="home-main">
         <div className="home-container">
-
-          <h1>
-            Hello, {user.username} 👋
-          </h1>
-
-          <p className="home-subtitle">
-            Discover activities you'll enjoy
-          </p>
-
-          <section>
-            <h2>
-              All Activities
-            </h2>
-
-            {loading ? (
-              <p>
-                Loading activities...
-              </p>
-            ) : activities.length === 0 ? (
-              <p>
-                No activities available yet.
-              </p>
-            ) : (
-              <div className="activity-grid">
-                {activities.map((activity) => (
-                  <ActivityCard
-                    key={activity.ID}
-
-                    title={activity.Title}
-
-                    description={
-                      activity.Description
-                    }
-
-                    category={
-                      activity.SourceType
-                    }
-
-                    onClick={() =>
-                      navigate(
-                        `/activity/${activity.ID}`
-                      )
-                    }
-                  />
-                ))}
-              </div>
-            )}
-          </section>
-
-          <button
-            className="create-activity-btn"
-            onClick={() =>
-              navigate('/create-activity')
-            }
-          >
-            + Create Activity
-          </button>
-
+          {renderHome()}
         </div>
       </main>
     </div>

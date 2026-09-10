@@ -169,7 +169,13 @@ export default function UploadMedia({
 
       }
 
+
+      return duration;
+
     }
+
+
+    return null;
 
   };
 
@@ -202,13 +208,15 @@ export default function UploadMedia({
         );
 
 
-        await validateFile(
-          file
-        );
+        const duration =
+          await validateFile(
+            file
+          );
 
 
         await onUpload(
-          file
+          file,
+          duration
         );
 
       }

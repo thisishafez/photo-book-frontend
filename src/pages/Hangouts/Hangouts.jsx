@@ -82,11 +82,12 @@ export default function Hangouts() {
 
     try {
 
+      // "Upcoming" needs to cover both "planned" and "ongoing" —
+      // a hangout that has started but isn't completed/cancelled yet
+      // still belongs here, not in limbo with no tab that shows it.
+      // getHangouts only takes a single status value, so for this tab
+      // we fetch everything and filter client-side instead.
       let status = null;
-
-      if (tab === "upcoming") {
-        status = "planned";
-      }
 
       if (tab === "completed") {
         status = "completed";
@@ -110,8 +111,17 @@ export default function Hangouts() {
               data.hangouts || []
             );
 
+      const normalized =
+        list.map(normalizeHangout);
+
       setHangouts(
-        list.map(normalizeHangout)
+        tab === "upcoming"
+          ? normalized.filter(
+              (hangout) =>
+                hangout.status === "planned" ||
+                hangout.status === "ongoing"
+            )
+          : normalized
       );
 
     } catch (err) {

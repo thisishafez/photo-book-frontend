@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../services/api";
+import { useAuth } from "../../contexts/AuthContext";
+import { getUserProfile } from "../../utils/userCache";
 
-const getUserId = (user) =>
-  user?.id ||
-  user?.user_id ||
-  user?.userId;
+// The backend serializes Go structs without json tags, so responses
+// come back with capitalized field names (ID, not id). Read both so
+// this keeps working whether or not that ever gets fixed server-side.
+const getId = (obj) => obj?.id ?? obj?.ID;
 
 const getUserName = (user) =>
   user?.display_name ||
@@ -17,6 +19,7 @@ const getUserName = (user) =>
 export default function InviteFriends() {
   const { id: hangoutId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const [friends, setFriends] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -29,17 +32,40 @@ export default function InviteFriends() {
       try {
         setLoading(true);
 
-        const response = await api.circle.getCircle();
+        const data = await api.circle.getCircle();
 
-        const data =
-          response?.friends ||
-          response?.members ||
-          response?.users ||
-          response?.data ||
-          response ||
-          [];
+        const connections = Array.isArray(data)
+          ? data
+          : data?.connections || data?.friends || data?.users || data?.data || [];
 
-        setFriends(Array.isArray(data) ? data : []);
+        // getCircle() returns raw connection records
+        // ({ID, RequesterID, AddresseeID, ...}), not friend
+        // profiles — same issue InviteHangout.jsx works around.
+        // We need the *other* side of each connection, then a
+        // profile lookup to get a display name.
+        const myId = getId(user);
+
+        const enriched = await Promise.all(
+          connections.map(async (conn) => {
+            const requesterId = conn.RequesterID || conn.requester_id;
+            const addresseeId = conn.AddresseeID || conn.addressee_id;
+
+            const otherId =
+              String(requesterId) === String(myId)
+                ? addresseeId
+                : requesterId;
+
+            const profile = await getUserProfile(otherId);
+
+            return {
+              id: otherId,
+              display_name: profile?.display_name,
+              username: profile?.handle,
+            };
+          })
+        );
+
+        setFriends(enriched);
       } catch (err) {
         setError(
           err.message || "Unable to load your friends."
@@ -50,7 +76,7 @@ export default function InviteFriends() {
     };
 
     loadFriends();
-  }, []);
+  }, [user]);
 
   const toggleUser = (userId) => {
     setSelected((previous) =>
@@ -105,7 +131,7 @@ export default function InviteFriends() {
         <form onSubmit={handleSubmit}>
           <div className="friend-list">
             {friends.map((friend) => {
-              const userId = getUserId(friend);
+              const userId = friend.id;
 
               return (
                 <label

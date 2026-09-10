@@ -81,6 +81,9 @@ function formatStatus(status) {
     case "planned":
       return "Upcoming";
 
+    case "ongoing":
+      return "Happening Now";
+
     case "completed":
       return "Completed";
 

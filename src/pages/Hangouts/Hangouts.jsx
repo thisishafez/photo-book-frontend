@@ -1,195 +1,275 @@
 import {
-useEffect,
-useState
-}
-from "react";
+  useEffect,
+  useState
+} from "react";
 
 
 import {
-useNavigate
-}
-from "react-router-dom";
+  useNavigate
+} from "react-router-dom";
 
 
-import Navbar from "../../components/Navbar/Navbar";
+import Navbar
+  from "../../components/Navbar/Navbar";
 
-import HangoutCard from "../../components/HangoutCard/ HangoutCard.jsx";
 
-
-import {
-api
-}
-from "../../services/api";
+import HangoutCard
+  from "../../components/HangoutCard/ HangoutCard.jsx";
 
 
 import {
-useTheme
-}
-from "../../contexts/ThemeContext";
+  api
+} from "../../services/api";
+
+
+import {
+  useTheme
+} from "../../contexts/ThemeContext";
+
+import {
+  normalizeHangout
+} from "../../utils/normalizeHangout";
 
 
 import "./Hangouts.css";
 
 
+export default function Hangouts() {
 
-export default function Hangouts(){
+  const navigate =
+    useNavigate();
 
 
-const navigate =
-useNavigate();
+  const { darkMode } =
+    useTheme();
 
 
-const {
-darkMode
-}
-=
-useTheme();
+  const [
+    hangouts,
+    setHangouts
+  ] = useState([]);
 
 
+  const [
+    tab,
+    setTab
+  ] = useState("upcoming");
 
-const [hangouts,setHangouts]
-=
-useState([]);
 
+  const [
+    loading,
+    setLoading
+  ] = useState(true);
 
 
-const [tab,setTab]
-=
-useState("upcoming");
+  const [
+    error,
+    setError
+  ] = useState(null);
 
 
+  useEffect(() => {
 
-useEffect(()=>{
+    load();
 
-load();
+  }, [tab]);
 
-},[]);
 
+  const load = async () => {
 
+    setLoading(true);
+    setError(null);
 
-const load=async()=>{
+    try {
 
-const data =
-await api.hangouts.getHangouts();
+      let status = null;
 
-setHangouts(data);
+      if (tab === "upcoming") {
+        status = "planned";
+      }
 
-};
+      if (tab === "completed") {
+        status = "completed";
+      }
 
+      if (tab === "cancelled") {
+        status = "cancelled";
+      }
 
 
-const filtered =
-hangouts.filter(
-h=>{
+      const data =
+        await api.hangouts.getHangouts(
+          status
+        );
 
 
-if(tab==="upcoming")
-return h.status==="planned";
+      const list =
+        Array.isArray(data)
+          ? data
+          : (
+              data.hangouts || []
+            );
 
+      setHangouts(
+        list.map(normalizeHangout)
+      );
 
-if(tab==="completed")
-return h.status==="completed";
+    } catch (err) {
 
+      console.error(
+        "Failed to load hangouts:",
+        err
+      );
 
-if(tab==="failed")
-return h.status==="failed";
+      setError(
+        err.message ||
+        "Failed to load hangouts."
+      );
 
+    } finally {
 
-return true;
+      setLoading(false);
 
+    }
 
-}
-);
+  };
 
 
+  return (
 
-return (
+    <div
+      className={
+        `hangouts-page ${
+          darkMode ? "dark" : ""
+        }`
+      }
+    >
 
-<div
+      <Navbar />
 
-className={`hangouts-page ${
-darkMode?"dark":""
-}`}
 
->
+      <main
+        className="hangouts-container"
+      >
 
+        <h1>
+          Hangouts
+        </h1>
 
-<Navbar/>
 
+        <div
+          className="hangout-tabs"
+        >
 
+          <button
+            className={
+              tab === "upcoming"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setTab("upcoming")
+            }
+          >
+            Upcoming
+          </button>
 
-<main className="hangouts-container">
 
+          <button
+            className={
+              tab === "completed"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setTab("completed")
+            }
+          >
+            Completed
+          </button>
 
-<h1>
-Hangouts
-</h1>
 
+          <button
+            className={
+              tab === "cancelled"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setTab("cancelled")
+            }
+          >
+            Didn't Happen
+          </button>
 
+        </div>
 
-<div className="hangout-tabs">
 
+        {loading && (
 
-<button
-onClick={()=>setTab("upcoming")}
->
-Upcoming
-</button>
+          <div className="hangouts-loading">
+            Loading hangouts...
+          </div>
 
+        )}
 
-<button
-onClick={()=>setTab("completed")}
->
-Completed
-</button>
 
+        {!loading && error && (
 
-<button
-onClick={()=>setTab("failed")}
->
-Didn't Happen
-</button>
+          <div className="hangouts-error">
 
+            <p>
+              {error}
+            </p>
 
+            <button
+              onClick={load}
+            >
+              Try Again
+            </button>
 
-</div>
+          </div>
 
+        )}
 
 
-{
+        {!loading &&
+          !error &&
+          hangouts.length === 0 && (
 
-filtered.map(
+          <div className="hangouts-empty">
 
-hangout=>(
+            <p>
+              No hangouts here yet.
+            </p>
 
+          </div>
 
-<HangoutCard
+        )}
 
-key={hangout.id}
 
-hangout={hangout}
+        {!loading &&
+          !error &&
+          hangouts.map(
+            (hangout) => (
 
-onClick={()=>navigate(
-`/hangout/${hangout.id}`
-)}
+              <HangoutCard
+                key={hangout.id}
+                hangout={hangout}
+                onClick={() =>
+                  navigate(
+                    `/hangout/${hangout.id}`
+                  )
+                }
+              />
 
-/>
+            )
+          )}
 
+      </main>
 
-)
+    </div>
 
-)
-
-}
-
-
-
-</main>
-
-
-</div>
-
-);
-
+  );
 
 }

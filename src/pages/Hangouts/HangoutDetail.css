@@ -1,86 +1,494 @@
+/* =========================================
+   Hangout Detail Page
+   ========================================= */
+
 .hangout-detail-page {
   min-height: 100vh;
+  box-sizing: border-box;
 
-  background: #f6f6f6;
+  background: #f1f5f9;
+  color: #0f172a;
 
-  color: #222;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
+
+/* =========================================
+   Main container
+   ========================================= */
 
 .hangout-detail-container {
-  max-width: 900px;
-
+  width: min(1100px, calc(100% - 32px));
   margin: 0 auto;
+  padding: 32px 0 50px;
 
-  padding: 40px 24px 70px;
+  box-sizing: border-box;
 }
 
+/* =========================================
+   Back button
+   ========================================= */
+
 .hangout-back-btn {
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 20px;
+  padding: 8px 13px;
 
   background: transparent;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
 
-  color: #555;
+  color: #475569;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
 
   cursor: pointer;
 
-  font-size: 15px;
-
-  margin-bottom: 25px;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
+
+.hangout-back-btn:hover {
+  background: #ffffff;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.hangout-back-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* =========================================
+   Page-level errors
+   ========================================= */
+
+.hangout-detail-container > .error {
+  margin-bottom: 18px;
+  padding: 12px 15px;
+
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-left: 4px solid #dc2626;
+  border-radius: 9px;
+
+  color: #b91c1c;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   Hangout header
+   ========================================= */
 
 .hangout-detail-header {
-  margin-bottom: 25px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
+
+  margin-bottom: 22px;
+  padding: 24px;
+
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
 }
+
+/* Header title */
 
 .hangout-detail-header h1 {
-  font-size: 36px;
+  margin: 0 0 10px;
 
-  margin-bottom: 8px;
+  color: #0f172a;
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 800;
+  line-height: 1.2;
+
+  overflow-wrap: anywhere;
 }
+
+/* Header descriptions */
+
+.hangout-detail-header > div:first-child p {
+  margin: 7px 0;
+
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+.hangout-detail-header > div:first-child p:first-of-type {
+  color: #475569;
+  font-weight: 600;
+}
+
+/* =========================================
+   Status / metadata
+   ========================================= */
 
 .hangout-detail-meta {
-  color: #777;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+
+  min-width: 180px;
+
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: right;
 }
 
+.hangout-detail-meta strong {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 11px;
+
+  background: #dbeafe;
+  border-radius: 999px;
+
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================
+   Top-level action button
+   ========================================= */
+
+/*
+  This targets the "Invite Friends" button,
+  which is currently a direct child of the
+  main container and has no class.
+*/
+
+.hangout-detail-container
+  > button:not(.hangout-back-btn) {
+  min-height: 42px;
+  margin-bottom: 22px;
+  padding: 9px 16px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #2563eb;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
+}
+
+.hangout-detail-container
+  > button:not(.hangout-back-btn):hover {
+  background: #1d4ed8;
+  box-shadow: 0 5px 12px rgba(37, 99, 235, 0.2);
+}
+
+.hangout-detail-container
+  > button:not(.hangout-back-btn):active {
+  transform: translateY(1px);
+}
+
+.hangout-detail-container
+  > button:not(.hangout-back-btn):focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+/* =========================================
+   Component sections
+   ========================================= */
+
+.hangout-detail-container > section {
+  width: 100%;
+  margin-bottom: 22px;
+}
+
+/*
+  The child components already have their own
+  cards, so don't add another background here.
+*/
+
+.hangout-detail-container > section > p {
+  margin: 0;
+  padding: 18px;
+
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* =========================================
+   Danger zone
+   ========================================= */
+
 .hangout-danger-zone {
+  display: flex;
+  justify-content: flex-end;
+
   margin-top: 30px;
+  padding-top: 22px;
 
-  padding-top: 25px;
-
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #cbd5e1;
 }
 
 .cancel-hangout-btn {
-  padding: 12px 20px;
+  min-height: 42px;
+  padding: 9px 17px;
 
-  border: none;
+  background: #ffffff;
+  border: 1px solid #fca5a5;
+  border-radius: 9px;
 
-  border-radius: 11px;
-
-  background: #d63c3c;
-
-  color: white;
+  color: #dc2626;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
 
   cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
+.cancel-hangout-btn:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #ef4444;
+  color: #b91c1c;
 
-/* DARK MODE */
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.1);
+}
+
+.cancel-hangout-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.cancel-hangout-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+/* =========================================
+   Dark mode
+   ========================================= */
 
 .hangout-detail-page.dark {
-  background: #111;
-
-  color: white;
+  background: #0f172a;
+  color: #f8fafc;
 }
 
-.hangout-detail-page.dark .hangout-back-btn {
-  color: #bbb;
+.hangout-detail-page.dark .hangout-detail-header {
+  background: #1e293b;
+  border-color: #334155;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.hangout-detail-page.dark .hangout-detail-header h1 {
+  color: #f8fafc;
+}
+
+.hangout-detail-page.dark
+  .hangout-detail-header
+  > div:first-child
+  p {
+  color: #94a3b8;
+}
+
+.hangout-detail-page.dark
+  .hangout-detail-header
+  > div:first-child
+  p:first-of-type {
+  color: #cbd5e1;
 }
 
 .hangout-detail-page.dark .hangout-detail-meta {
-  color: #aaa;
+  color: #94a3b8;
+}
+
+.hangout-detail-page.dark .hangout-back-btn {
+  background: transparent;
+  border-color: #475569;
+  color: #cbd5e1;
+}
+
+.hangout-detail-page.dark .hangout-back-btn:hover {
+  background: #1e293b;
+  border-color: #64748b;
+  color: #ffffff;
+}
+
+.hangout-detail-page.dark
+  .hangout-detail-container
+  > section
+  > p {
+  background: #1e293b;
+  border-color: #334155;
+  color: #94a3b8;
 }
 
 .hangout-detail-page.dark .hangout-danger-zone {
-  border-color: #333;
+  border-top-color: #334155;
+}
+
+.hangout-detail-page.dark .cancel-hangout-btn {
+  background: #1e293b;
+  border-color: #7f1d1d;
+  color: #f87171;
+}
+
+.hangout-detail-page.dark
+  .cancel-hangout-btn:hover:not(:disabled) {
+  background: #450a0a;
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+.hangout-detail-page.dark
+  .hangout-detail-container
+  > .error {
+  background: #450a0a;
+  border-color: #7f1d1d;
+  color: #fca5a5;
+}
+
+/* =========================================
+   Loading / standalone main states
+   ========================================= */
+
+.hangout-detail-page > main:not(.hangout-detail-container) {
+  width: min(700px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 80px 0;
+
+  text-align: center;
+}
+
+.hangout-detail-page > main:not(.hangout-detail-container) p {
+  margin: 0 0 18px;
+
+  color: #64748b;
+  font-size: 15px;
+}
+
+/* =========================================
+   Responsive
+   ========================================= */
+
+@media (max-width: 800px) {
+  .hangout-detail-container {
+    width: min(100% - 24px, 700px);
+    padding-top: 22px;
+  }
+
+  .hangout-detail-header {
+    flex-direction: column;
+    gap: 18px;
+    padding: 20px;
+  }
+
+  .hangout-detail-meta {
+    align-items: flex-start;
+    min-width: 0;
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .hangout-detail-container {
+    width: calc(100% - 20px);
+    padding: 16px 0 35px;
+  }
+
+  .hangout-back-btn {
+    margin-bottom: 14px;
+  }
+
+  .hangout-detail-header {
+    padding: 17px;
+    border-radius: 12px;
+  }
+
+  .hangout-detail-header h1 {
+    font-size: 25px;
+  }
+
+  .hangout-detail-header
+    > div:first-child
+    p {
+    font-size: 13px;
+  }
+
+  .hangout-detail-meta {
+    font-size: 12px;
+  }
+
+  .hangout-detail-container
+    > button:not(.hangout-back-btn) {
+    width: 100%;
+    margin-bottom: 18px;
+  }
+
+  .hangout-detail-container > section {
+    margin-bottom: 16px;
+  }
+
+  .hangout-danger-zone {
+    justify-content: stretch;
+  }
+
+  .cancel-hangout-btn {
+    width: 100%;
+  }
+}
+
+/* =========================================
+   Reduced motion
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hangout-detail-page,
+  .hangout-detail-container button {
+    transition: none;
+  }
 }

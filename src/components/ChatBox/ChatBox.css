@@ -1,133 +1,305 @@
-.chat-box {
-  margin-top: 30px;
+/* =========================
+   Chat container
+   ========================= */
 
-  background: white;
-
-  border-radius: 18px;
-
+.hangout-chat {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 760px;
+  height: 600px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
   overflow: hidden;
-
-  box-shadow:
-    0 5px 18px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
 }
 
-.chat-header {
-  padding: 20px;
+/* =========================
+   Header
+   ========================= */
 
-  border-bottom: 1px solid #eee;
+.hangout-chat__header {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  padding: 0 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
 }
 
-.chat-header h2 {
+.hangout-chat__header h2 {
   margin: 0;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-.chat-messages {
-  min-height: 280px;
-  max-height: 420px;
+/* =========================
+   Messages area
+   ========================= */
 
-  overflow-y: auto;
-
+.hangout-chat__messages {
+  flex: 1;
+  min-height: 0;
   padding: 20px;
+  overflow-y: auto;
+  background: #f8fafc;
+  scroll-behavior: smooth;
 
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
+/* Scrollbar */
+
+.hangout-chat__messages::-webkit-scrollbar {
+  width: 7px;
+}
+
+.hangout-chat__messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hangout-chat__messages::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.hangout-chat__messages::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Loading / empty state */
+
+.hangout-chat__messages > p {
+  margin: auto;
+  padding: 20px;
+  color: #64748b;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* =========================
+   Individual message
+   ========================= */
+
 .chat-message {
+  align-self: flex-start;
+  width: fit-content;
   max-width: 75%;
-
-  padding: 12px 15px;
-
-  background: #f0f0f0;
-
-  border-radius: 14px;
+  padding: 10px 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px 14px 14px 4px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
 }
 
-.chat-message.mine {
+/* Your messages */
+
+.chat-message--mine {
   align-self: flex-end;
-
-  background: #111;
-
-  color: white;
+  background: #2563eb;
+  border-color: #2563eb;
+  border-radius: 14px 14px 4px 14px;
+  color: #ffffff;
 }
 
-.chat-message-user {
-  display: block;
+/* =========================
+   Sender name
+   ========================= */
 
+.chat-message__sender {
+  margin-bottom: 4px;
+  color: #475569;
   font-size: 12px;
   font-weight: 700;
-
-  margin-bottom: 4px;
 }
 
-.chat-input-area {
-  display: flex;
-  gap: 10px;
-
-  padding: 16px 20px;
-
-  border-top: 1px solid #eee;
+.chat-message--mine .chat-message__sender {
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.chat-input-area input {
-  flex: 1;
+/* =========================
+   Message content
+   ========================= */
 
-  padding: 12px 14px;
-
-  border-radius: 10px;
-
-  border: 1px solid #ccc;
-
+.chat-message__content {
+  color: #1e293b;
   font-size: 15px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
-.chat-input-area button {
-  padding: 12px 20px;
+.chat-message--mine .chat-message__content {
+  color: #ffffff;
+}
 
-  border: none;
+/* =========================
+   Timestamp
+   ========================= */
 
+.chat-message__time {
+  margin-top: 5px;
+  color: #94a3b8;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.chat-message--mine .chat-message__time {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* =========================
+   Error
+   ========================= */
+
+.hangout-chat__error {
+  margin: 0;
+  padding: 10px 16px;
+  background: #fef2f2;
+  border-top: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* =========================
+   Message form
+   ========================= */
+
+.hangout-chat__form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.hangout-chat__form input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
   border-radius: 10px;
+  outline: none;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
 
-  background: #111;
+.hangout-chat__form input::placeholder {
+  color: #94a3b8;
+}
 
-  color: white;
+.hangout-chat__form input:focus {
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
 
+.hangout-chat__form input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* =========================
+   Send button
+   ========================= */
+
+.hangout-chat__form button {
+  height: 44px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease,
+    opacity 0.2s ease;
 }
 
-
-/* DARK MODE */
-
-.dark .chat-box {
-  background: #1e1e1e;
+.hangout-chat__form button:hover:not(:disabled) {
+  background: #1d4ed8;
 }
 
-.dark .chat-header,
-.dark .chat-input-area {
-  border-color: #333;
+.hangout-chat__form button:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
-.dark .chat-message {
-  background: #2c2c2c;
-  color: white;
+.hangout-chat__form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
-.dark .chat-message.mine {
-  background: white;
-  color: #111;
+/* =========================
+   Responsive
+   ========================= */
+
+@media (max-width: 768px) {
+  .hangout-chat {
+    height: 70vh;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .hangout-chat__messages {
+    padding: 14px;
+  }
+
+  .chat-message {
+    max-width: 85%;
+  }
 }
 
-.dark .chat-input-area input {
-  background: #292929;
+@media (max-width: 480px) {
+  .hangout-chat {
+    height: 75vh;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
 
-  color: white;
+  .hangout-chat__header {
+    min-height: 56px;
+    padding: 0 16px;
+  }
 
-  border-color: #555;
-}
+  .hangout-chat__header h2 {
+    font-size: 18px;
+  }
 
-.dark .chat-input-area button {
-  background: white;
+  .hangout-chat__form {
+    padding: 10px;
+  }
 
-  color: #111;
+  .hangout-chat__form input {
+    height: 42px;
+  }
+
+  .hangout-chat__form button {
+    height: 42px;
+    padding: 0 15px;
+  }
+
+  .chat-message {
+    max-width: 90%;
+  }
 }

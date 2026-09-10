@@ -22,6 +22,7 @@ import CircleList from '../pages/Circle/CircleList';
 import Hangouts from '../pages/Hangouts/Hangouts';
 import HangoutDetail from '../pages/Hangouts/HangoutDetail';
 import InviteHangout from '../pages/Hangouts/InviteHangout';
+import InviteFriends from "../pages/Hangouts/InviteFriends";
 
 
 // Archive
@@ -182,7 +183,14 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-
+{
+  path: "/hangout/:id/invite-friends",
+  element: (
+    <ProtectedRoute>
+      <InviteFriends />
+    </ProtectedRoute>
+  ),
+},
 
 
   /*

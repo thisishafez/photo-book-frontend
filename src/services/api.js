@@ -98,10 +98,14 @@ async function request(
 
   if (!response.ok) {
 
-    throw new Error(
+    const requestError = new Error(
       data.error ||
       `Request failed (${response.status})`
     );
+
+    requestError.status = response.status;
+
+    throw requestError;
 
   }
 
@@ -642,59 +646,253 @@ users: {
 
 
 
-  // ===============================
-  // HANGOUTS
-  // ===============================
+ // ===============================
+// HANGOUTS
+// ===============================
+
+hangouts: {
+
+  // GET /hangouts
+  // Optional status: planned | completed | cancelled
+  getHangouts: async (status = null) => {
+
+    const query = status
+      ? `?status=${encodeURIComponent(status)}`
+      : "";
+
+    return request(`/hangouts${query}`);
+  },
 
 
-  hangouts:{
+  // GET /hangouts/:id
+  getHangout: async (id) => {
 
-
-    getHangouts:
-      async()=>{
-
-
-        return null;
-
-
-      },
-
-
-    createHangout:
-      async(data)=>{
-
-
-        return null;
-
-
-      },
-
-
-    inviteUser:
-      async(
-        hangoutId,
-        userId
-      )=>{
-
-
-        return null;
-
-
-      },
-
-
-    cancelHangout:
-      async(id)=>{
-
-
-        return null;
-
-
-      }
-
+    return request(`/hangouts/${id}`);
 
   },
 
+
+  // POST /hangouts
+  createHangout: async (data) => {
+
+    return request(
+      "/hangouts",
+      {
+        method: "POST",
+
+        body: {
+          title: data.title,
+          description:
+            data.description || null,
+
+          scheduled_at:
+            data.scheduledAt || null,
+
+          activity_id:
+            data.activityId || null
+        }
+      }
+    );
+
+  },
+
+
+  // POST /hangouts/:id/invites
+  inviteParticipants: async (
+    hangoutId,
+    userIds
+  ) => {
+
+    return request(
+      `/hangouts/${hangoutId}/invites`,
+      {
+        method: "POST",
+
+        body: {
+          user_ids: userIds
+        }
+      }
+    );
+
+  },
+
+
+  // POST /hangouts/:id/invites/respond
+  respondToInvite: async (
+    hangoutId,
+    accept,
+    reason = null
+  ) => {
+
+    return request(
+      `/hangouts/${hangoutId}/invites/respond`,
+      {
+        method: "POST",
+
+        body: {
+          accept,
+          reason
+        }
+      }
+    );
+
+  },
+
+
+  // POST /hangouts/:id/cancel
+  cancelHangout: async (id) => {
+
+    return request(
+      `/hangouts/${id}/cancel`,
+      {
+        method: "POST"
+      }
+    );
+
+  },
+
+
+  // POST /hangouts/:id/status
+  updateStatus: async (
+    id,
+    status
+  ) => {
+
+    return request(
+      `/hangouts/${id}/status`,
+      {
+        method: "POST",
+
+        body: {
+          status
+        }
+      }
+    );
+
+  },
+
+
+  // GET /hangouts/:id/messages
+  getMessages: async (
+    id,
+    {
+      before = null,
+      limit = 50
+    } = {}
+  ) => {
+
+    const params =
+      new URLSearchParams();
+
+    if (before) {
+      params.set(
+        "before",
+        before
+      );
+    }
+
+    if (limit) {
+      params.set(
+        "limit",
+        limit
+      );
+    }
+
+    const query =
+      params.toString();
+
+    return request(
+      `/hangouts/${id}/messages${
+        query ? `?${query}` : ""
+      }`
+    );
+
+  },
+
+
+  // POST /hangouts/:id/messages
+  sendMessage: async (
+    id,
+    content
+  ) => {
+
+    return request(
+      `/hangouts/${id}/messages`,
+      {
+        method: "POST",
+
+        body: {
+          content
+        }
+      }
+    );
+
+  },
+
+
+  // GET /hangouts/:id/pin
+  getMeetupPin: async (id) => {
+
+    return request(
+      `/hangouts/${id}/pin`
+    );
+
+  },
+
+
+  // POST /hangouts/:id/pin
+  proposeMeetupPin: async (
+    id,
+    data
+  ) => {
+
+    return request(
+      `/hangouts/${id}/pin`,
+      {
+        method: "POST",
+
+        body: {
+          place_name:
+            data.place_name,
+
+          address:
+            data.address || null,
+
+          latitude:
+            data.latitude,
+
+          longitude:
+            data.longitude,
+
+          scheduled_at:
+            data.scheduled_at || null
+        }
+      }
+    );
+
+  },
+
+
+  // POST /hangouts/:id/pin/respond
+  respondToMeetupPin: async (
+    id,
+    confirm
+  ) => {
+
+    return request(
+      `/hangouts/${id}/pin/respond`,
+      {
+        method: "POST",
+
+        body: {
+          confirm
+        }
+      }
+    );
+
+  }
+
+},
 
 
 

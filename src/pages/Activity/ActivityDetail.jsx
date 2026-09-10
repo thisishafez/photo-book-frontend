@@ -9,6 +9,7 @@ import { getUserProfile } from "../../utils/userCache";
 import "./ActivityDetail.css";
 import RatingSection from "../../components/RatingSection/RatingSection";
 import CommentSection from "../../components/CommentSection/CommentSection";
+import { useAuth } from "../../contexts/AuthContext";
 
 const sourceLabels = { host: "a host", moderator: "a moderator" };
 
@@ -17,6 +18,7 @@ export default function ActivityDetail() {
   const navigate = useNavigate();
   const { unreadCount } = useNotifications();
   const { darkMode } = useTheme();
+  const { user } = useAuth();
 
   const [activity, setActivity] = useState(null);
   const [creatorLabel, setCreatorLabel] = useState("");
@@ -74,6 +76,11 @@ export default function ActivityDetail() {
         <p className="description">{activity.Description || "No description provided."}</p>
 
         <InviteButton onClick={handleInvite} />
+        {user?.accountType === "host" && activity.CreatedBy === user.id && (
+  <a className="profile-cta" href={`/host/dashboard?activityId=${activity.ID}`}>
+    Manage badge & QR →
+  </a>
+)}
 
         <section className="comments-section">
           <h2>Ratings</h2>

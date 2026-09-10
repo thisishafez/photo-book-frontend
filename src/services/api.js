@@ -668,7 +668,8 @@ export const api = {
  activities: {
   // Public/Discovery feed — approved activities only
   list: async () => request("/activities"),
-
+  // GET /activities/mine — host's own activities, any status
+getMyActivities: async () => request("/activities/mine"),
   // kept for backward compatibility with any existing callers
   getRecommendations: async () => ({ activities: await request("/activities") }),
 

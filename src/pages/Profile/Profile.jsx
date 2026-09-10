@@ -6,6 +6,7 @@ import { api } from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
 import { hangoutToHistoryItem } from "../../utils/normalizeProfile";
+import { normalizeInterest } from "../../utils/normalizeProfile";
 import "./Profile.css";
 
 export default function Profile() {
@@ -17,6 +18,7 @@ export default function Profile() {
   const [badges, setBadges] = useState([]);
   const [interests, setInterests] = useState([]);
   const [history, setHistory] = useState([]);
+  const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -29,7 +31,12 @@ export default function Profile() {
     setError("");
     try {
       if (accountType === "host") {
-        setProfile(await api.host.getProfile());
+        const [hostProfile, myActivities] = await Promise.all([
+          api.host.getProfile(),
+          api.activities.getMyActivities(),
+        ]);
+        setProfile(hostProfile);
+        setActivities(myActivities || []);
       } else if (accountType === "moderator") {
         setProfile(await api.moderator.getProfile());
       } else {
@@ -41,7 +48,7 @@ export default function Profile() {
         ]);
         setProfile(profileData);
         setBadges(badgeData);
-        setInterests(interestData || []);
+        setInterests((interestData || []).map(normalizeInterest));
         setHistory((hangoutData || []).map(hangoutToHistoryItem));
       }
     } catch (err) {
@@ -60,7 +67,9 @@ export default function Profile() {
 
   const toggleBadge = async (id) => {
     const updated = await api.badges.toggleVisibility(id);
-    setBadges((previous) => previous.map((badge) => (badge.id === id ? updated : badge)));
+    setBadges((previous) =>
+      previous.map((badge) => (badge.id === id ? updated : badge))
+    );
   };
 
   if (loading) {
@@ -96,8 +105,16 @@ export default function Profile() {
     <div className={`profile-page ${darkMode ? "profile-dark" : ""}`}>
       <Navbar />
       <main className="profile-container">
-        {accountType === "host" && <HostProfileView profile={profile} onLogout={logout} />}
-        {accountType === "moderator" && <ModeratorProfileView profile={profile} onLogout={logout} />}
+        {accountType === "host" && (
+          <HostProfileView
+            profile={profile}
+            activities={activities}
+            onLogout={logout}
+          />
+        )}
+        {accountType === "moderator" && (
+          <ModeratorProfileView profile={profile} onLogout={logout} />
+        )}
         {accountType === "user" && (
           <UserProfileView
             profile={profile}
@@ -113,18 +130,31 @@ export default function Profile() {
   );
 }
 
-function UserProfileView({ profile, badges, interests, history, onToggleBadge, onLogout }) {
+function UserProfileView({
+  profile,
+  badges,
+  interests,
+  history,
+  onToggleBadge,
+  onLogout,
+}) {
   return (
     <>
       <section className="profile-header">
         <div className="profile-avatar">
-          {profile.avatar ? <img src={profile.avatar} alt="" /> : profile.displayName.charAt(0)}
+          {profile.avatar ? (
+            <img src={profile.avatar} alt="" />
+          ) : (
+            profile.displayName.charAt(0)
+          )}
         </div>
         <div>
           <h1>{profile.displayName}</h1>
           <p>{profile.handle}</p>
           <p className="bio">{profile.bio}</p>
-          <button className="profile-logout-btn" onClick={onLogout}>Log out</button>
+          <button className="profile-logout-btn" onClick={onLogout}>
+            Log out
+          </button>
         </div>
       </section>
 
@@ -132,10 +162,16 @@ function UserProfileView({ profile, badges, interests, history, onToggleBadge, o
         <h2>Enjoyed</h2>
         <div className="badges">
           {badges.length === 0 ? (
-            <p className="profile-empty">No badges yet — scan a QR code at an activity to earn one.</p>
+            <p className="profile-empty">
+              No badges yet — scan a QR code at an activity to earn one.
+            </p>
           ) : (
             badges.map((badge) => (
-              <BadgeCard key={badge.id} badge={badge} onToggle={onToggleBadge} />
+              <BadgeCard
+                key={badge.id}
+                badge={badge}
+                onToggle={onToggleBadge}
+              />
             ))
           )}
         </div>
@@ -148,11 +184,8 @@ function UserProfileView({ profile, badges, interests, history, onToggleBadge, o
             <p className="profile-empty">No interests selected yet.</p>
           ) : (
             interests.map((interest) => {
-              const label =
-                typeof interest === "string"
-                  ? interest
-                  : interest.name || interest.Name || interest.label || interest.id;
-              return <span key={label}>{label}</span>;
+              const { id, label } = normalizeInterest(interest);
+              return <span key={id}>{label}</span>;
             })
           )}
         </div>
@@ -166,24 +199,52 @@ function UserProfileView({ profile, badges, interests, history, onToggleBadge, o
   );
 }
 
-function HostProfileView({ profile, onLogout }) {
+function HostProfileView({ profile, activities, onLogout }) {
   return (
     <>
       <section className="profile-header">
-        <div className="profile-avatar">{profile.businessName.charAt(0)}</div>
+        <div className="profile-avatar">
+          {profile.businessName.charAt(0)}
+        </div>
         <div>
           <h1>{profile.businessName}</h1>
-          {profile.locationInfo && <p className="bio">{profile.locationInfo}</p>}
-          <button className="profile-logout-btn" onClick={onLogout}>Log out</button>
+          {profile.locationInfo && (
+            <p className="bio">{profile.locationInfo}</p>
+          )}
+          <button className="profile-logout-btn" onClick={onLogout}>
+            Log out
+          </button>
         </div>
+      </section>
+
+      <section className="profile-section">
+        <h2>Your activities</h2>
+        {activities.length === 0 ? (
+          <p className="profile-empty">No activities yet.</p>
+        ) : (
+          activities.map((a) => (
+            <div key={a.ID} className="profile-cta-row">
+              <span>{a.Title}</span>
+              <a
+                className="profile-cta"
+                href={`/host/dashboard?activityId=${a.ID}`}
+              >
+                Manage badge &amp; QR →
+              </a>
+            </div>
+          ))
+        )}
       </section>
 
       <section className="profile-section">
         <h2>Manage activities</h2>
         <p className="profile-empty">
-          Set up badges and QR check-in codes for your activities from the Host Dashboard.
+          Set up badges and QR check-in codes for your activities from the Host
+          Dashboard.
         </p>
-        <a className="profile-cta" href="/host/dashboard">Go to Host Dashboard →</a>
+        <a className="profile-cta" href="/host/dashboard">
+          Go to Host Dashboard →
+        </a>
       </section>
     </>
   );
@@ -197,17 +258,26 @@ function ModeratorProfileView({ profile, onLogout }) {
         <div>
           <h1>Moderator</h1>
           {profile.createdAt && (
-            <p className="bio">Moderating since {new Date(profile.createdAt).toLocaleDateString()}</p>
+            <p className="bio">
+              Moderating since{" "}
+              {new Date(profile.createdAt).toLocaleDateString()}
+            </p>
           )}
-          <button className="profile-logout-btn" onClick={onLogout}>Log out</button>
+          <button className="profile-logout-btn" onClick={onLogout}>
+            Log out
+          </button>
         </div>
       </section>
 
       <section className="profile-section">
         <h2>Moderation queues</h2>
         <div className="profile-cta-row">
-          <a className="profile-cta" href="/moderation/activities">Activity queue →</a>
-          <a className="profile-cta" href="/moderation/comments">Comment queue →</a>
+          <a className="profile-cta" href="/moderation/activities">
+            Activity queue →
+          </a>
+          <a className="profile-cta" href="/moderation/comments">
+            Comment queue →
+          </a>
         </div>
       </section>
     </>

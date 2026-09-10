@@ -47,9 +47,43 @@ export const normalizeModeratorProfile = (raw) => {
 // seen, so it falls back to a static label rather than guessing a
 // field name that doesn't exist.
 export const hangoutToHistoryItem = (hangout) => ({
-  id: hangout.id,
-  title: hangout.activity?.title || hangout.title || "Hangout",
-  category: hangout.activity?.category || "Hangout",
-  date: hangout.scheduled_at,
-  status: hangout.status,
+  id: pick(hangout, "id", "ID"),
+  title: pick(hangout, "activity", "Activity")?.title
+    ?? pick(hangout, "title", "Title")
+    ?? "Hangout",
+  category: pick(hangout, "activity", "Activity")?.category ?? "Hangout",
+  date: pick(hangout, "scheduled_at", "ScheduledAt"),
+  status: pick(hangout, "status", "Status"),
 });
+
+// internal/badges — GetBadges returns raw domain.Badge rows.
+// No "description" field exists in the payload at all (confirmed
+// via network tab), so BadgeCard's description will just be empty
+// until the backend adds one.
+// internal/userbadge — GET /user/badges returns raw domain.UserBadge rows.
+// No "description" field exists in the payload, so it stays empty
+// until the backend adds one. host/activity/category/criteria also
+// don't exist on this payload at all (see BadgeDetail note below).
+export const normalizeUserBadge = (raw) => {
+  if (!raw) return null;
+  return {
+    id: pick(raw, "id", "ID"),
+    visible: pick(raw, "visible", "Visible") ?? true,
+    emoji: pick(raw, "icon_key_snapshot", "IconKeySnapshot") || "🏅",
+    title: pick(raw, "name_snapshot", "NameSnapshot") ?? "Badge",
+    description: pick(raw, "description", "Description") ?? "",
+    earnedAt: pick(raw, "awarded_at", "AwardedAt") ?? null,
+    activityId: pick(raw, "activity_id", "ActivityID") ?? null,
+  };
+};
+
+export const normalizeUserBadges = (raw) => (raw || []).map(normalizeUserBadge);
+
+// interest catalog rows — GET /user/interests
+export const normalizeInterest = (raw) => {
+  if (typeof raw === "string") return { id: raw, label: raw };
+  return {
+    id: pick(raw, "id", "ID", "slug", "Slug"),
+    label: pick(raw, "label", "Label", "name", "Name") ?? pick(raw, "slug", "Slug"),
+  };
+};

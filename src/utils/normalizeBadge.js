@@ -47,8 +47,8 @@ export const normalizeUserBadge = (raw) => {
     userId: pick(raw, "user_id", "UserID"),
     activityId: pick(raw, "activity_id", "ActivityID"),
 
-    title: pick(badgeSrc, "name", "Name") ?? "Badge",
-    emoji: pick(badgeSrc, "icon_key", "IconKey") ?? "🏅",
+    title: pick(badgeSrc, "name_snapshot", "NameSnapshot", "name", "Name") ?? "Badge",
+    emoji: pick(badgeSrc, "icon_key_snapshot", "IconKeySnapshot", "icon_key", "IconKey") || "🏅", 
     description: pick(badgeSrc, "description", "Description") ?? "",
     category: pick(badgeSrc, "category", "Category") ?? "General",
     criteria:
@@ -64,7 +64,7 @@ export const normalizeUserBadge = (raw) => {
       pick(raw, "host_name", "HostName") ??
       "the host",
 
-    earnedAt: pick(raw, "earned_at", "EarnedAt", "created_at", "CreatedAt"),
+    earnedAt: pick(raw, "awarded_at", "AwardedAt", "earned_at", "EarnedAt", "created_at", "CreatedAt"),
     visible: pick(raw, "visible", "Visible") ?? true,
   };
 };

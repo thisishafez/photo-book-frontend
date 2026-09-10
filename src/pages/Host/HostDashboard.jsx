@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import { useTheme } from "../../contexts/ThemeContext";
 import { api } from "../../services/api";
@@ -25,6 +26,10 @@ export default function HostDashboard() {
   const [qrCode, setQrCode] = useState(null);
   const [qrLoading, setQrLoading] = useState(false);
   const [qrNotice, setQrNotice] = useState(null);
+  
+  useEffect(() => {
+  if (activityId.trim()) loadActivitySetup(activityId);
+}, []);
 
   const loadActivitySetup = async (id) => {
     if (!id.trim()) return;

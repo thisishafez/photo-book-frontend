@@ -2,6 +2,15 @@ export const API_BASE_URL = 'https://api.duster.ir';
 export const MEDIA_BASE_URL =
   "https://media.duster.ir";
 
+// Builds the live-chat WebSocket URL. Token must go on the query
+// string — browsers can't attach a custom header to a WS handshake.
+export const getChatSocketUrl = (hangoutId, token) => {
+  const wsBase = API_BASE_URL.replace(/^http/, "ws"); // https -> wss
+  return `${wsBase}/hangouts/${hangoutId}/chat?token=${encodeURIComponent(
+    token || ""
+  )}`;
+};
+
 import { normalizeHostBadge, normalizeQRCode, normalizeUserBadge, normalizeUserBadges } from "../utils/normalizeBadge";
 import { normalizeUserProfile, normalizeHostProfile, normalizeModeratorProfile } from "../utils/normalizeProfile";
 // Later:
@@ -967,6 +976,11 @@ hangouts: {
     );
 
   },
+    // Live chat over WebSocket. Reads access_token directly since the
+  // socket authenticates once at handshake time (no Authorization
+  // header possible on a WS connection).
+  getChatSocketUrl: (id) =>
+    getChatSocketUrl(id, localStorage.getItem("access_token")),
 
 
   // GET /hangouts/:id/pin
@@ -1211,6 +1225,23 @@ recommendations: {
   // bypassing the cache.
   refreshSuggestions: async () =>
     request("/recommendations/refresh", { method: "POST" }),
+},
+// ===============================
+// NOTIFICATIONS
+// ===============================
+notifications: {
+  // GET /notifications?limit=20
+  getNotifications: async (limit = null) => {
+    const query = limit ? `?limit=${encodeURIComponent(limit)}` : "";
+    const data = await request(`/notifications${query}`);
+    return data.notifications || [];
+  },
+
+  // POST /notifications/:id/read
+  // Note: backend always returns 200 even for an invalid/foreign/
+  // already-read id — this is fire-and-forget from the caller's side.
+  markRead: async (id) =>
+    request(`/notifications/${id}/read`, { method: "POST" }),
 },
 
 

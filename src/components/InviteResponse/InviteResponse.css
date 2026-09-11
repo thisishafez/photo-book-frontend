@@ -1,0 +1,102 @@
+.hangout-invite-response {
+  max-width: 420px;
+  padding: 24px;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
+  box-shadow: var(--kh-shadow);
+  font-family: var(--kh-font-body);
+  color: var(--kh-ink);
+}
+
+.hangout-invite-response h2 {
+  margin: 0 0 8px;
+  font-family: var(--kh-font-display);
+  font-size: 1.35rem;
+  color: var(--kh-ink);
+}
+
+.hangout-invite-response > p {
+  margin: 0 0 18px;
+  color: var(--kh-ink-soft);
+  line-height: 1.5;
+}
+
+.hangout-invite-response__error {
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  background: var(--kh-rejected-bg);
+  color: var(--kh-rejected-text);
+  border-radius: var(--kh-radius-sm);
+  font-size: 0.88rem;
+}
+
+.hangout-invite-response__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.hangout-invite-response__actions button {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: var(--kh-radius);
+  font-family: var(--kh-font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--kh-transition), color var(--kh-transition), opacity var(--kh-transition);
+}
+
+.hangout-invite-response__actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* First (accept) button in each action row */
+.hangout-invite-response__actions button:first-child {
+  background: var(--kh-sage);
+  color: var(--kh-surface-raised);
+  border: 1px solid var(--kh-sage-dark);
+}
+
+.hangout-invite-response__actions button:first-child:hover:not(:disabled) {
+  background: var(--kh-sage-dark);
+}
+
+/* Second (decline / back) button in each action row */
+.hangout-invite-response__actions button:last-child {
+  background: transparent;
+  color: var(--kh-ink-soft);
+  border: 1px solid var(--kh-border);
+}
+
+.hangout-invite-response__actions button:last-child:hover:not(:disabled) {
+  border-color: var(--kh-rust-muted);
+  color: var(--kh-rust-muted-dark);
+}
+
+.hangout-invite-response label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--kh-font-caption);
+  font-size: 0.85rem;
+  color: var(--kh-ink-soft);
+}
+
+.hangout-invite-response textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  background: var(--kh-surface);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius-sm);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
+  font-size: 0.92rem;
+  resize: vertical;
+}
+
+.hangout-invite-response textarea:focus {
+  outline: 2px solid var(--kh-rust);
+  outline-offset: 1px;
+}

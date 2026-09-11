@@ -8,28 +8,28 @@
 .photo-grid-item {
   position: relative;
   padding-top: 100%;
-  background: #f0ece6;
-  border-radius: 4px;
+  background: var(--kh-surface);
+  border-radius: var(--kh-radius);
   overflow: hidden;
-  border: 1px solid #e8e4de;
+  border: 1px solid var(--kh-border);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: transform var(--kh-transition), box-shadow var(--kh-transition), border-color var(--kh-transition);
 }
 
 .photo-grid-item:hover {
   transform: scale(1.03);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 26px rgba(43, 36, 32, 0.18);
   z-index: 1;
-  border-color: #1a1a1a;
+  border-color: var(--kh-rust);
 }
 
 .photo-grid-image {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: sepia(0.25) saturate(0.85) contrast(0.96);
 }
 
 .photo-grid-overlay {
@@ -38,9 +38,9 @@
   left: 0;
   right: 0;
   padding: 12px 14px;
-  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--kh-transition);
 }
 
 .photo-grid-item:hover .photo-grid-overlay {
@@ -48,60 +48,54 @@
 }
 
 .photo-grid-uploader {
-  color: #fff;
-  font-size: 0.8rem;
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-style: italic;
-  letter-spacing: 0.5px;
+  color: #ECE4D3;
+  font-family: var(--kh-font-caption);
+  font-size: 0.78rem;
+  letter-spacing: 0.3px;
 }
 
 /* Empty State */
 .photo-grid-empty {
   text-align: center;
   padding: 60px 20px;
-  background: #faf8f6;
-  border-radius: 4px;
-  border: 1px dashed #e8e4de;
+  background: var(--kh-surface-raised);
+  border-radius: var(--kh-radius);
+  border: 1px dashed var(--kh-border);
 }
 
 .photo-grid-empty .empty-icon {
   font-size: 3rem;
   display: block;
   margin-bottom: 12px;
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .photo-grid-empty p {
-  font-size: 1rem;
-  color: #666;
+  font-size: 1.05rem;
+  color: var(--kh-ink);
   margin: 0;
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-style: italic;
+  font-family: var(--kh-font-display);
 }
 
 .photo-grid-empty .empty-sub {
-  font-size: 0.85rem;
-  color: #999;
+  font-family: var(--kh-font-caption);
+  font-size: 0.82rem;
+  color: var(--kh-ink-soft);
   margin-top: 4px;
   display: block;
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-style: italic;
 }
 
 /* Lightbox */
 .lightbox {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.92);
+  inset: 0;
+  background: rgba(15, 12, 10, 0.92);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
@@ -115,19 +109,17 @@
   right: 32px;
   background: none;
   border: none;
-  color: #fff;
-  font-size: 2rem;
+  color: #ECE4D3;
+  font-size: 1.75rem;
   cursor: pointer;
   padding: 8px;
-  transition: all 0.2s ease;
+  transition: opacity var(--kh-transition), transform var(--kh-transition);
   z-index: 1001;
-  font-family: 'Georgia', serif;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 .lightbox-close:hover {
   opacity: 1;
-  transform: rotate(90deg);
 }
 
 .lightbox-content {
@@ -143,19 +135,19 @@
   max-width: 100%;
   max-height: 75vh;
   object-fit: contain;
-  border-radius: 4px;
+  border-radius: var(--kh-radius-sm);
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+  filter: sepia(0.2) saturate(0.9) contrast(0.97);
 }
 
 .lightbox-info {
   margin-top: 16px;
   display: flex;
   gap: 24px;
-  color: rgba(255, 255, 255, 0.7);
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-style: italic;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
+  color: rgba(236, 228, 211, 0.75);
+  font-family: var(--kh-font-caption);
+  font-size: 0.85rem;
+  letter-spacing: 0.3px;
 }
 
 /* Responsive */
@@ -172,7 +164,7 @@
   .lightbox-close {
     top: 16px;
     right: 20px;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .lightbox-content img {
@@ -180,7 +172,7 @@
   }
 
   .lightbox-info {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     gap: 16px;
     flex-direction: column;
     align-items: center;

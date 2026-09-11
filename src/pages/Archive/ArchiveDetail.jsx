@@ -52,6 +52,7 @@ from "../../utils/normalizeArchive";
 import "./ArchiveDetail.css";
 
 
+
 // Same pattern used in HangoutDetail.jsx / ChatBox.jsx.
 const getCurrentUserId = () => {
 
@@ -77,6 +78,7 @@ const getCurrentUserId = () => {
 };
 
 
+
 const getActivityName = (hangout) => {
 
   if (!hangout?.activity) {
@@ -94,6 +96,7 @@ const getActivityName = (hangout) => {
   );
 
 };
+
 
 
 // 1 week after the hangout's scheduled end, per the Phase 5 spec.
@@ -115,7 +118,9 @@ const computeUploadWindowEnds = (hangout) => {
 };
 
 
+
 export default function ArchiveDetail() {
+
 
 
   const {
@@ -124,14 +129,17 @@ export default function ArchiveDetail() {
     useParams();
 
 
+
   const navigate =
     useNavigate();
+
 
 
   const {
     darkMode
   } =
     useTheme();
+
 
 
   const [
@@ -141,11 +149,13 @@ export default function ArchiveDetail() {
     useState(null);
 
 
+
   const [
     loading,
     setLoading
   ] =
     useState(true);
+
 
 
   const [
@@ -155,6 +165,7 @@ export default function ArchiveDetail() {
     useState("media");
 
 
+
   const [
     deleting,
     setDeleting
@@ -162,38 +173,44 @@ export default function ArchiveDetail() {
     useState(false);
 
 
+
   const currentUserId =
     getCurrentUserId();
 
 
 
+
+
   useEffect(
-  () => {
+    () => {
 
-    loadArchive();
+      loadArchive();
 
-  },
-  [id]
-);
+    },
+    [id]
+  );
 
 
-useEffect(
-  () => {
 
-    if (
-      archive?.status ===
-      "cancelled"
-    ) {
+  useEffect(
+    () => {
 
-      setActiveTab(
-        "chat"
-      );
+      if (
+        archive?.status ===
+        "cancelled"
+      ) {
 
-    }
+        setActiveTab(
+          "chat"
+        );
 
-  },
-  [archive?.status]
-);
+      }
+
+    },
+    [archive?.status]
+  );
+
+
 
 
 
@@ -207,11 +224,13 @@ useEffect(
         );
 
 
+
         const raw =
           await api.archive
             .getArchive(
               id
             );
+
 
 
         // First pass: just enough to know the linked hangout id and
@@ -307,6 +326,7 @@ useEffect(
           );
 
 
+
         const detail =
           normalizeArchiveDetail(
             raw,
@@ -364,8 +384,11 @@ useEffect(
 
 
 
+
+
   const handleUpload =
     async (file, duration) => {
+
 
 
       const rawMedia =
@@ -377,10 +400,12 @@ useEffect(
           );
 
 
+
       const media =
         normalizeMedia(
           rawMedia
         );
+
 
 
       setArchive(
@@ -402,6 +427,7 @@ useEffect(
   };
 
 
+
   // The backend doesn't yet expose a per-media personal-delete route
   // (see services/api.js archive.deleteMediaForMe) — only whole-archive
   // delete exists in Phase 5, so MediaGrid is rendered below without
@@ -409,8 +435,11 @@ useEffect(
 
 
 
+
+
   const handleDeleteArchive =
     async () => {
+
 
 
       const confirmed =
@@ -419,9 +448,11 @@ useEffect(
         );
 
 
+
       if (!confirmed) {
         return;
       }
+
 
 
       try {
@@ -431,11 +462,13 @@ useEffect(
         );
 
 
+
         const result =
           await api.archive
             .deleteArchiveForMe(
               id
             );
+
 
 
         if (result?.purged) {
@@ -445,6 +478,7 @@ useEffect(
           );
 
         }
+
 
 
         navigate(
@@ -463,6 +497,7 @@ useEffect(
         );
 
 
+
         setDeleting(
           false
         );
@@ -473,12 +508,15 @@ useEffect(
 
 
 
+
+
   const formatDate =
     value => {
 
       if (!value) {
         return "";
       }
+
 
 
       return new Date(
@@ -498,8 +536,11 @@ useEffect(
 
 
 
+
+
   const getUploadWindowState =
     () => {
+
 
 
       if (
@@ -511,14 +552,17 @@ useEffect(
       }
 
 
+
       const end =
         new Date(
           archive.uploadWindowEnds
         );
 
 
+
       const now =
         new Date();
+
 
 
       if (
@@ -527,6 +571,7 @@ useEffect(
 
         const milliseconds =
           end - now;
+
 
 
         const daysLeft =
@@ -544,6 +589,7 @@ useEffect(
           );
 
 
+
         return {
           open: true,
           daysLeft
@@ -552,12 +598,15 @@ useEffect(
       }
 
 
+
       return {
         open: false,
         daysLeft: 0
       };
 
   };
+
+
 
 
 
@@ -572,7 +621,7 @@ useEffect(
           `archive-detail-page ${
             darkMode
             ?
-            "archive-detail-dark"
+            "archive-detail-dark kh-dark"
             :
             ""
           }`
@@ -593,6 +642,8 @@ useEffect(
 
 
 
+
+
   if (
     !archive
   ) {
@@ -604,7 +655,7 @@ useEffect(
           `archive-detail-page ${
             darkMode
             ?
-            "archive-detail-dark"
+            "archive-detail-dark kh-dark"
             :
             ""
           }`
@@ -640,13 +691,18 @@ useEffect(
 
 
 
+
+
   const uploadWindow =
     getUploadWindowState();
+
 
 
   const cancelled =
     archive.status ===
     "cancelled";
+
+
 
 
 
@@ -657,7 +713,7 @@ useEffect(
         `archive-detail-page ${
           darkMode
           ?
-          "archive-detail-dark"
+          "archive-detail-dark kh-dark"
           :
           ""
         }`
@@ -667,7 +723,9 @@ useEffect(
       <Navbar />
 
 
+
       <main className="archive-detail-container">
+
 
 
         <button
@@ -681,6 +739,8 @@ useEffect(
         >
           ← Back to memories
         </button>
+
+
 
 
 
@@ -701,9 +761,11 @@ useEffect(
             </span>
 
 
+
             <h1>
               {archive.title}
             </h1>
+
 
 
             <div className="archive-detail-meta">
@@ -715,6 +777,7 @@ useEffect(
                   )
                 }
               </span>
+
 
 
               {
@@ -730,6 +793,7 @@ useEffect(
               }
 
 
+
               <span>
                 👥 {
                   archive.participants.length
@@ -739,6 +803,8 @@ useEffect(
             </div>
 
           </div>
+
+
 
 
 
@@ -779,6 +845,8 @@ useEffect(
           </div>
 
         </section>
+
+
 
 
 
@@ -873,6 +941,7 @@ useEffect(
               </div>
 
 
+
               <UploadMedia
                 onUpload={
                   handleUpload
@@ -885,6 +954,8 @@ useEffect(
           :
           null
         }
+
+
 
 
 
@@ -918,6 +989,7 @@ useEffect(
           }
 
 
+
           <button
             type="button"
             className={
@@ -945,7 +1017,10 @@ useEffect(
 
 
 
+
+
         <section className="archive-detail-content">
+
 
 
           {
@@ -977,6 +1052,8 @@ useEffect(
 
 
 
+
+
         <section className="archive-danger-zone">
 
           <div>
@@ -992,6 +1069,7 @@ useEffect(
             </p>
 
           </div>
+
 
 
           <button
@@ -1015,6 +1093,7 @@ useEffect(
           </button>
 
         </section>
+
 
 
       </main>

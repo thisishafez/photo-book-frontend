@@ -68,7 +68,7 @@ export default function Notifications() {
   };
 
   return (
-    <div className={`notifications-page${darkMode ? ' notifications-page-dark' : ''}`}>
+    <div className={`notifications-page${darkMode ? ' notifications-page-dark kh-dark' : ''}`}>
       <Navbar onLogout={handleLogout} unreadCount={unreadCount} />
       <main className="notifications-main">
         <div className="notifications-container">

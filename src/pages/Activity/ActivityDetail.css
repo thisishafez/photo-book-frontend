@@ -8,23 +8,6 @@
   transition: background var(--kh-transition), color var(--kh-transition);
 }
 
-/* Reuses the dark tokens from tokens.css directly (this file is plain CSS,
-   not a CSS module, so `composes:` isn't available here). */
-.activity-detail-page-dark {
-  --kh-ink: #F2EEE6;
-  --kh-ink-soft: #B9B2C4;
-  --kh-surface: #141414;
-  --kh-surface-raised: #080809;
-  --kh-border: #403f41;
-  --kh-pending-bg: #3A2F17;
-  --kh-pending-text: #F2C877;
-  --kh-approved-bg: #16332E;
-  --kh-approved-text: #7FD9C9;
-  --kh-rejected-bg: #3A2019;
-  --kh-rejected-text: #F0A08F;
-  --kh-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.35);
-}
-
 .activity-detail-container {
   max-width: 680px;
   margin: 0 auto;
@@ -36,14 +19,25 @@
   border: none;
   color: var(--kh-ink-soft);
   font-family: var(--kh-font-body);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   cursor: pointer;
-  padding: 0;
+  padding: 8px 12px;
   margin-bottom: 24px;
+  border-radius: var(--kh-radius-sm);
+  transition: all var(--kh-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .back-btn:hover {
   color: var(--kh-ink);
+  background: var(--kh-surface-raised);
+}
+
+.back-btn:focus-visible {
+  outline: 2px solid var(--kh-ink-soft);
+  outline-offset: 2px;
 }
 
 .activity-detail-container h1 {
@@ -57,19 +51,22 @@
 
 .creator {
   color: var(--kh-ink-soft);
-  font-size: 0.95rem;
+  font-family: var(--kh-font-caption);
+  font-size: 0.9rem;
   margin: 0 0 16px;
 }
 
 .creator strong {
   color: var(--kh-ink);
   font-weight: 600;
+  font-family: var(--kh-font-body);
 }
 
 .status-badge {
   display: inline-block;
   padding: 4px 12px;
-  border-radius: 999px;
+  border-radius: var(--kh-radius-sm);
+  font-family: var(--kh-font-caption);
   font-size: 0.8rem;
   font-weight: 600;
   margin-bottom: 16px;
@@ -122,51 +119,14 @@
   margin: 0;
 }
 
-/* Add this to your ActivityDetail.css */
-
-.back-btn {
-  background: none;
-  border: none;
-  color: var(--kh-ink-soft);
-  font-family: var(--kh-font-body);
-  font-size: 0.95rem;
-  cursor: pointer;
-  padding: 8px 12px;
-  margin-bottom: 24px;
-  border-radius: 6px;
-  transition: all var(--kh-transition, 0.2s);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.back-btn:hover {
-  color: var(--kh-ink);
-  background: var(--kh-surface-raised);
-}
-
-.back-btn:focus-visible {
-  outline: 2px solid var(--kh-ink-soft);
-  outline-offset: 2px;
-}
-
-/* Make sure the button text is visible in dark mode */
-.activity-detail-page-dark .back-btn {
-  color: #B9B2C4; /* Explicit fallback for dark mode */
-}
-
-.activity-detail-page-dark .back-btn:hover {
-  color: #F2EEE6; /* Explicit fallback for dark mode hover */
-  background: #262233; /* Explicit fallback for dark mode hover background */
-}
-
-/* Alternative: If you want the back button to be more prominent */
+/* Optional stronger back-button treatment — not currently used in JSX,
+   left in place in case a page wants it. */
 .back-btn-prominent {
   background: var(--kh-surface-raised);
   color: var(--kh-ink);
   border: 1px solid var(--kh-border);
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: var(--kh-radius);
 }
 
 .back-btn-prominent:hover {

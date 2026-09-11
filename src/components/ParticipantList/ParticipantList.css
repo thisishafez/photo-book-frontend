@@ -7,22 +7,14 @@
   box-sizing: border-box;
   padding: 20px;
 
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
 
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  box-shadow: var(--kh-shadow);
 
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-
-  color: #0f172a;
+  font-family: var(--kh-font-body);
+  color: var(--kh-ink);
 }
 
 /* =========================================
@@ -33,11 +25,12 @@
   margin: 0 0 16px;
   padding-bottom: 14px;
 
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--kh-border);
 
-  color: #0f172a;
-  font-size: 20px;
-  font-weight: 700;
+  color: var(--kh-ink);
+  font-family: var(--kh-font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
   line-height: 1.3;
 }
 
@@ -49,12 +42,12 @@
   margin: 0;
   padding: 20px;
 
-  background: #f8fafc;
-  border: 1px dashed #cbd5e1;
-  border-radius: 10px;
+  background: var(--kh-surface);
+  border: 1px dashed var(--kh-border);
+  border-radius: var(--kh-radius);
 
-  color: #64748b;
-  font-size: 14px;
+  color: var(--kh-ink-soft);
+  font-size: 0.9rem;
   text-align: center;
 }
 
@@ -81,19 +74,19 @@
   min-width: 0;
   padding: 12px 14px;
 
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  background: var(--kh-surface);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius-sm);
 
   transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.15s ease;
+    background-color var(--kh-transition),
+    border-color var(--kh-transition),
+    transform var(--kh-transition);
 }
 
 .participant-list__item:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: var(--kh-surface-raised);
+  border-color: var(--kh-rust);
   transform: translateY(-1px);
 }
 
@@ -101,11 +94,11 @@
    Participant name
    ========================================= */
 
-.participant-list__item > span:first-child {
+.participant-list__name {
   min-width: 0;
 
-  color: #1e293b;
-  font-size: 14px;
+  color: var(--kh-ink);
+  font-size: 0.92rem;
   font-weight: 600;
 
   overflow: hidden;
@@ -113,43 +106,54 @@
   white-space: nowrap;
 }
 
-/* "(You)" */
-
-.participant-list__item > span:first-child > span {
-  color: #2563eb;
-  font-size: 12px;
-  font-weight: 700;
+.participant-list__you {
+  color: var(--kh-rust-dark);
+  font-family: var(--kh-font-caption);
+  font-size: 0.78rem;
+  font-weight: 400;
 }
 
 /* =========================================
    Status
    ========================================= */
 
-.participant-list__item > span:last-child {
+.participant-list__status {
   flex-shrink: 0;
 
-  padding: 5px 9px;
+  padding: 5px 12px;
 
   border-radius: 999px;
 
-  font-size: 11px;
-  font-weight: 700;
+  font-family: var(--kh-font-caption);
+  font-size: 0.72rem;
   line-height: 1.2;
 
   white-space: nowrap;
+  text-transform: capitalize;
 }
 
-/*
-  The current JSX doesn't add a status class,
-  so these selectors use the text contained
-  in the status span.
-*/
-
 /* Accepted */
+.participant-list__status.accepted {
+  background: var(--kh-approved-bg);
+  color: var(--kh-approved-text);
+}
 
-.participant-list__item > span:last-child {
-  background: #f1f5f9;
-  color: #475569;
+/* Pending */
+.participant-list__status.pending {
+  background: var(--kh-pending-bg);
+  color: var(--kh-pending-text);
+}
+
+/* Declined / rejected */
+.participant-list__status.rejected {
+  background: var(--kh-rejected-bg);
+  color: var(--kh-rejected-text);
+}
+
+/* Unknown / other statuses */
+.participant-list__status:not(.accepted):not(.pending):not(.rejected) {
+  background: var(--kh-border);
+  color: var(--kh-ink-soft);
 }
 
 /* =========================================
@@ -159,11 +163,10 @@
 @media (max-width: 600px) {
   .participant-list {
     padding: 16px;
-    border-radius: 12px;
   }
 
   .participant-list h2 {
-    font-size: 18px;
+    font-size: 1.1rem;
   }
 
   .participant-list__item {
@@ -171,13 +174,13 @@
     gap: 10px;
   }
 
-  .participant-list__item > span:first-child {
-    font-size: 13px;
+  .participant-list__name {
+    font-size: 0.86rem;
   }
 
-  .participant-list__item > span:last-child {
-    padding: 4px 7px;
-    font-size: 10px;
+  .participant-list__status {
+    padding: 4px 9px;
+    font-size: 0.68rem;
   }
 }
 
@@ -192,12 +195,12 @@
     gap: 8px;
   }
 
-  .participant-list__item > span:first-child {
+  .participant-list__name {
     width: 100%;
     white-space: normal;
   }
 
-  .participant-list__item > span:last-child {
+  .participant-list__status {
     align-self: flex-start;
   }
 }
@@ -214,4 +217,17 @@
   .participant-list__item:hover {
     transform: none;
   }
+}
+
+.kh-dark .participant-list {
+  background: var(--kh-surface-raised);
+  border-color: var(--kh-border);
+}
+
+.kh-dark .participant-list__item {
+  background: var(--kh-surface);
+}
+
+.kh-dark .participant-list__item:hover {
+  background: var(--kh-surface-raised);
 }

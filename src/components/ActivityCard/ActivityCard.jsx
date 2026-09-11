@@ -17,7 +17,7 @@ export default function ActivityCard({
       onClick={onClick}
     >
 
-      <div className="activity-image">
+      <div className="activity-image kh-grain">
 
         {
           image

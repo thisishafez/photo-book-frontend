@@ -102,7 +102,7 @@ export default function Profile() {
   }
 
   return (
-    <div className={`profile-page ${darkMode ? "profile-dark" : ""}`}>
+    <div className={`profile-page ${darkMode ? "profile-dark kh-dark" : ""}`}>
       <Navbar />
       <main className="profile-container">
         {accountType === "host" && (

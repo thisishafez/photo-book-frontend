@@ -5,22 +5,23 @@
 .hangout-detail-page {
   min-height: 100vh;
   box-sizing: border-box;
+  background: var(--kh-surface);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
+  transition: background var(--kh-transition), color var(--kh-transition);
+}
 
-  background: #f1f5f9;
-  color: #0f172a;
+.hangout-detail-page > main {
+  width: min(700px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 60px 0;
+  text-align: center;
+}
 
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+.hangout-detail-page > main p {
+  margin: 0 0 18px;
+  color: var(--kh-ink-soft);
+  font-size: 15px;
 }
 
 /* =========================================
@@ -31,8 +32,8 @@
   width: min(1100px, calc(100% - 32px));
   margin: 0 auto;
   padding: 32px 0 50px;
-
   box-sizing: border-box;
+  text-align: left;
 }
 
 /* =========================================
@@ -43,37 +44,28 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-
   margin-bottom: 20px;
   padding: 8px 13px;
-
   background: transparent;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-
-  color: #475569;
-  font-family: inherit;
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius-sm);
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-body);
   font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+  transition: all var(--kh-transition);
 }
 
 .hangout-back-btn:hover {
-  background: #ffffff;
-  border-color: #94a3b8;
-  color: #0f172a;
+  background: var(--kh-surface-raised);
+  border-color: var(--kh-ink-soft);
+  color: var(--kh-ink);
 }
 
 .hangout-back-btn:focus-visible {
   outline: none;
-  box-shadow:
-    0 0 0 3px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 0 0 3px rgba(168, 72, 46, 0.15);
 }
 
 /* =========================================
@@ -83,13 +75,11 @@
 .hangout-detail-container > .error {
   margin-bottom: 18px;
   padding: 12px 15px;
-
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-left: 4px solid #dc2626;
-  border-radius: 9px;
-
-  color: #b91c1c;
+  background: var(--kh-rejected-bg);
+  border: 1px solid var(--kh-rust-muted);
+  border-left: 4px solid var(--kh-rust-muted-dark);
+  border-radius: var(--kh-radius-sm);
+  color: var(--kh-rejected-text);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -103,44 +93,34 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 30px;
-
   margin-bottom: 22px;
   padding: 24px;
-
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
+  box-shadow: var(--kh-shadow);
 }
-
-/* Header title */
 
 .hangout-detail-header h1 {
   margin: 0 0 10px;
-
-  color: #0f172a;
+  color: var(--kh-ink);
+  font-family: var(--kh-font-display);
   font-size: clamp(26px, 4vw, 36px);
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.2;
-
   overflow-wrap: anywhere;
 }
 
-/* Header descriptions */
-
 .hangout-detail-header > div:first-child p {
   margin: 7px 0;
-
-  color: #64748b;
+  color: var(--kh-ink-soft);
   font-size: 14px;
   line-height: 1.6;
-
   overflow-wrap: anywhere;
 }
 
 .hangout-detail-header > div:first-child p:first-of-type {
-  color: #475569;
+  color: var(--kh-ink);
   font-weight: 600;
 }
 
@@ -153,79 +133,71 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 8px;
-
   min-width: 180px;
-
-  color: #64748b;
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-caption);
   font-size: 13px;
   line-height: 1.5;
   text-align: right;
 }
 
-.hangout-detail-meta strong {
+.hangout-status-badge {
   display: inline-flex;
   align-items: center;
-
   padding: 6px 11px;
-
-  background: #dbeafe;
-  border-radius: 999px;
-
-  color: #1d4ed8;
+  border-radius: var(--kh-radius-sm);
+  font-family: var(--kh-font-caption);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
+}
+
+.hangout-status-badge.status-planned,
+.hangout-status-badge.status-ongoing {
+  background: var(--kh-pending-bg);
+  color: var(--kh-pending-text);
+}
+
+.hangout-status-badge.status-completed {
+  background: var(--kh-approved-bg);
+  color: var(--kh-approved-text);
+}
+
+.hangout-status-badge.status-cancelled {
+  background: var(--kh-rejected-bg);
+  color: var(--kh-rejected-text);
 }
 
 /* =========================================
-   Top-level action button
+   Invite Friends button
    ========================================= */
 
-/*
-  This targets the "Invite Friends" button,
-  which is currently a direct child of the
-  main container and has no class.
-*/
-
-.hangout-detail-container
-  > button:not(.hangout-back-btn) {
+.hangout-invite-btn {
   min-height: 42px;
   margin-bottom: 22px;
   padding: 9px 16px;
-
-  border: none;
-  border-radius: 9px;
-
-  background: #2563eb;
-  color: #ffffff;
-
-  font-family: inherit;
+  border: 1px solid var(--kh-rust);
+  border-radius: var(--kh-radius-sm);
+  background: var(--kh-rust);
+  color: var(--kh-surface-raised);
+  font-family: var(--kh-font-body);
   font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    transform 0.1s ease,
-    box-shadow 0.2s ease;
+  transition: background var(--kh-transition), transform 0.1s ease;
 }
 
-.hangout-detail-container
-  > button:not(.hangout-back-btn):hover {
-  background: #1d4ed8;
-  box-shadow: 0 5px 12px rgba(37, 99, 235, 0.2);
+.hangout-invite-btn:hover {
+  background: var(--kh-rust-dark);
+  border-color: var(--kh-rust-dark);
 }
 
-.hangout-detail-container
-  > button:not(.hangout-back-btn):active {
+.hangout-invite-btn:active {
   transform: translateY(1px);
 }
 
-.hangout-detail-container
-  > button:not(.hangout-back-btn):focus-visible {
+.hangout-invite-btn:focus-visible {
   outline: none;
-  box-shadow:
-    0 0 0 3px rgba(37, 99, 235, 0.18);
+  box-shadow: 0 0 0 3px rgba(168, 72, 46, 0.18);
 }
 
 /* =========================================
@@ -237,286 +209,84 @@
   margin-bottom: 22px;
 }
 
-/*
-  The child components already have their own
-  cards, so don't add another background here.
-*/
-
 .hangout-detail-container > section > p {
   margin: 0;
   padding: 18px;
-
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-
-  color: #64748b;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
+  color: var(--kh-ink-soft);
   font-size: 14px;
 }
 
 /* =========================================
-   Danger zone
+   Danger zone / status-change buttons
    ========================================= */
 
 .hangout-danger-zone {
   display: flex;
   justify-content: flex-end;
-
   margin-top: 30px;
   padding-top: 22px;
-
-  border-top: 1px solid #cbd5e1;
+  border-top: 1px solid var(--kh-border);
 }
 
-.cancel-hangout-btn {
-  min-height: 42px;
-  padding: 9px 17px;
-
-  background: #ffffff;
-  border: 1px solid #fca5a5;
-  border-radius: 9px;
-
-  color: #dc2626;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.cancel-hangout-btn:hover:not(:disabled) {
-  background: #fef2f2;
-  border-color: #ef4444;
-  color: #b91c1c;
-
-  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.1);
-}
-
-.cancel-hangout-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-.cancel-hangout-btn:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 3px rgba(220, 38, 38, 0.15);
-}
-
-.complete-hangout-btn {
-  min-height: 42px;
-  padding: 9px 17px;
-
-  background: #ffffff;
-  border: 1px solid #86efac;
-  border-radius: 9px;
-
-  color: #16a34a;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.complete-hangout-btn:hover:not(:disabled) {
-  background: #f0fdf4;
-  border-color: #22c55e;
-  color: #15803d;
-
-  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.1);
-}
-
-.complete-hangout-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-.complete-hangout-btn:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 3px rgba(22, 163, 74, 0.15);
-}
-
+.cancel-hangout-btn,
+.complete-hangout-btn,
 .start-hangout-btn {
   min-height: 42px;
   padding: 9px 17px;
-
-  background: #ffffff;
-  border: 1px solid #93c5fd;
-  border-radius: 9px;
-
-  color: #2563eb;
-  font-family: inherit;
+  background: var(--kh-surface-raised);
+  border-radius: var(--kh-radius-sm);
+  font-family: var(--kh-font-body);
   font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
+  transition: all var(--kh-transition);
+}
 
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
+.cancel-hangout-btn {
+  border: 1px solid var(--kh-rust-muted);
+  color: var(--kh-rust-muted-dark);
+}
+
+.cancel-hangout-btn:hover:not(:disabled) {
+  background: var(--kh-rejected-bg);
+  border-color: var(--kh-rust-muted-dark);
+}
+
+.complete-hangout-btn {
+  border: 1px solid var(--kh-sage);
+  color: var(--kh-sage-dark);
+}
+
+.complete-hangout-btn:hover:not(:disabled) {
+  background: var(--kh-approved-bg);
+  border-color: var(--kh-sage-dark);
+}
+
+.start-hangout-btn {
+  border: 1px solid var(--kh-rust);
+  color: var(--kh-rust-dark);
 }
 
 .start-hangout-btn:hover:not(:disabled) {
-  background: #eff6ff;
-  border-color: #3b82f6;
-  color: #1d4ed8;
-
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.1);
+  background: var(--kh-pending-bg);
+  border-color: var(--kh-rust-dark);
 }
 
+.cancel-hangout-btn:disabled,
+.complete-hangout-btn:disabled,
 .start-hangout-btn:disabled {
   cursor: not-allowed;
   opacity: 0.55;
 }
 
+.cancel-hangout-btn:focus-visible,
+.complete-hangout-btn:focus-visible,
 .start-hangout-btn:focus-visible {
   outline: none;
-  box-shadow:
-    0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-/* =========================================
-   Dark mode
-   ========================================= */
-
-.hangout-detail-page.dark {
-  background: #0f172a;
-  color: #f8fafc;
-}
-
-.hangout-detail-page.dark .hangout-detail-header {
-  background: #1e293b;
-  border-color: #334155;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-}
-
-.hangout-detail-page.dark .hangout-detail-header h1 {
-  color: #f8fafc;
-}
-
-.hangout-detail-page.dark
-  .hangout-detail-header
-  > div:first-child
-  p {
-  color: #94a3b8;
-}
-
-.hangout-detail-page.dark
-  .hangout-detail-header
-  > div:first-child
-  p:first-of-type {
-  color: #cbd5e1;
-}
-
-.hangout-detail-page.dark .hangout-detail-meta {
-  color: #94a3b8;
-}
-
-.hangout-detail-page.dark .hangout-back-btn {
-  background: transparent;
-  border-color: #475569;
-  color: #cbd5e1;
-}
-
-.hangout-detail-page.dark .hangout-back-btn:hover {
-  background: #1e293b;
-  border-color: #64748b;
-  color: #ffffff;
-}
-
-.hangout-detail-page.dark
-  .hangout-detail-container
-  > section
-  > p {
-  background: #1e293b;
-  border-color: #334155;
-  color: #94a3b8;
-}
-
-.hangout-detail-page.dark .hangout-danger-zone {
-  border-top-color: #334155;
-}
-
-.hangout-detail-page.dark .cancel-hangout-btn {
-  background: #1e293b;
-  border-color: #7f1d1d;
-  color: #f87171;
-}
-
-.hangout-detail-page.dark .complete-hangout-btn {
-  background: #1e293b;
-  border-color: #166534;
-  color: #4ade80;
-}
-
-.hangout-detail-page.dark .start-hangout-btn {
-  background: #1e293b;
-  border-color: #1e40af;
-  color: #93c5fd;
-}
-
-.hangout-detail-page.dark
-  .cancel-hangout-btn:hover:not(:disabled) {
-  background: #450a0a;
-  border-color: #ef4444;
-  color: #fca5a5;
-}
-
-.hangout-detail-page.dark
-  .complete-hangout-btn:hover:not(:disabled) {
-  background: #052e16;
-  border-color: #22c55e;
-  color: #86efac;
-}
-
-.hangout-detail-page.dark
-  .start-hangout-btn:hover:not(:disabled) {
-  background: #172554;
-  border-color: #3b82f6;
-  color: #bfdbfe;
-}
-
-.hangout-detail-page.dark
-  .hangout-detail-container
-  > .error {
-  background: #450a0a;
-  border-color: #7f1d1d;
-  color: #fca5a5;
-}
-
-/* =========================================
-   Loading / standalone main states
-   ========================================= */
-
-.hangout-detail-page > main:not(.hangout-detail-container) {
-  width: min(700px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: 80px 0;
-
-  text-align: center;
-}
-
-.hangout-detail-page > main:not(.hangout-detail-container) p {
-  margin: 0 0 18px;
-
-  color: #64748b;
-  font-size: 15px;
+  box-shadow: 0 0 0 3px rgba(168, 72, 46, 0.15);
 }
 
 /* =========================================
@@ -554,16 +324,13 @@
 
   .hangout-detail-header {
     padding: 17px;
-    border-radius: 12px;
   }
 
   .hangout-detail-header h1 {
     font-size: 25px;
   }
 
-  .hangout-detail-header
-    > div:first-child
-    p {
+  .hangout-detail-header > div:first-child p {
     font-size: 13px;
   }
 
@@ -571,8 +338,7 @@
     font-size: 12px;
   }
 
-  .hangout-detail-container
-    > button:not(.hangout-back-btn) {
+  .hangout-invite-btn {
     width: 100%;
     margin-bottom: 18px;
   }
@@ -585,15 +351,8 @@
     justify-content: stretch;
   }
 
-  .cancel-hangout-btn {
-    width: 100%;
-  }
-
-  .complete-hangout-btn {
-    width: 100%;
-    margin-bottom: 12px;
-  }
-
+  .cancel-hangout-btn,
+  .complete-hangout-btn,
   .start-hangout-btn {
     width: 100%;
     margin-bottom: 12px;

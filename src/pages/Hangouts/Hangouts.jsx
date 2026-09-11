@@ -14,7 +14,7 @@ import Navbar
 
 
 import HangoutCard
-  from "../../components/HangoutCard/ HangoutCard.jsx";
+  from "../../components/HangoutCard/HangoutCard.jsx";
 
 
 import {
@@ -147,13 +147,7 @@ export default function Hangouts() {
 
   return (
 
-    <div
-      className={
-        `hangouts-page ${
-          darkMode ? "dark" : ""
-        }`
-      }
-    >
+    <div className={`hangouts-page ${darkMode ? "kh-dark" : ""}`}>
 
       <Navbar />
 

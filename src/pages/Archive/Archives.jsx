@@ -267,17 +267,7 @@ export default function Archives() {
 
   return (
 
-    <div
-      className={
-        `archives-page ${
-          darkMode
-          ?
-          "archives-dark"
-          :
-          ""
-        }`
-      }
-    >
+    <div className={`archives-page ${darkMode ? "archives-dark kh-dark" : ""}`}>
 
       <Navbar />
 
@@ -405,7 +395,7 @@ export default function Archives() {
                       }
                     >
 
-                      <div className="archive-card-preview">
+                      <div className="archive-card-preview kh-grain">
 
                         {
                           archive.status ===

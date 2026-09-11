@@ -58,7 +58,7 @@ export default function ActivityDetail() {
   }
 
   return (
-    <div className={`activity-detail-page ${darkMode ? "activity-detail-page-dark" : ""}`}>
+    <div className={`activity-detail-page ${darkMode ? "kh-dark" : ""}`}>
       <Navbar unreadCount={unreadCount} />
       <main className="activity-detail-container">
         <button className="back-btn" onClick={() => navigate("/")}>← Back to Home</button>

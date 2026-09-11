@@ -49,7 +49,7 @@ export default function CircleList() {
   };
 
   return (
-    <div className={`circle-page ${darkMode ? "dark" : ""}`}>
+    <div className={`circle-page ${darkMode ? "kh-dark" : ""}`}>
       <Navbar />
       <main className="circle-container">
         <button className="home-btn" onClick={() => navigate("/")}>← Home</button>

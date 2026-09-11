@@ -1,178 +1,89 @@
 .invite-friends-page {
   min-height: 100vh;
-  background: #f8f5ef;
-  color: #272238;
+  background: var(--kh-surface);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
   padding: 40px 20px;
 }
 
-
-.invite-friends-page-dark {
-  background: #151515;
-  color: #f5f5f5;
-}
-
-
-
 .invite-friends-container {
-
   max-width: 650px;
-
   margin: 0 auto;
-
 }
-
-
 
 .invite-friends-container h1 {
-
-  font-size: 42px;
-
-  margin-bottom: 30px;
-
+  font-family: var(--kh-font-display);
+  font-weight: 600;
+  font-size: 2.4rem;
+  margin: 0 0 30px;
+  color: var(--kh-ink);
 }
-
-
-
-
 
 .invite-form {
-
   display: flex;
-
   flex-direction: column;
-
   gap: 25px;
-
 }
-
-
-
-
 
 .friend-list {
-
   display: flex;
-
   flex-direction: column;
-
   gap: 12px;
-
 }
-
-
-
-
 
 .friend-list-item {
-
   display: flex;
-
   align-items: center;
-
   gap: 14px;
-
   padding: 16px 20px;
-
-  background: white;
-
-  border-radius: 14px;
-
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
   cursor: pointer;
-
-  transition: 0.2s;
-
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-
+  transition: transform var(--kh-transition);
+  box-shadow: var(--kh-shadow);
 }
-
-
 
 .friend-list-item:hover {
-
   transform: translateY(-2px);
-
 }
-
-
 
 .friend-list-item input {
-
   width: 18px;
-
   height: 18px;
-
+  accent-color: var(--kh-rust);
 }
-
-
-
-
 
 .invite-submit {
-
   width: 100%;
-
   padding: 15px;
-
-  border: none;
-
-  border-radius: 12px;
-
-  background: #222;
-
-  color: white;
-
+  border: 1px solid var(--kh-rust);
+  border-radius: var(--kh-radius);
+  background: var(--kh-rust);
+  color: var(--kh-surface-raised);
+  font-family: var(--kh-font-body);
   font-size: 17px;
-
+  font-weight: 600;
   cursor: pointer;
-
+  transition: background var(--kh-transition);
 }
 
-
+.invite-submit:hover:not(:disabled) {
+  background: var(--kh-rust-dark);
+  border-color: var(--kh-rust-dark);
+}
 
 .invite-submit:disabled {
-
   opacity: 0.5;
-
   cursor: not-allowed;
-
 }
-
-
-
-
 
 .invite-error {
-
-  background: #ffe5e5;
-
-  color: #a00000;
-
+  background: var(--kh-rejected-bg);
+  color: var(--kh-rejected-text);
+  border: 1px solid var(--kh-rust-muted);
   padding: 15px;
-
-  border-radius: 10px;
-
+  border-radius: var(--kh-radius);
   margin-bottom: 20px;
-
-}
-
-
-
-
-
-.invite-friends-page-dark .friend-list-item {
-
-  background: #242424;
-
-  color: white;
-
-}
-
-
-
-.invite-friends-page-dark .invite-submit {
-
-  background: white;
-
-  color: black;
-
+  font-family: var(--kh-font-body);
 }

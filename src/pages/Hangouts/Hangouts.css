@@ -1,84 +1,83 @@
 .hangouts-page {
-
-
-min-height:100vh;
-
-background:white;
-
-
+  min-height: 100vh;
+  background: var(--kh-surface);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
 }
-
-
 
 .hangouts-container {
-
-
-max-width:900px;
-
-margin:auto;
-
-padding:40px;
-
-
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
 }
 
-
+.hangouts-container h1 {
+  font-family: var(--kh-font-display);
+  font-weight: 600;
+  font-size: 2.2rem;
+  margin: 0 0 24px;
+  color: var(--kh-ink);
+}
 
 .hangout-tabs {
-
-
-display:flex;
-
-gap:15px;
-
-margin-bottom:30px;
-
-
+  display: inline-flex;
+  gap: 6px;
+  padding: 5px;
+  margin-bottom: 30px;
+  border-radius: var(--kh-radius);
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
 }
-
-
 
 .hangout-tabs button {
-
-
-padding:12px 20px;
-
-
-border:none;
-
-border-radius:12px;
-
-
-background:#111;
-
-color:white;
-
-
-cursor:pointer;
-
-
+  padding: 10px 18px;
+  border: none;
+  border-radius: var(--kh-radius-sm);
+  background: transparent;
+  color: var(--kh-ink-soft);
+  cursor: pointer;
+  font-family: var(--kh-font-body);
+  font-weight: 600;
+  transition: all var(--kh-transition);
 }
 
-
-
-.dark.hangouts-page {
-
-
-background:#111;
-
-color:white;
-
-
+.hangout-tabs button.active {
+  background: var(--kh-surface);
+  color: var(--kh-ink);
+  box-shadow: var(--kh-shadow);
 }
 
+.hangouts-loading,
+.hangouts-empty {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-body);
+}
 
+.hangouts-error {
+  padding: 24px;
+  text-align: center;
+  border: 1px solid var(--kh-rust-muted);
+  border-radius: var(--kh-radius);
+  background: var(--kh-rejected-bg);
+  color: var(--kh-rejected-text);
+  font-family: var(--kh-font-body);
+}
 
-.dark .hangout-tabs button {
+.hangouts-error button {
+  margin-top: 12px;
+  padding: 8px 18px;
+  border: 1px solid var(--kh-rust-muted);
+  border-radius: var(--kh-radius-sm);
+  background: transparent;
+  color: var(--kh-rust-muted-dark);
+  cursor: pointer;
+  font-family: var(--kh-font-body);
+  transition: all var(--kh-transition);
+}
 
-
-background:white;
-
-color:black;
-
-
+.hangouts-error button:hover {
+  background: var(--kh-rust-muted);
+  color: var(--kh-surface-raised);
 }

@@ -1,7 +1,8 @@
 .invite-hangout-page {
   min-height: 100vh;
-  background: #f6f6f6;
-  color: #222;
+  background: var(--kh-surface);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
 }
 
 .invite-hangout-container {
@@ -14,9 +15,15 @@
   border: none;
   background: transparent;
   cursor: pointer;
+  font-family: var(--kh-font-body);
   font-size: 15px;
   margin-bottom: 25px;
-  color: #555;
+  color: var(--kh-ink-soft);
+  transition: color var(--kh-transition);
+}
+
+.invite-hangout-back:hover {
+  color: var(--kh-ink);
 }
 
 .invite-hangout-header {
@@ -24,13 +31,57 @@
 }
 
 .invite-hangout-header h1 {
-  font-size: 34px;
-  margin-bottom: 8px;
+  font-family: var(--kh-font-display);
+  font-weight: 600;
+  font-size: 2.1rem;
+  margin: 0 0 8px;
+  color: var(--kh-ink);
 }
 
 .invite-hangout-header p {
-  color: #777;
+  color: var(--kh-ink-soft);
   line-height: 1.5;
+}
+
+.invite-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+.invite-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--kh-font-caption);
+  font-size: 0.8rem;
+  color: var(--kh-ink-soft);
+}
+
+.invite-form input,
+.invite-form textarea {
+  padding: 10px 12px;
+  border-radius: var(--kh-radius-sm);
+  border: 1px solid var(--kh-border);
+  background: var(--kh-surface-raised);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
+  font-size: 0.95rem;
+}
+
+.invite-form input:focus,
+.invite-form textarea:focus {
+  outline: none;
+  border-color: var(--kh-rust);
+}
+
+.invite-hangout-container h2 {
+  font-family: var(--kh-font-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin: 0 0 16px;
+  color: var(--kh-ink);
 }
 
 .invite-friends-list {
@@ -43,22 +94,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  background: white;
-
+  background: var(--kh-surface-raised);
   padding: 18px 20px;
-
   border: 2px solid transparent;
-  border-radius: 16px;
-
+  border-radius: var(--kh-radius);
   cursor: pointer;
-
-  box-shadow:
-    0 5px 16px rgba(0, 0, 0, 0.06);
-
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease;
+  box-shadow: var(--kh-shadow);
+  transition: transform var(--kh-transition), border-color var(--kh-transition);
 }
 
 .invite-friend-row:hover {
@@ -66,7 +108,7 @@
 }
 
 .invite-friend-row.selected {
-  border-color: #222;
+  border-color: var(--kh-rust);
 }
 
 .invite-friend-info {
@@ -78,118 +120,86 @@
 .invite-friend-avatar {
   width: 44px;
   height: 44px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 50%;
-
-  background: #eee;
-
+  background: var(--kh-border);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-display);
   font-weight: 700;
 }
 
 .invite-friend-name {
   font-weight: 600;
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
 }
 
 .invite-checkbox {
   width: 20px;
   height: 20px;
   cursor: pointer;
+  accent-color: var(--kh-rust);
 }
 
 .invite-summary {
   margin-top: 25px;
-
   padding: 16px;
-
-  border-radius: 14px;
-
-  background: #eee;
-
-  color: #555;
+  border-radius: var(--kh-radius);
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-caption);
+  font-size: 0.85rem;
 }
 
 .invite-actions {
   display: flex;
   gap: 12px;
-
   margin-top: 25px;
 }
 
 .invite-create-btn,
 .invite-solo-btn {
   flex: 1;
-
   padding: 14px 20px;
-
-  border: none;
-  border-radius: 12px;
-
+  border: 1px solid transparent;
+  border-radius: var(--kh-radius);
+  font-family: var(--kh-font-body);
   font-size: 16px;
-
+  font-weight: 600;
   cursor: pointer;
+  transition: all var(--kh-transition);
 }
 
 .invite-create-btn {
-  background: #111;
-  color: white;
+  background: var(--kh-rust);
+  border-color: var(--kh-rust);
+  color: var(--kh-surface-raised);
+}
+
+.invite-create-btn:hover {
+  background: var(--kh-rust-dark);
+  border-color: var(--kh-rust-dark);
 }
 
 .invite-solo-btn {
-  background: #e7e7e7;
-  color: #222;
+  background: var(--kh-surface-raised);
+  border-color: var(--kh-border);
+  color: var(--kh-ink);
 }
 
-.invite-create-btn:hover,
 .invite-solo-btn:hover {
-  opacity: 0.86;
+  background: var(--kh-border);
 }
 
-
-/* DARK MODE */
-
-.invite-hangout-page.dark {
-  background: #111;
-  color: #f5f5f5;
-}
-
-.invite-hangout-page.dark .invite-hangout-back {
-  color: #bbb;
-}
-
-.invite-hangout-page.dark .invite-hangout-header p {
-  color: #aaa;
-}
-
-.invite-hangout-page.dark .invite-friend-row {
-  background: #1e1e1e;
-
-  box-shadow:
-    0 5px 16px rgba(0, 0, 0, 0.3);
-}
-
-.invite-hangout-page.dark .invite-friend-row.selected {
-  border-color: white;
-}
-
-.invite-hangout-page.dark .invite-friend-avatar {
-  background: #333;
-}
-
-.invite-hangout-page.dark .invite-summary {
-  background: #222;
-  color: #bbb;
-}
-
-.invite-hangout-page.dark .invite-create-btn {
-  background: white;
-  color: #111;
-}
-
-.invite-hangout-page.dark .invite-solo-btn {
-  background: #333;
-  color: white;
+.invite-error {
+  background: var(--kh-rejected-bg);
+  color: var(--kh-rejected-text);
+  border: 1px solid var(--kh-rust-muted);
+  padding: 14px 16px;
+  border-radius: var(--kh-radius);
+  margin-bottom: 20px;
+  font-family: var(--kh-font-body);
 }

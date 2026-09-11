@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { api } from "../../services/api";
+import "./InviteResponse.css";
 
 export default function InviteResponse({
   hangoutId,

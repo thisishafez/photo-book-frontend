@@ -1,158 +1,136 @@
-.modal-overlay{
-
-
-position:fixed;
-
-inset:0;
-
-
-background:rgba(0,0,0,.5);
-
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-
-z-index:1000;
-
-
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 36, 32, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-
-
-.find-modal{
-
-
-width:400px;
-
-
-background:white;
-
-
-padding:30px;
-
-
-border-radius:20px;
-
-
+.find-modal {
+  width: 400px;
+  max-width: calc(100vw - 32px);
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
+  box-shadow: var(--kh-shadow);
+  padding: 28px;
+  font-family: var(--kh-font-body);
+  color: var(--kh-ink);
 }
 
-
-
-.close{
-
-
-float:right;
-
-border:none;
-
-background:none;
-
-font-size:25px;
-
-cursor:pointer;
-
-
+.find-modal h2 {
+  margin: 0 0 6px;
+  font-family: var(--kh-font-display);
+  font-size: 1.3rem;
+  color: var(--kh-ink);
 }
 
-
-
-.user-result{
-
-
-display:flex;
-
-justify-content:space-between;
-
-
-padding:15px;
-
-
-margin-top:15px;
-
-
-background:#eee;
-
-
-border-radius:12px;
-
-
+.find-modal-hint {
+  margin: 0 0 18px;
+  font-size: 0.88rem;
+  color: var(--kh-ink-soft);
 }
 
-
-.search-row{
-  display:flex;
-  gap:10px;
-  margin-bottom:20px;
+.close {
+  float: right;
+  border: none;
+  background: none;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--kh-ink-soft);
+  cursor: pointer;
 }
 
-.search-input{
-  flex:1;
-  padding:10px 14px;
-  border:1px solid #ccc;
-  border-radius:10px;
-  font-size:14px;
+.close:hover {
+  color: var(--kh-ink);
 }
 
-.search-input:focus{
-  outline:none;
-  border-color:#4a4ae0;
+.user-result {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px;
+  margin-top: 14px;
+  background: var(--kh-surface);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius-sm);
 }
 
-.search-btn{
-  padding:10px 18px;
-  border:none;
-  border-radius:10px;
-  background:#4a4ae0;
-  color:white;
-  cursor:pointer;
-  font-size:14px;
+.search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.search-btn:hover{
-  background:#3a3ac0;
+.search-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius-sm);
+  background: var(--kh-surface);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
+  font-size: 0.9rem;
 }
 
-/* FindFriendsModal.css */
-.dark .find-modal{
-  background:#1e1e1e;
-  color:white;
+.search-input:focus {
+  outline: 2px solid var(--kh-rust);
+  outline-offset: 1px;
+  border-color: var(--kh-rust);
 }
 
-.dark .find-modal h2{
-  color:white;
+.search-btn {
+  padding: 10px 18px;
+  border: 1px solid var(--kh-rust-dark);
+  border-radius: var(--kh-radius-sm);
+  background: var(--kh-rust);
+  color: var(--kh-surface-raised);
+  cursor: pointer;
+  font-family: var(--kh-font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: background var(--kh-transition);
 }
 
-.dark .find-modal .close{
-  color:white;
+.search-btn:hover:not(:disabled) {
+  background: var(--kh-rust-dark);
 }
 
-.dark .search-input{
-  background:#2a2a2a;
-  border:1px solid #444;
-  color:white;
+.search-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.dark .search-input::placeholder{
-  color:#999;
+.find-modal-success {
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+  color: var(--kh-approved-text);
 }
 
-.dark .user-result{
-  background:#333;
-  color:white;
+.find-modal-error {
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+  color: var(--kh-rejected-text);
 }
 
-.dark .search-input,
-.dark .search-input:focus{
-  background:#2a2a2a;
-  border:1px solid #444;
-  color:white;
+.kh-dark .find-modal {
+  background: var(--kh-surface-raised);
+  color: var(--kh-ink);
+  border-color: var(--kh-border);
 }
 
-.dark .search-input:focus{
-  border-color:#4a4ae0;
-  outline:none;
+.kh-dark .search-input {
+  background: var(--kh-surface);
+  border-color: var(--kh-border);
+  color: var(--kh-ink);
+}
+
+.kh-dark .search-input::placeholder {
+  color: var(--kh-ink-soft);
+}
+
+.kh-dark .user-result {
+  background: var(--kh-surface);
+  color: var(--kh-ink);
 }

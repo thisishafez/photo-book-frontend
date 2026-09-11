@@ -1,479 +1,227 @@
 .archive-detail-page {
-  --archive-detail-bg:
-    #f7f5ef;
-
-  --archive-detail-card:
-    #ffffff;
-
-  --archive-detail-text:
-    #24231f;
-
-  --archive-detail-border:
-    rgba(
-      0,
-      0,
-      0,
-      0.08
-    );
-
-
   min-height: 100vh;
-
-  background:
-    var(
-      --archive-detail-bg
-    );
-
-  color:
-    var(
-      --archive-detail-text
-    );
+  background: var(--kh-surface);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
+  transition: background var(--kh-transition), color var(--kh-transition);
 }
-
 
 .archive-detail-container {
-  width:
-    min(
-      1050px,
-      calc(100% - 40px)
-    );
-
+  width: min(1050px, calc(100% - 40px));
   margin: 0 auto;
-
-  padding:
-    42px 0 90px;
+  padding: 42px 0 90px;
 }
-
 
 .archive-back-button {
   padding: 0;
-
   margin-bottom: 32px;
-
   border: 0;
-
   background: transparent;
-
-  color: inherit;
-
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-body);
   font-size: 14px;
   font-weight: 600;
-
   cursor: pointer;
-
-  opacity: 0.7;
+  transition: color var(--kh-transition);
 }
-
 
 .archive-back-button:hover {
-  opacity: 1;
+  color: var(--kh-ink);
 }
-
 
 .archive-detail-hero {
   display: flex;
-
-  justify-content:
-    space-between;
-
+  justify-content: space-between;
   align-items: flex-end;
-
   gap: 30px;
-
   padding-bottom: 34px;
-
-  border-bottom:
-    1px solid
-    var(
-      --archive-detail-border
-    );
+  border-bottom: 1px solid var(--kh-border);
 }
-
 
 .archive-detail-eyebrow {
   display: block;
-
   margin-bottom: 8px;
-
+  font-family: var(--kh-font-caption);
   font-size: 12px;
-
-  font-weight: 700;
-
+  font-weight: 600;
   letter-spacing: 0.12em;
-
   text-transform: uppercase;
-
-  opacity: 0.5;
+  color: var(--kh-ink-soft);
 }
-
 
 .archive-detail-hero h1 {
   margin: 0;
-
-  font-size:
-    clamp(
-      32px,
-      6vw,
-      58px
-    );
-
+  font-family: var(--kh-font-display);
+  font-weight: 600;
+  font-size: clamp(32px, 6vw, 58px);
   line-height: 1;
+  color: var(--kh-ink);
 }
-
 
 .archive-detail-meta {
   display: flex;
-
   flex-wrap: wrap;
-
-  gap:
-    9px 18px;
-
+  gap: 9px 18px;
   margin-top: 18px;
-
+  font-family: var(--kh-font-caption);
   font-size: 13px;
-
-  opacity: 0.65;
+  color: var(--kh-ink-soft);
 }
-
 
 .archive-participants {
   display: flex;
-
   flex-direction: row-reverse;
-
-  justify-content:
-    flex-end;
+  justify-content: flex-end;
 }
-
 
 .archive-participant-avatar {
   width: 43px;
   height: 43px;
-
   display: flex;
-
   justify-content: center;
   align-items: center;
-
   margin-left: -9px;
-
-  border:
-    3px solid
-    var(
-      --archive-detail-bg
-    );
-
+  border: 3px solid var(--kh-surface);
   border-radius: 50%;
-
-  background: #d9d1bd;
-
-  color: #363329;
-
-  font-weight: 800;
+  background: var(--kh-surface-raised);
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-display);
+  font-weight: 700;
 }
-
 
 .archive-upload-prompt,
 .archive-later-upload,
 .archive-cancelled-notice {
   display: flex;
-
   align-items: center;
-
   gap: 18px;
-
   margin-top: 28px;
-
   padding: 20px;
-
-  border-radius: 20px;
-
-  background:
-    var(
-      --archive-detail-card
-    );
-
-  border:
-    1px solid
-    var(
-      --archive-detail-border
-    );
+  border-radius: var(--kh-radius);
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
 }
-
 
 .archive-upload-prompt {
-  border-color:
-    rgba(
-      142,
-      112,
-      43,
-      0.24
-    );
-
-  background: #f1ead7;
+  border-color: var(--kh-rust-muted);
+  background: var(--kh-pending-bg);
 }
-
 
 .archive-upload-prompt-icon,
 .archive-cancelled-notice > div:first-child {
   font-size: 32px;
 }
 
-
-.archive-upload-prompt
-> div:nth-child(2),
-.archive-later-upload
-> div:first-child {
+.archive-upload-prompt > div:nth-child(2),
+.archive-later-upload > div:first-child {
   flex: 1;
 }
-
 
 .archive-upload-prompt p,
 .archive-later-upload p,
 .archive-cancelled-notice p {
-  margin:
-    5px 0 0;
-
+  margin: 5px 0 0;
   font-size: 13px;
-
   line-height: 1.5;
-
-  opacity: 0.66;
+  color: var(--kh-ink-soft);
 }
-
 
 .archive-detail-tabs {
   display: flex;
-
   gap: 8px;
-
-  margin:
-    36px 0 22px;
+  margin: 36px 0 22px;
 }
-
 
 .archive-detail-tabs button {
-  padding:
-    10px 18px;
-
-  border:
-    1px solid
-    var(
-      --archive-detail-border
-    );
-
-  border-radius: 13px;
-
+  padding: 10px 18px;
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius-sm);
   background: transparent;
-
-  color: inherit;
-
+  color: var(--kh-ink-soft);
   cursor: pointer;
-
+  font-family: var(--kh-font-body);
   font-weight: 600;
+  transition: all var(--kh-transition);
 }
 
-
-.archive-detail-tabs
-button.active {
-  border-color: #292720;
-
-  background: #292720;
-
-  color: white;
+.archive-detail-tabs button.active {
+  border-color: var(--kh-ink);
+  background: var(--kh-surface-raised);
+  color: var(--kh-ink);
+  box-shadow: var(--kh-shadow);
 }
-
 
 .archive-detail-content {
   padding: 24px;
-
-  border:
-    1px solid
-    var(
-      --archive-detail-border
-    );
-
-  border-radius: 24px;
-
-  background:
-    var(
-      --archive-detail-card
-    );
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
+  background: var(--kh-surface-raised);
 }
-
 
 .archive-danger-zone {
   display: flex;
-
-  justify-content:
-    space-between;
-
+  justify-content: space-between;
   align-items: center;
-
   gap: 24px;
-
   margin-top: 42px;
-
-  padding:
-    22px 0;
-
-  border-top:
-    1px solid
-    var(
-      --archive-detail-border
-    );
+  padding: 22px 0;
+  border-top: 1px solid var(--kh-border);
 }
-
 
 .archive-danger-zone p {
   max-width: 600px;
-
-  margin:
-    5px 0 0;
-
+  margin: 5px 0 0;
   font-size: 13px;
-
-  opacity: 0.6;
+  color: var(--kh-ink-soft);
 }
-
 
 .archive-danger-zone button {
-  padding:
-    11px 17px;
-
-  border:
-    1px solid
-    rgba(
-      180,
-      55,
-      55,
-      0.3
-    );
-
-  border-radius: 12px;
-
+  padding: 11px 17px;
+  border: 1px solid var(--kh-rust-muted);
+  border-radius: var(--kh-radius-sm);
   background: transparent;
-
-  color: #b53c3c;
-
+  color: var(--kh-rust-muted-dark);
   cursor: pointer;
-
+  font-family: var(--kh-font-body);
   font-weight: 600;
+  transition: all var(--kh-transition);
 }
 
+.archive-danger-zone button:hover {
+  background: var(--kh-rejected-bg);
+}
 
 .archive-detail-state {
-  min-height:
-    calc(
-      100vh - 100px
-    );
-
+  min-height: calc(100vh - 100px);
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
-
   align-items: center;
-
   gap: 12px;
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-body);
 }
 
-
-
-/*
-=========================
-DARK MODE
-=========================
-*/
-
-
-.archive-detail-dark {
-  --archive-detail-bg:
-    #181817;
-
-  --archive-detail-card:
-    #242321;
-
-  --archive-detail-text:
-    #f2f0ea;
-
-  --archive-detail-border:
-    rgba(
-      255,
-      255,
-      255,
-      0.09
-    );
+/* These target child components (MediaGrid, ChatHistory) that haven't
+   been through the redesign pass yet — kept as targeted overrides for
+   now. Once media-card / chat-history-bubble get their own kh-* tokens,
+   these should be removable. */
+.archive-detail-dark .media-card {
+  --archive-card-bg: var(--kh-surface-raised);
+  border-color: var(--kh-border);
 }
 
-
-.archive-detail-dark
-.archive-upload-prompt {
-  background: #322f26;
-
-  border-color:
-    rgba(
-      220,
-      196,
-      124,
-      0.18
-    );
+.archive-detail-dark .media-empty {
+  border-color: var(--kh-border);
 }
 
-
-.archive-detail-dark
-.archive-detail-tabs
-button.active {
-  background: #efede6;
-
-  border-color: #efede6;
-
-  color: #22211e;
+.archive-detail-dark .chat-history-bubble {
+  background: var(--kh-surface-raised);
 }
 
-
-.archive-detail-dark
-.media-card {
-  --archive-card-bg:
-    #2b2926;
-
-  border-color:
-    rgba(
-      255,
-      255,
-      255,
-      0.08
-    );
+.archive-detail-dark .chat-history-row.own .chat-history-bubble {
+  background: var(--kh-border);
 }
-
-
-.archive-detail-dark
-.media-empty {
-  border-color:
-    rgba(
-      255,
-      255,
-      255,
-      0.15
-    );
-}
-
-
-.archive-detail-dark
-.chat-history-bubble {
-  background: #33312d;
-}
-
-
-.archive-detail-dark
-.chat-history-row.own
-.chat-history-bubble {
-  background: #474237;
-}
-
-
 
 /*
 =========================
@@ -481,35 +229,24 @@ RESPONSIVE
 =========================
 */
 
-
-@media (
-  max-width: 700px
-) {
-
+@media (max-width: 700px) {
   .archive-detail-container {
-    width:
-      calc(100% - 26px);
+    width: calc(100% - 26px);
   }
-
 
   .archive-detail-hero {
     flex-direction: column;
-
     align-items: flex-start;
   }
-
 
   .archive-upload-prompt,
   .archive-later-upload,
   .archive-danger-zone {
     flex-direction: column;
-
     align-items: flex-start;
   }
-
 
   .archive-detail-content {
     padding: 16px;
   }
-
 }

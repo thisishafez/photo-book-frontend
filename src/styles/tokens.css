@@ -1,59 +1,90 @@
 /* src/styles/tokens.css
-   Shared design tokens for Khātere. "Khātere" (memory/keepsake) is a
-   social-hangout app — warm, communal, a little nocturnal (evenings out
-   with friends). Palette leans lantern-marigold + deep teal rather than
-   the generic cream/terracotta combo, so it reads as its own product. */
+   Shared design tokens for Khātere — designed as an old photo album:
+   yellowed paper, sepia ink, hand-tinted photo colors, typewritten
+   captions. Every surface should feel like it's resting on a page,
+   not floating in a UI. */
 
 :root {
-  /* Ink & surfaces */
-  --kh-ink: #201A2B;         /* primary text, deep aubergine-black */
-  --kh-ink-soft: #6B6572;    /* secondary text */
-  --kh-surface: #FBF8F3;     /* page background, warm parchment */
-  --kh-surface-raised: #FFFFFF;
-  --kh-border: #E7E0D6;
+  /* Ink & surfaces — aged paper, sepia ink */
+  --kh-ink: #2B2420;          /* primary text, sepia-black */
+  --kh-ink-soft: #6E6153;     /* secondary text, faded caption ink */
+  --kh-surface: #ECE4D3;      /* page background, aged paper */
+  --kh-surface-raised: #F6EFE1; /* photo mount / card, lighter than page */
+  --kh-border: #D9CEB8;       /* foxing-toned hairline */
 
-  /* Accents */
-  --kh-marigold: #E29A3C;    /* primary accent — invite, submit, highlight */
-  --kh-marigold-dark: #C27E27;
-  --kh-teal: #1F6F6B;        /* secondary accent — approve, confirm */
-  --kh-teal-dark: #17524F;
-  --kh-brick: #B34638;       /* reject / destructive */
-  --kh-brick-dark: #92382D;
+  /* Accents — hand-tinted photograph colors. Rust does the heavy
+     lifting; sage is its cool counterpart. No third saturated hue. */
+  --kh-rust: #A8482E;         /* primary accent — invite, submit, highlight */
+  --kh-rust-dark: #8A3A24;
+  --kh-sage: #5B6F5C;         /* secondary accent — approve, confirm */
+  --kh-sage-dark: #48594A;
+  --kh-rust-muted: #C77E68;   /* reject / destructive — rust at lower weight, not a new hue */
+  --kh-rust-muted-dark: #A8482E;
 
-  /* Status */
-  --kh-pending-bg: #FBEFDA;
-  --kh-pending-text: #8A5B15;
-  --kh-approved-bg: #E4F1EE;
-  --kh-approved-text: #175C56;
-  --kh-rejected-bg: #F7E7E4;
-  --kh-rejected-text: #8C3B2E;
+  /* Status — desaturated washes of the two accents, not separate hues */
+  --kh-pending-bg: #F1E6CC;
+  --kh-pending-text: #7A5A25;
+  --kh-approved-bg: #E4EAE1;
+  --kh-approved-text: #3F5040;
+  --kh-rejected-bg: #F1E1DB;
+  --kh-rejected-text: #8A4530;
 
   /* Type */
   --kh-font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --kh-font-body: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --kh-font-caption: "Courier Prime", "Courier New", monospace; /* typewritten captions/meta */
 
-  /* Shape & motion */
-  --kh-radius: 10px;
-  --kh-radius-sm: 6px;
-  --kh-shadow: 0 1px 2px rgba(32, 26, 43, 0.06), 0 4px 16px rgba(32, 26, 43, 0.06);
+  /* Shape & motion — near-square corners, paper-toned shadow */
+  --kh-radius: 2px;
+  --kh-radius-sm: 1px;
+  --kh-shadow: 0 1px 1px rgba(43, 36, 32, 0.08), 0 6px 18px rgba(43, 36, 32, 0.10);
   --kh-transition: 150ms ease;
+
+  /* Grain — SVG turbulence noise, applied via .kh-grain utility.
+     Kept as a token so intensity can be tuned in one place. */
+  --kh-grain-opacity: 0.06;
 }
 
-/* Dark mode surfaces, reused by any page that toggles a *-dark class
-   via ThemeContext (see ActivityDetail). */
+/* Reusable grain overlay. Apply to any surface (photo cards, hero,
+   page background) that should feel like textured paper/film.
+   Usage: add class="kh-grain" to a `position: relative` container. */
+.kh-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--kh-grain-opacity);
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg'>\
+<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter>\
+<rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Dark mode — "darkroom" rather than a straight inversion: deep
+   warm brown-black, like a safelight-lit room, with the same two
+   accents slightly brightened to hold their hue at low light. */
 .kh-dark {
-  --kh-ink: #F2EEE6;
-  --kh-ink-soft: #B9B2C4;
-  --kh-surface: #242324;
-  --kh-surface-raised: #313133;
-  --kh-border: #3f3e41;
+  --kh-ink: #EDE4D3;
+  --kh-ink-soft: #B7AA97;
+  --kh-surface: #211C18;
+  --kh-surface-raised: #2C2621;
+  --kh-border: #423A32;
 
-  --kh-pending-bg: #3A2F17;
-  --kh-pending-text: #F2C877;
-  --kh-approved-bg: #16332E;
-  --kh-approved-text: #7FD9C9;
-  --kh-rejected-bg: #3A2019;
-  --kh-rejected-text: #F0A08F;
+  --kh-rust: #C97658;
+  --kh-rust-dark: #A8482E;
+  --kh-sage: #85A088;
+  --kh-sage-dark: #5B6F5C;
+  --kh-rust-muted: #B06552;
+  --kh-rust-muted-dark: #C97658;
 
-  --kh-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 20px rgba(0, 0, 0, 0.35);
+  --kh-pending-bg: #3A2F1C;
+  --kh-pending-text: #E2B565;
+  --kh-approved-bg: #263429;
+  --kh-approved-text: #A9C4AC;
+  --kh-rejected-bg: #3A241C;
+  --kh-rejected-text: #E0A084;
+
+  --kh-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 6px 22px rgba(0, 0, 0, 0.4);
+  --kh-grain-opacity: 0.1;
 }

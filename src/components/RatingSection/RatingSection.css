@@ -42,7 +42,7 @@
   left: 0;
   overflow: hidden;
   white-space: nowrap;
-  color: var(--kh-marigold);
+  color: var(--kh-rust);
 }
 
 .rating-average {
@@ -77,7 +77,7 @@
 
 .rating-input-row input[type="range"] {
   flex: 1;
-  accent-color: var(--kh-marigold);
+  accent-color: var(--kh-rust);
 }
 
 .rating-input-value {
@@ -93,8 +93,8 @@
   padding: 8px 18px;
   border: none;
   border-radius: var(--kh-radius-sm);
-  background: var(--kh-marigold);
-  color: #2A1B03;
+  background: var(--kh-rust);
+  color: var(--kh-surface-raised);
   font-family: var(--kh-font-body);
   font-weight: 700;
   font-size: 0.9rem;
@@ -103,7 +103,7 @@
 }
 
 .rating-submit-btn:hover:not(:disabled) {
-  background: var(--kh-marigold-dark);
+  background: var(--kh-rust-dark);
 }
 
 .rating-submit-btn:disabled {
@@ -121,5 +121,5 @@
 }
 
 .rating-notice-error {
-  color: var(--kh-brick);
+  color: var(--kh-rust-muted);
 }

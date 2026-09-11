@@ -2,89 +2,67 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  font-family: var(--kh-font-body);
 }
-
 
 .chat-history-row {
   display: flex;
   justify-content: flex-start;
 }
 
-
 .chat-history-row.own {
   justify-content: flex-end;
 }
 
-
 .chat-history-bubble {
   width: fit-content;
-  max-width: min(
-    75%,
-    620px
-  );
-
-  padding: 14px 16px;
-
-  border-radius:
-    18px 18px 18px 5px;
-
-  background: #f0eee7;
+  max-width: min(75%, 620px);
+  padding: 12px 16px;
+  border-radius: var(--kh-radius) var(--kh-radius) var(--kh-radius) 4px;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
 }
 
-
-.chat-history-row.own
-.chat-history-bubble {
-  border-radius:
-    18px 18px 5px 18px;
-
-  background: #ded8c7;
+.chat-history-row.own .chat-history-bubble {
+  border-radius: var(--kh-radius) var(--kh-radius) 4px var(--kh-radius);
+  background: var(--kh-pending-bg);
+  border-color: var(--kh-border);
 }
-
 
 .chat-history-meta {
   display: flex;
-
   justify-content: space-between;
-
   gap: 18px;
-
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
-
 
 .chat-history-meta strong {
-  font-size: 13px;
+  font-family: var(--kh-font-display);
+  font-size: 0.85rem;
+  color: var(--kh-ink);
 }
-
 
 .chat-history-meta span {
-  font-size: 11px;
-  opacity: 0.55;
+  font-family: var(--kh-font-caption);
+  font-size: 0.7rem;
+  color: var(--kh-ink-soft);
 }
-
 
 .chat-history-bubble p {
   margin: 0;
-
+  color: var(--kh-ink);
   line-height: 1.5;
 }
 
-
 .chat-history-empty {
   padding: 34px;
-
   text-align: center;
-
-  opacity: 0.65;
+  font-family: var(--kh-font-caption);
+  color: var(--kh-ink-soft);
 }
 
-
-@media (
-  max-width: 600px
-) {
-
+@media (max-width: 600px) {
   .chat-history-bubble {
     max-width: 90%;
   }
-
 }

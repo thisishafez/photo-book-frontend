@@ -7,22 +7,15 @@
   box-sizing: border-box;
   padding: 20px;
 
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
 
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  box-shadow: var(--kh-shadow);
 
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: var(--kh-font-body);
 
-  color: #0f172a;
+  color: var(--kh-ink);
 }
 
 /* =========================================
@@ -38,15 +31,16 @@
   margin-bottom: 18px;
   padding-bottom: 14px;
 
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--kh-border);
 }
 
 .meetup-pin__header h2 {
   margin: 0;
 
-  color: #0f172a;
+  color: var(--kh-ink);
+  font-family: var(--kh-font-display);
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.3;
 }
 
@@ -58,27 +52,27 @@
   min-height: 40px;
   padding: 8px 15px;
 
-  border: none;
-  border-radius: 9px;
+  border: 1px solid var(--kh-rust-dark);
+  border-radius: var(--kh-radius-sm);
 
-  background: #2563eb;
-  color: #ffffff;
+  background: var(--kh-rust);
+  color: var(--kh-surface-raised);
 
+  font-family: var(--kh-font-body);
   font-size: 14px;
   font-weight: 600;
 
   cursor: pointer;
 
   transition:
-    background-color 0.2s ease,
+    background-color var(--kh-transition),
     transform 0.1s ease,
-    box-shadow 0.2s ease,
-    opacity 0.2s ease;
+    box-shadow var(--kh-transition),
+    opacity var(--kh-transition);
 }
 
 .meetup-pin button:hover:not(:disabled) {
-  background: #1d4ed8;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+  background: var(--kh-rust-dark);
 }
 
 .meetup-pin button:active:not(:disabled) {
@@ -93,7 +87,7 @@
 .meetup-pin button:focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 3px rgba(37, 99, 235, 0.18);
+    0 0 0 3px rgba(168, 72, 46, 0.2);
 }
 
 /* =========================================
@@ -104,11 +98,11 @@
   margin-bottom: 16px;
   padding: 11px 14px;
 
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 9px;
+  background: var(--kh-rejected-bg);
+  border: 1px solid var(--kh-rust-muted);
+  border-radius: var(--kh-radius-sm);
 
-  color: #b91c1c;
+  color: var(--kh-rejected-text);
   font-size: 13px;
   line-height: 1.45;
 }
@@ -125,9 +119,9 @@
   margin-bottom: 20px;
   padding: 18px;
 
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  background: var(--kh-surface);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
 }
 
 .meetup-pin__form label {
@@ -135,9 +129,10 @@
   flex-direction: column;
   gap: 7px;
 
-  color: #334155;
+  color: var(--kh-ink);
+  font-family: var(--kh-font-caption);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 /* Form inputs */
@@ -149,33 +144,33 @@
 
   padding: 9px 12px;
 
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius-sm);
 
-  color: #0f172a;
-  font-family: inherit;
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
   font-size: 14px;
 
   outline: none;
 
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color var(--kh-transition),
+    box-shadow var(--kh-transition);
 }
 
 .meetup-pin__form input::placeholder {
-  color: #94a3b8;
+  color: var(--kh-ink-soft);
 }
 
 .meetup-pin__form input:hover {
-  border-color: #94a3b8;
+  border-color: var(--kh-ink-soft);
 }
 
 .meetup-pin__form input:focus {
-  border-color: #2563eb;
+  border-color: var(--kh-rust);
   box-shadow:
-    0 0 0 3px rgba(37, 99, 235, 0.12);
+    0 0 0 3px rgba(168, 72, 46, 0.14);
 }
 
 /* =========================================
@@ -193,13 +188,14 @@
 }
 
 .meetup-pin__form-actions button[type="button"] {
-  background: #e2e8f0;
-  color: #334155;
+  background: var(--kh-surface-raised);
+  color: var(--kh-ink-soft);
+  border-color: var(--kh-border);
 }
 
 .meetup-pin__form-actions button[type="button"]:hover:not(:disabled) {
-  background: #cbd5e1;
-  color: #0f172a;
+  background: var(--kh-border);
+  color: var(--kh-ink);
 }
 
 /* Form warning */
@@ -211,11 +207,12 @@
 
   padding: 10px 12px;
 
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  border-radius: 8px;
+  background: var(--kh-pending-bg);
+  border: 1px solid var(--kh-pending-text);
+  border-radius: var(--kh-radius-sm);
 
-  color: #92400e;
+  color: var(--kh-pending-text);
+  font-family: var(--kh-font-caption);
   font-size: 12px;
   line-height: 1.45;
 }
@@ -235,9 +232,9 @@
 
   box-sizing: border-box;
 
-  background: #f8fafc;
-  border: 1px dashed #cbd5e1;
-  border-radius: 12px;
+  background: var(--kh-surface);
+  border: 1px dashed var(--kh-border);
+  border-radius: var(--kh-radius);
 
   text-align: center;
 }
@@ -245,7 +242,7 @@
 .meetup-pin__empty p {
   margin: 0 0 16px;
 
-  color: #64748b;
+  color: var(--kh-ink-soft);
   font-size: 14px;
 }
 
@@ -262,9 +259,10 @@
 .meetup-pin__content h3 {
   margin: 0 0 8px;
 
-  color: #0f172a;
+  color: var(--kh-ink);
+  font-family: var(--kh-font-display);
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.3;
 
   overflow-wrap: anywhere;
@@ -273,7 +271,7 @@
 .meetup-pin__content > p {
   margin: 4px 0;
 
-  color: #64748b;
+  color: var(--kh-ink-soft);
   font-size: 14px;
   line-height: 1.5;
 
@@ -286,15 +284,17 @@
   margin-top: 14px;
 }
 
-/* Make the confirmation button visually secondary */
+/* Make the confirmation button visually secondary — sage, since it
+   confirms rather than initiates. */
 
 .meetup-pin__content > button + button {
   margin-top: 10px;
-  background: #0f766e;
+  background: var(--kh-sage);
+  border-color: var(--kh-sage-dark);
 }
 
 .meetup-pin__content > button + button:hover:not(:disabled) {
-  background: #115e59;
+  background: var(--kh-sage-dark);
 }
 
 /* =========================================
@@ -308,12 +308,12 @@
   margin-bottom: 18px;
   padding: 12px 14px;
 
-  background: #fff7ed;
-  border: 1px solid #fed7aa;
-  border-left: 4px solid #f97316;
-  border-radius: 9px;
+  background: var(--kh-pending-bg);
+  border: 1px solid var(--kh-pending-text);
+  border-left: 4px solid var(--kh-pending-text);
+  border-radius: var(--kh-radius-sm);
 
-  color: #9a3412;
+  color: var(--kh-pending-text);
   font-size: 13px;
   font-weight: 500;
   line-height: 1.5;
@@ -330,11 +330,11 @@
   margin: 16px 0 0 !important;
   padding: 11px 14px;
 
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  border-radius: 9px;
+  background: var(--kh-approved-bg);
+  border: 1px solid var(--kh-approved-text);
+  border-radius: var(--kh-radius-sm);
 
-  color: #047857 !important;
+  color: var(--kh-approved-text) !important;
   font-size: 13px !important;
   font-weight: 600;
 }
@@ -350,15 +350,16 @@
   margin-top: 20px;
   padding-top: 18px;
 
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--kh-border);
 }
 
 .meetup-pin__confirmations h4 {
   margin: 0 0 12px;
 
-  color: #334155;
+  color: var(--kh-ink);
+  font-family: var(--kh-font-display);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /* Individual confirmation */
@@ -371,9 +372,9 @@
 
   padding: 10px 12px;
 
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  background: var(--kh-surface);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius-sm);
 }
 
 .meetup-pin__confirmations > div + div {
@@ -385,7 +386,7 @@
 .meetup-pin__confirmations > div > span:first-child {
   min-width: 0;
 
-  color: #334155;
+  color: var(--kh-ink);
   font-size: 13px;
   font-weight: 600;
 
@@ -396,26 +397,29 @@
 
 /* Confirmation status */
 
-.meetup-pin__confirmations > div > span:last-child {
+.meetup-pin__confirmation-status {
   flex-shrink: 0;
 
-  padding: 4px 8px;
+  padding: 4px 10px;
 
   border-radius: 999px;
 
-  background: #fef3c7;
-  color: #92400e;
-
+  font-family: var(--kh-font-caption);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 400;
+
+  white-space: nowrap;
 }
 
-/*
-  The component doesn't add a class to individual
-  confirmation rows, so CSS cannot directly distinguish
-  "Confirmed" from "Waiting". The generic badge above
-  works for both states.
-*/
+.meetup-pin__confirmation-status.confirmed {
+  background: var(--kh-approved-bg);
+  color: var(--kh-approved-text);
+}
+
+.meetup-pin__confirmation-status.waiting {
+  background: var(--kh-pending-bg);
+  color: var(--kh-pending-text);
+}
 
 /* =========================================
    Responsive
@@ -424,7 +428,6 @@
 @media (max-width: 650px) {
   .meetup-pin {
     padding: 16px;
-    border-radius: 12px;
   }
 
   .meetup-pin__header {
@@ -501,25 +504,35 @@
 }
 
 /* =========================================
-   Location picker
+   Location picker (LocationPicker.jsx lives in this
+   same folder and shares this stylesheet)
    ========================================= */
 
 .location-picker__map {
   width: 100%;
   height: 280px;
-  border-radius: 8px;
+  border-radius: var(--kh-radius);
   overflow: hidden;
   cursor: crosshair;
+  border: 1px solid var(--kh-border);
 }
 
 .meetup-pin__map-hint {
   margin-top: 0.25rem;
+  font-family: var(--kh-font-caption);
   font-size: 0.85rem;
-  opacity: 0.75;
+  color: var(--kh-ink-soft);
 }
 
 .meetup-pin__coords {
   margin-top: 0.25rem;
+  font-family: var(--kh-font-caption);
   font-size: 0.85rem;
+  color: var(--kh-ink-soft);
   font-variant-numeric: tabular-nums;
+}
+
+.kh-dark .meetup-pin {
+  background: var(--kh-surface-raised);
+  border-color: var(--kh-border);
 }

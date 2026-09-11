@@ -577,7 +577,11 @@ export default function MeetupPin({
                     >
                       <span>{name}</span>
 
-                      <span>
+                      <span
+                        className={`meetup-pin__confirmation-status ${
+                          confirmed ? "confirmed" : "waiting"
+                        }`}
+                      >
                         {confirmed
                           ? "Confirmed"
                           : "Waiting"}

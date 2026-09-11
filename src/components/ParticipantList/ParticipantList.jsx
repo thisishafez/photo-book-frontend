@@ -56,15 +56,17 @@ export default function ParticipantList({
                 key={userId || index}
                 className="participant-list__item"
               >
-                <span>
+                <span className="participant-list__name">
                   {getName(participant)}
 
                   {isCurrentUser && (
-                    <span> (You)</span>
+                    <span className="participant-list__you"> (You)</span>
                   )}
                 </span>
 
-                <span>
+                <span
+                  className={`participant-list__status ${status}`}
+                >
                   {status === "accepted" &&
                     "Accepted"}
 

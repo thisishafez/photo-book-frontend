@@ -30,7 +30,8 @@
 }
 
 .comment-time {
-  font-size: 0.78rem;
+  font-family: var(--kh-font-caption);
+  font-size: 0.75rem;
   color: var(--kh-ink-soft);
   white-space: nowrap;
 }
@@ -69,8 +70,8 @@
 }
 
 .comment-vote-btn:hover:not(:disabled) {
-  border-color: var(--kh-marigold);
-  color: var(--kh-marigold-dark);
+  border-color: var(--kh-rust);
+  color: var(--kh-rust-dark);
 }
 
 .comment-vote-btn:disabled {

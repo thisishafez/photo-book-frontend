@@ -238,11 +238,7 @@ export default function InviteFriends() {
 
 
       <div
-        className={`invite-friends-page ${
-          darkMode
-            ? "invite-friends-page-dark"
-            : ""
-        }`}
+        className={`invite-friends-page ${darkMode ? "invite-friends-page-dark kh-dark" : ""}`}
       >
 
 

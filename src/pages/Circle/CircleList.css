@@ -1,65 +1,57 @@
-.circle-container{
-
-
-max-width:800px;
-
-margin:auto;
-
-padding:40px;
-
-
+.circle-page {
+  min-height: 100vh;
+  background: var(--kh-surface);
+  color: var(--kh-ink);
+  font-family: var(--kh-font-body);
 }
 
-
-
-.circle-page{
-
-
-min-height:100vh;
-
-background:white;
-
-color:#222;
-
-
+.circle-container {
+  max-width: 800px;
+  margin: auto;
+  padding: 40px;
 }
 
-
-
-.dark.circle-page{
-
-
-background:#111;
-
-color:white;
-
-
+.circle-container h1 {
+  font-family: var(--kh-font-display);
+  font-weight: 600;
+  font-size: 2.2rem;
+  margin: 16px 0 4px;
+  color: var(--kh-ink);
 }
 
-.home-btn{
-  border:none;
-  background:none;
-  color:inherit;
-  font-size:16px;
-  cursor:pointer;
-  padding:0;
-  margin-bottom:20px;
+.home-btn {
+  border: none;
+  background: none;
+  color: var(--kh-ink-soft);
+  font-family: var(--kh-font-body);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 20px;
+  transition: color var(--kh-transition);
 }
 
-/* CircleList.css */
-.find-friends-btn{
-  padding:10px 20px;
-  border:none;
-  border-radius:10px;
-  background:#4a4ae0;
-  color:white;
-  cursor:pointer;
-  font-size:15px;
-  margin-top:10px;
-  margin-bottom:20px;
-  display:inline-block;
+.home-btn:hover {
+  color: var(--kh-ink);
 }
 
-.find-friends-btn:hover{
-  background:#3a3ac0;
+.find-friends-btn {
+  padding: 10px 20px;
+  border: 1px solid var(--kh-rust);
+  border-radius: var(--kh-radius-sm);
+  background: var(--kh-rust);
+  color: var(--kh-surface-raised);
+  cursor: pointer;
+  font-family: var(--kh-font-body);
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  display: inline-block;
+  transition: background var(--kh-transition), border-color var(--kh-transition);
+}
+
+.find-friends-btn:hover {
+  background: var(--kh-rust-dark);
+  border-color: var(--kh-rust-dark);
 }

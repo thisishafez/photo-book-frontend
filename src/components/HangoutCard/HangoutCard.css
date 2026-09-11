@@ -11,27 +11,28 @@
   padding: 20px;
   box-sizing: border-box;
 
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
 
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+  box-shadow: var(--kh-shadow);
 
   cursor: pointer;
   user-select: none;
+  font-family: var(--kh-font-body);
 
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+    transform var(--kh-transition),
+    box-shadow var(--kh-transition),
+    border-color var(--kh-transition);
 }
 
 /* Hover */
 
 .hangout-card:hover {
   transform: translateY(-3px);
-  border-color: #bfdbfe;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+  border-color: var(--kh-rust);
+  box-shadow: 0 4px 4px rgba(43, 36, 32, 0.1), 0 14px 30px rgba(43, 36, 32, 0.14);
 }
 
 /* Keyboard accessibility */
@@ -41,10 +42,10 @@
 }
 
 .hangout-card:focus-visible {
-  border-color: #2563eb;
+  border-color: var(--kh-rust);
   box-shadow:
-    0 0 0 3px rgba(37, 99, 235, 0.15),
-    0 8px 20px rgba(15, 23, 42, 0.08);
+    0 0 0 3px rgba(168, 72, 46, 0.18),
+    0 8px 20px rgba(43, 36, 32, 0.1);
 }
 
 /* =========================
@@ -54,9 +55,10 @@
 .hangout-card h3 {
   margin: 0 0 14px;
 
-  color: #0f172a;
-  font-size: 20px;
-  font-weight: 700;
+  color: var(--kh-ink);
+  font-family: var(--kh-font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
   line-height: 1.3;
 
   overflow-wrap: anywhere;
@@ -72,8 +74,8 @@
 
   margin: 6px 0;
 
-  color: #64748b;
-  font-size: 14px;
+  color: var(--kh-ink-soft);
+  font-size: 0.88rem;
   line-height: 1.5;
 }
 
@@ -87,12 +89,12 @@
   align-self: flex-start;
 
   margin-top: 14px;
-  padding: 5px 10px;
+  padding: 5px 12px;
 
   border-radius: 999px;
 
-  font-size: 12px;
-  font-weight: 700;
+  font-family: var(--kh-font-caption);
+  font-size: 0.72rem;
   line-height: 1.2;
 
   text-transform: capitalize;
@@ -101,29 +103,29 @@
 /* Planned / Upcoming */
 
 .hangout-status.planned {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--kh-pending-bg);
+  color: var(--kh-pending-text);
 }
 
 /* Completed */
 
 .hangout-status.completed {
-  background: #e0e7ff;
-  color: #3730a3;
+  background: var(--kh-approved-bg);
+  color: var(--kh-approved-text);
 }
 
 /* Cancelled */
 
 .hangout-status.cancelled {
-  background: #fee2e2;
-  color: #b91c1c;
+  background: var(--kh-rejected-bg);
+  color: var(--kh-rejected-text);
 }
 
 /* Unknown / other statuses */
 
 .hangout-status:not(.planned):not(.completed):not(.cancelled) {
-  background: #f1f5f9;
-  color: #475569;
+  background: var(--kh-border);
+  color: var(--kh-ink-soft);
 }
 
 /* =========================
@@ -133,21 +135,20 @@
 @media (max-width: 600px) {
   .hangout-card {
     padding: 16px;
-    border-radius: 12px;
   }
 
   .hangout-card h3 {
-    font-size: 18px;
+    font-size: 1.1rem;
     margin-bottom: 12px;
   }
 
   .hangout-card p {
-    font-size: 13px;
+    font-size: 0.82rem;
   }
 
   .hangout-status {
     margin-top: 12px;
-    font-size: 11px;
+    font-size: 0.68rem;
   }
 }
 

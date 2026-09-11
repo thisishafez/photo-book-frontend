@@ -36,7 +36,7 @@
 }
 
 .comment-composer textarea:focus-visible {
-  outline: 2px solid var(--kh-marigold);
+  outline: 2px solid var(--kh-rust);
   outline-offset: 1px;
 }
 
@@ -45,8 +45,8 @@
   padding: 8px 18px;
   border: none;
   border-radius: var(--kh-radius-sm);
-  background: var(--kh-marigold);
-  color: #2A1B03;
+  background: var(--kh-rust);
+  color: var(--kh-surface-raised);
   font-family: var(--kh-font-body);
   font-weight: 700;
   font-size: 0.9rem;
@@ -55,7 +55,7 @@
 }
 
 .comment-submit-btn:hover:not(:disabled) {
-  background: var(--kh-marigold-dark);
+  background: var(--kh-rust-dark);
 }
 
 .comment-submit-btn:disabled {
@@ -73,7 +73,7 @@
 }
 
 .comment-notice-error {
-  color: var(--kh-brick);
+  color: var(--kh-rust-muted);
 }
 
 .comment-loading,

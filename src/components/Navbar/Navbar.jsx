@@ -16,6 +16,7 @@ const NAV_LINKS = {
     { key: 'archive', to: '/archives', label: 'Archive' },
     { key: 'circle', to: '/circle', label: 'Circle' },
     { key: 'hangouts', to: '/hangouts', label: 'Hangouts' },
+    { key: 'qr-scan', to: '/qr-scan', label: 'Scan QR' },
     { key: 'profile', to: '/profile', label: 'Profile' },
   ],
   host: [
@@ -37,12 +38,25 @@ export default function Navbar({ unreadCount = 0 }) {
   const navLinks = NAV_LINKS[user?.accountType] ?? [];
 
   const [hasUnread, setHasUnread] = useState(unreadCount > 0);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     setHasUnread(unreadCount > 0);
   }, [unreadCount]);
 
+  // Close the mobile menu automatically if the viewport grows back to desktop size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) setMenuOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const closeMenu = () => setMenuOpen(false);
+
   const handleLogout = async () => {
+    closeMenu();
     await logout();
     navigate('/login');
   };
@@ -51,7 +65,7 @@ export default function Navbar({ unreadCount = 0 }) {
     <nav className={`navbar${darkMode ? ' navbar-dark' : ''}`}>
       <div className="navbar-container">
 
-        <Link to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand" onClick={closeMenu}>
           <img
             src={darkMode ? logoDarkMode : logo}
             alt="Shared Event Photo Book"
@@ -62,11 +76,32 @@ export default function Navbar({ unreadCount = 0 }) {
           </span>
         </Link>
 
+        {/* Hamburger toggle, shown only on small screens via CSS */}
+        <button
+          type="button"
+          className={`navbar-hamburger${menuOpen ? ' is-open' : ''}`}
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+          aria-controls="navbar-menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
 
-        <div className="navbar-right">
+        <div
+          id="navbar-menu"
+          className={`navbar-right${menuOpen ? ' navbar-right-open' : ''}`}
+        >
 
           {navLinks.map((link) => (
-            <Link key={link.key} to={link.to} className="navbar-nav-link">
+            <Link
+              key={link.key}
+              to={link.to}
+              className="navbar-nav-link"
+              onClick={closeMenu}
+            >
               {link.icon && (
                 <img
                   src={link.icon}
@@ -85,6 +120,7 @@ export default function Navbar({ unreadCount = 0 }) {
           <Link
             to="/notifications"
             className="navbar-nav-link notifications-link"
+            onClick={closeMenu}
           >
             <div className="notification-icon-wrapper">
               <img

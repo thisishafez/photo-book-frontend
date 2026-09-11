@@ -1,111 +1,50 @@
 .badge-display {
-
-
-display:flex;
-
-
-align-items:center;
-
-
-gap:25px;
-
-
-padding:30px;
-
-
-border-radius:28px;
-
-
-background:#f2ead5;
-
-
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 28px;
+  background: var(--kh-surface-raised);
+  border: 1px solid var(--kh-border);
+  border-radius: var(--kh-radius);
+  box-shadow: var(--kh-shadow);
+  font-family: var(--kh-font-body);
+  color: var(--kh-ink);
 }
-
-
 
 .badge-display-icon {
-
-
-width:110px;
-
-
-height:110px;
-
-
-display:flex;
-
-
-align-items:center;
-
-
-justify-content:center;
-
-
-border-radius:50%;
-
-
-font-size:65px;
-
-
-background:white;
-
-
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--kh-rust);
+  font-size: 52px;
+  background: var(--kh-surface);
 }
-
-
 
 .badge-display-content h1 {
-
-
-margin:0 0 10px;
-
-
-font-size:42px;
-
-
+  margin: 0 0 8px;
+  font-family: var(--kh-font-display);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--kh-ink);
 }
-
-
 
 .badge-display-content p {
-
-
-margin:0;
-
-
-line-height:1.6;
-
-
-opacity:.75;
-
-
+  margin: 0;
+  line-height: 1.6;
+  color: var(--kh-ink-soft);
 }
 
+@media (max-width: 600px) {
+  .badge-display {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-
-@media(max-width:600px){
-
-
-.badge-display{
-
-
-flex-direction:column;
-
-
-align-items:flex-start;
-
-
-}
-
-
-
-.badge-display-content h1{
-
-
-font-size:32px;
-
-
-}
-
-
+  .badge-display-content h1 {
+    font-size: 1.4rem;
+  }
 }

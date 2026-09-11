@@ -32,15 +32,21 @@ export default function QRScanner() {
     if (!supportsBarcodeDetector) return;
     setResult(null);
     try {
-      detectorRef.current = new window.BarcodeDetector({ formats: ["qr_code"] });
+      detectorRef.current = new window.BarcodeDetector({
+        formats: ["qr_code"],
+      });
+
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "environment" },
       });
+
       streamRef.current = stream;
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         await videoRef.current.play();
       }
+
       setScanning(true);
       tick();
     } catch {
@@ -60,8 +66,10 @@ export default function QRScanner() {
 
   const tick = async () => {
     if (!videoRef.current || !detectorRef.current) return;
+
     try {
       const codes = await detectorRef.current.detect(videoRef.current);
+
       if (codes.length > 0) {
         stopCamera();
         submitCode(codes[0].rawValue);
@@ -70,25 +78,41 @@ export default function QRScanner() {
     } catch {
       // A single frame occasionally fails to decode — just keep going.
     }
+
     rafRef.current = requestAnimationFrame(tick);
   };
 
   const submitCode = async (code) => {
     const trimmed = (code || "").trim();
+
     if (!trimmed) return;
 
     setSubmitting(true);
     setResult(null);
+
     try {
       const verification = await api.attendance.verifyScan(trimmed);
+
       const activityTitle =
         pick(verification, "activity_title", "ActivityTitle") ||
-        pick(pick(verification, "activity", "Activity") || {}, "title", "Title") ||
+        pick(
+          pick(verification, "activity", "Activity") || {},
+          "title",
+          "Title"
+        ) ||
         "the activity";
-      setResult({ type: "success", text: `You're checked in for ${activityTitle}!` });
+
+      setResult({
+        type: "success",
+        text: `You're checked in for ${activityTitle}!`,
+      });
+
       setManualCode("");
     } catch (err) {
-      setResult({ type: "error", text: err.message || "That code isn't valid." });
+      setResult({
+        type: "error",
+        text: err.message || "That code isn't valid.",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -100,35 +124,58 @@ export default function QRScanner() {
   };
 
   return (
-    <div className={`qr-scanner-page ${darkMode ? "qr-scanner-dark" : ""}`}>
+    <div className={`qr-scanner-page ${darkMode ? "qr-scanner-dark kh-dark" : ""}`}>
       <Navbar />
+
       <main className="qr-scanner-container">
         <button className="qr-scanner-back" onClick={() => navigate(-1)}>
           ← Back
         </button>
 
         <h1>Scan to check in</h1>
+
         <p className="qr-scanner-subtitle">
           Scan the host's QR code at the activity to verify your attendance.
         </p>
 
         {supportsBarcodeDetector ? (
           <div className="qr-scanner-camera">
-            <video ref={videoRef} className="qr-scanner-video" muted playsInline />
+            <video
+              ref={videoRef}
+              className="qr-scanner-video"
+              muted
+              playsInline
+            />
+
             {!scanning ? (
-              <button onClick={startCamera} disabled={submitting}>Start camera</button>
+              <button
+                className="qr-scanner-camera-btn"
+                onClick={startCamera}
+                disabled={submitting}
+              >
+                Start camera
+              </button>
             ) : (
-              <button onClick={stopCamera}>Stop camera</button>
+              <button
+                className="qr-scanner-camera-btn stop"
+                onClick={stopCamera}
+              >
+                Stop camera
+              </button>
             )}
           </div>
         ) : (
           <p className="qr-scanner-note">
-            Camera scanning isn't supported in this browser — enter the code shown by the host instead.
+            Camera scanning isn't supported in this browser — enter the code
+            shown by the host instead.
           </p>
         )}
 
         <form className="qr-scanner-manual" onSubmit={handleManualSubmit}>
-          <label htmlFor="qr-manual-code">Or enter the code manually</label>
+          <label htmlFor="qr-manual-code">
+            Or enter the code manually
+          </label>
+
           <input
             id="qr-manual-code"
             type="text"
@@ -137,13 +184,22 @@ export default function QRScanner() {
             placeholder="e.g. ACT-9F2K7"
             disabled={submitting}
           />
-          <button type="submit" disabled={submitting || !manualCode.trim()}>
+
+          <button
+            type="submit"
+            className="qr-scanner-submit-btn"
+            disabled={submitting || !manualCode.trim()}
+          >
             {submitting ? "Checking in…" : "Check in"}
           </button>
         </form>
 
         {result && (
-          <p className={`qr-scanner-notice qr-scanner-notice-${result.type}`}>{result.text}</p>
+          <p
+            className={`qr-scanner-notice qr-scanner-notice-${result.type}`}
+          >
+            {result.text}
+          </p>
         )}
       </main>
     </div>

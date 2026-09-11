@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import "./CreateActivity.css";
 
 export default function CreateActivity() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { darkMode } = useTheme();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,7 +39,7 @@ export default function CreateActivity() {
   };
 
   return (
-    <div className="create-activity-page">
+    <div className={`create-activity-page ${darkMode ? "kh-dark" : ""}`}>
       <h1>Create an Activity</h1>
 
       {user?.accountType === "user" && (

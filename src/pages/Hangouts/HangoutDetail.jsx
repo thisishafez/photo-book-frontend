@@ -363,30 +363,41 @@ export default function HangoutDetail() {
 
   if (loading) {
     return (
-      <>
+      <div
+        className={`hangout-detail-page ${
+          darkMode ? "kh-dark" : ""
+        }`}
+      >
         <Navbar />
+
         <main>
           <p>Loading hangout...</p>
         </main>
-      </>
+      </div>
     );
   }
 
   if (error && !hangout) {
     return (
-      <>
+      <div
+        className={`hangout-detail-page ${
+          darkMode ? "kh-dark" : ""
+        }`}
+      >
         <Navbar />
+
         <main>
           <p>{error}</p>
 
           <button
+            className="hangout-back-btn"
             type="button"
             onClick={() => navigate(-1)}
           >
-            Back
+            ← Back
           </button>
         </main>
-      </>
+      </div>
     );
   }
 
@@ -397,7 +408,7 @@ export default function HangoutDetail() {
   return (
     <div
       className={`hangout-detail-page ${
-        darkMode ? "dark" : ""
+        darkMode ? "kh-dark" : ""
       }`}
     >
       <Navbar />
@@ -434,7 +445,9 @@ export default function HangoutDetail() {
           </div>
 
           <div className="hangout-detail-meta">
-            <strong>
+            <strong
+              className={`hangout-status-badge status-${hangout.status}`}
+            >
               {formatStatus(hangout.status)}
             </strong>
 
@@ -460,6 +473,7 @@ export default function HangoutDetail() {
 
         {isOrganizer && !isFinal && (
           <button
+            className="hangout-invite-btn"
             type="button"
             onClick={() =>
               navigate(

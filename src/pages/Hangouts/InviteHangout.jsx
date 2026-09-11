@@ -287,13 +287,7 @@ export default function InviteHangout() {
 
   return (
 
-    <div
-      className={
-        `invite-hangout-page ${
-          darkMode ? "dark" : ""
-        }`
-      }
-    >
+    <div className={`invite-hangout-page ${darkMode ? "kh-dark" : ""}`}>
 
       <main
         className="invite-hangout-container"
